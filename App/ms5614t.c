@@ -269,7 +269,7 @@ void write_ms5614t_manual(){
 	
 		ReceEndFlag = 0;
 		
-		USART_DMA_Send(aRxBuffer, 8);
+//		USART_DMA_Send(aRxBuffer, 8);
 		
 		if (aRxBuffer[0] == Head && aRxBuffer[1] == Head)
 		{
@@ -282,7 +282,7 @@ void write_ms5614t_manual(){
 							case 2:MS5614T_SetCode(MS5614T_DAC_C, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
 						}			
 				}
-//				USART_DMA_Send(&flag, 1);
+				USART_DMA_Send(&flag, 1);
 				ClearRxBuff();
 		}
 		if ((aRxBuffer[0] != Head) && (aRxBuffer[0] != 0x00))

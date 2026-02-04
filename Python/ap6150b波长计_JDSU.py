@@ -20,7 +20,7 @@ from tkinter import filedialog
 data_send = 0x11
 data_get = 0x21
 received_data = 0x00
-ser = serial.Serial('COM6', 2000000, timeout=1)
+ser = serial.Serial('COM11', 2000000, timeout=1)
 
 ADDR = "GPIB0::7::INSTR"
 SAMPLE_PERIOD_S = 2
@@ -169,8 +169,8 @@ def main():
     print(f"使用指令组合：{wav_cmd} + {pow_cmd}")
 
     # ----- 发送手动命令 -----
-    debugCommand = [0xFE,0x55,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xEF]
-    serial_write(bytes(debugCommand))
+    # debugCommand = [0xFE,0x55,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xEF]
+    # serial_write(bytes(debugCommand))
 
     # ----- 打开 CSV 并开始严格等间隔采样 -----
     desktop = get_desktop_path()
@@ -257,5 +257,63 @@ def main():
         rm.close()
         print(f"\n已结束。数据已保存至：{csv_path}")
 
+def communication_main():
+    # 弹窗选择Excel文件
+    count = 0
+    excel_path = select_excel_file()
+    
+    if not excel_path:
+        print("未选择文件，程序退出")
+        return
+    
+    print(f"已选择文件: {excel_path}")
+    
+    try:
+        wb_in = load_workbook(excel_path, read_only=True, data_only=True)
+        ws_in = wb_in.active
+        iter_excel = ws_in.iter_rows(min_row=2, values_only=True)
+    except Exception as e:
+        print(f"打开Excel文件失败: {e}")
+        return
+    
+    try:
+        while True:
+            regDataCommand = excel_operate(iter_excel)
+            if regDataCommand==None: 
+                break
+            serial_write(regDataCommand)
+            # read = ser.read(8)
+            # print(list(read))
+            # if list(read)[0]!=0xFF or list(read)[1]!=0xFF:
+            #     print("返回错误:")
+            #     ser.reset_output_buffer()
+            #     ser.reset_input_buffer()
+            # time.sleep(1)
+            # continue
+
+            while serial_read()!=int(0x21):
+                ser.reset_output_buffer()
+                ser.reset_input_buffer()
+                print("返回错误:",received_data)
+                serial_write(regDataCommand)
+                continue
+                # print(received_data)
+            # next_t += SAMPLE_PERIOD_S
+            # time.sleep(max(0.0, next_t - time.perf_counter()))
+            
+            count+=1
+            print("计数:"+str(count))
+
+            # #writer.writerow([ts, f"{wav_nm:.6f}", f"{power_dbm:.6f}"])
+            # writer.writerow([ts, f"{wav_nm:.3f}", f"{power_dbm:.3f}"])
+            # f.flush()
+
+            time.sleep(1)
+
+    except KeyboardInterrupt:
+        stopCommand = bytes([0xFE,0x07,0x00,0x00,0x00,0x00,0x00,0x00,
+                                    0x00,0x00,0x00,0x00,0x00,0x00,0xEF])
+
 if __name__ == "__main__":
-    main()
+    # main()
+    communication_main()

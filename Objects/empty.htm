@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\empty.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\empty.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6240002: Last Updated: Wed Feb  4 10:35:51 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6240002: Last Updated: Wed Feb  4 15:19:13 2026
 <BR><P>
 <H3>Maximum Stack Usage =        288 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -240,8 +240,8 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 288 + Unknown Stack Size
 <LI>Call Chain = __rt_entry_main &rArr; main &rArr; write_ms5614t_table &rArr; Find_Peaks &rArr; Find_Initial &rArr; __aeabi_f2d
 </UL>
-<BR>[Calls]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit
-<LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Calls]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit
 </UL>
 
 <P><STRONG><a name="[ff]"></a>__rt_entry_postli_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000C))
@@ -535,8 +535,8 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
 <LI>Call Chain = __user_setup_stackheap
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_perproc_libspace
-<LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_initial_stackheap
+<BR>[Calls]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_initial_stackheap
+<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_perproc_libspace
 </UL>
 <BR>[Called By]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_sh
 </UL>
@@ -742,14 +742,14 @@ Global Symbols
 <P><STRONG><a name="[93]"></a>Find_Peaks</STRONG> (Thumb, 554 bytes, Stack size 128 bytes, peak_detection.o(.text.Find_Peaks))
 <BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = Find_Peaks &rArr; Find_Initial &rArr; __aeabi_f2d
 </UL>
-<BR>[Calls]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
+<BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Find_Initial
+<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
 <LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fdiv
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fcmple
 <LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fcmpge
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fsub
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fadd
-<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Find_Initial
 </UL>
 <BR>[Called By]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_ms5614t_table
 </UL>
@@ -1062,11 +1062,11 @@ Global Symbols
 <P><STRONG><a name="[a9]"></a>USART_DMA_Send</STRONG> (Thumb, 88 bytes, Stack size 24 bytes, init.o(.text.USART_DMA_Send))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = USART_DMA_Send &rArr; DMA_ClearFlag
 </UL>
-<BR>[Calls]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
-<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_SetCurrDataCounter
+<BR>[Calls]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_SetCurrDataCounter
 <LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_GetCmdStatus
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_Cmd
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_ClearFlag
+<LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 </UL>
 <BR>[Called By]<UL><LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sampleVoltage
 <LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SendPeaks
@@ -1149,8 +1149,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_ms5614t_table
 </UL>
 
-<P><STRONG><a name="[ba]"></a>write_ms5614t_manual</STRONG> (Thumb, 318 bytes, Stack size 40 bytes, ms5614t.o(.text.write_ms5614t_manual))
-<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = write_ms5614t_manual &rArr; MS5614T2_SetCode &rArr; SPI3_Send16 &rArr; SPI_I2S_SendData
+<P><STRONG><a name="[ba]"></a>write_ms5614t_manual</STRONG> (Thumb, 318 bytes, Stack size 32 bytes, ms5614t.o(.text.write_ms5614t_manual))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = write_ms5614t_manual &rArr; MS5614T2_SetCode &rArr; SPI3_Send16 &rArr; SPI_I2S_SendData
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_DMA_Send
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MS5614T2_SetCode
