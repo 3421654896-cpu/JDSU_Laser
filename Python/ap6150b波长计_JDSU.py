@@ -199,7 +199,10 @@ def main():
                 # continue
 
                 while serial_read()!=int(0x21):
+                    ser.reset_output_buffer()
+                    ser.reset_input_buffer()s
                     print("返回错误:",received_data)
+                    serial_write(regDataCommand)
                     continue
                     # print(received_data)
                 # next_t += SAMPLE_PERIOD_S
@@ -315,5 +318,5 @@ def communication_main():
                                     0x00,0x00,0x00,0x00,0x00,0x00,0xEF])
 
 if __name__ == "__main__":
-    # main()
-    communication_main()
+    main()
+    # communication_main()
