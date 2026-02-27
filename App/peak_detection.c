@@ -99,7 +99,7 @@ void SendPeaks(uint8_t p1, uint8_t p2, uint8_t p3, uint8_t p4){
 		i=0;
 //		packPeaks[indexCount++] = 0xEF;
 		packPeaks[indexCount++] = p2;
-		for(;i<p1;i++){
+		for(;i<p2;i++){
 			packPeaks[indexCount++] = (Wave_DATA[peaks2[i]][0]>>8) & 0xFF;
 			packPeaks[indexCount++] = Wave_DATA[peaks2[i]][0] & 0xFF;
 			packPeaks[indexCount++] = (Wave_DATA[peaks2[i]][1]>>8) & 0xFF;
@@ -116,7 +116,7 @@ void SendPeaks(uint8_t p1, uint8_t p2, uint8_t p3, uint8_t p4){
 		i=0;
 //		packPeaks[indexCount++] = 0xEF;
 		packPeaks[indexCount++] = p3;
-		for(;i<p1;i++){
+		for(;i<p3;i++){
 			packPeaks[indexCount++] = (Wave_DATA[peaks3[i]][0]>>8) & 0xFF;
 			packPeaks[indexCount++] = Wave_DATA[peaks3[i]][0] & 0xFF;
 			packPeaks[indexCount++] = (Wave_DATA[peaks3[i]][1]>>8) & 0xFF;
@@ -133,7 +133,7 @@ void SendPeaks(uint8_t p1, uint8_t p2, uint8_t p3, uint8_t p4){
 		i=0;
 //		packPeaks[indexCount++] = 0xEF;
 		packPeaks[indexCount++] = p4;
-		for(;i<p1;i++){
+		for(;i<p4;i++){
 			packPeaks[indexCount++] = (Wave_DATA[peaks4[i]][0]>>8) & 0xFF;
 			packPeaks[indexCount++] = Wave_DATA[peaks4[i]][0] & 0xFF;
 			packPeaks[indexCount++] = (Wave_DATA[peaks4[i]][1]>>8) & 0xFF;

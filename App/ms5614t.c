@@ -219,7 +219,7 @@ void write_ms5614t_table(){
 		USART_DMA_Send(front, 2);
 		for (i = 0; i < Number;) 
 		{
-				if(workState == MANUAL_STATE) return;
+				if(workState == MANUAL_STATE) break;
 				if(aRxBuffer[0] == Head && aRxBuffer[1] == Head) modify_table_loop();
 			  // 提前把一个波长的通道数据取出来
 			  for(j = 0; j < 3; j++)
@@ -302,7 +302,6 @@ void modify_table_loop(){
 }
 
 void ClearRxBuff(){
-//		lastGet = 0;
 		for (u8 i = 0; i < 8; i++)
 	  {
 				aRxBuffer[i] = 0;

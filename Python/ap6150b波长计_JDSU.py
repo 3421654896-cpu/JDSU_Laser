@@ -20,7 +20,7 @@ from tkinter import filedialog
 data_send = 0x11
 data_get = 0x21
 received_data = 0x00
-ser = serial.Serial('COM11', 2000000, timeout=1)
+ser = serial.Serial('COM6', 2000000, timeout=1)
 
 ADDR = "GPIB0::7::INSTR"
 SAMPLE_PERIOD_S = 2
@@ -200,7 +200,7 @@ def main():
 
                 while serial_read()!=int(0x21):
                     ser.reset_output_buffer()
-                    ser.reset_input_buffer()s
+                    ser.reset_input_buffer()
                     print("返回错误:",received_data)
                     serial_write(regDataCommand)
                     continue

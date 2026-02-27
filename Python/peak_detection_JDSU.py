@@ -10,7 +10,7 @@ import keyboard
 import statistics
 import time
 
-array_size = 3340
+array_size = 3008
 
 ser = serial.Serial()
 
@@ -475,7 +475,7 @@ class GraphWindow(QtWidgets.QWidget):
         for j,x in enumerate(_data):
             _data[j] = (x-mi)/(ma-mi)
         peaks = peak_main(_data, statistics.mean(_data))
-        #print(statistics.mean(_data))
+        print(statistics.mean(_data))
 
         for l in self.peaks_lines[i]:
             l.setVisible(False)
@@ -531,7 +531,7 @@ def peak_initial(adc_vec, interval, adc_length, initials_length, threshold):
 
 def peak_main(adc_vec, threshold):
     interval = 50
-    adc_length = 3340
+    adc_length = 3008
     initials_length = 15
 	
     initials = peak_initial(adc_vec, interval, adc_length, initials_length, threshold)
