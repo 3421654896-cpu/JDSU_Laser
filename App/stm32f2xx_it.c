@@ -171,6 +171,7 @@ void EXTI1_IRQHandler(void){
 	if(EXTI_GetITStatus(EXTI_Line1) != RESET){
 			workState = !workState;
 			ClearRxBuff();
+			lastGet = 0;
 			EXTI_ClearITPendingBit(EXTI_Line1);
 	}
 }
@@ -187,7 +188,7 @@ void USART1_IRQHandler(void)
 				}
 			
 				aRxBuffer[uhRxCounter] = getData;
-				lastGet = getData;
+				
 				uhRxCounter++;
 				
 				if (uhRxCounter == 8)
@@ -196,6 +197,7 @@ void USART1_IRQHandler(void)
 					uhRxCounter = 0;
 					lastGet = 0;
 				}
+				lastGet = getData;
 	}
 }
 
