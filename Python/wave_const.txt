@@ -1,9 +1,4 @@
-#include "main.h"
-
-atloc(Wave_Addr)
-const u16 Wave_DATA[Number][2]  __at (Wave_Addr)
-=
-{
+Wave_DATA=[
 {1510,907},
 {1510,946},
 {1510,960},
@@ -2931,4 +2926,4 @@ const u16 Wave_DATA[Number][2]  __at (Wave_Addr)
 {1575,416},
 {1575,483},
 {1575,988}
-};
+]

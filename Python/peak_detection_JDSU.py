@@ -9,6 +9,8 @@ from collections import deque
 import keyboard
 import statistics
 import time
+import yaml
+import numpy as np
 
 array_size = 2927
 
@@ -236,6 +238,7 @@ class GraphWindow(QtWidgets.QWidget):
 
         self.plot1.setXRange(0,array_size)
         self.plot1.setYRange(0,6)
+        self.plot1.getViewBox().setLimits(xMin=-1000,xMax=5000,yMin=-5,yMax=5)
         self.plot1.showGrid(x=True, y=True)
 
         self.plot1.addLegend()
@@ -243,6 +246,7 @@ class GraphWindow(QtWidgets.QWidget):
         self.curve2 = self.plot1.plot(pen='green', name='CH1')
         self.curve3 = self.plot1.plot(pen='blue', name='CH2')
         self.curve4 = self.plot1.plot(pen='purple', name='CH3')
+        # self.plot1.actionEvent()
 
         self.num_panel = QtWidgets.QWidget()
         self.num_layout = QtWidgets.QGridLayout()
@@ -300,6 +304,55 @@ class GraphWindow(QtWidgets.QWidget):
         self.update_timer.timeout.connect(self.update_plot)
         
         QtWidgets.QShortcut(QtGui.QKeySequence("P"), self, activated=self.toggle_pause)
+
+        with open("C:/Users/xiechengxin/Desktop/JDSU_Laser_最新/Python/wave_const.yaml", 'r', encoding="utf-8") as file:
+            yaml_data = yaml.safe_load(file)
+            # print((yaml_data['Wave_DATA']))
+            self.yaml = yaml_data['Wave_DATA']
+
+        self.vLine = pg.InfiniteLine(angle=90, movable=False, pen=pg.mkPen('r'))
+        self.hLine = pg.InfiniteLine(angle=0, movable=False, pen=pg.mkPen('r'))
+        self.plot1.addItem(self.vLine, ignoreBounds=True)
+        self.plot1.addItem(self.hLine, ignoreBounds=True)
+
+
+        self.label = pg.TextItem(color='w')
+        self.plot1.addItem(self.label)
+
+
+        self.plot1.proxy = pg.SignalProxy(
+            self.plot1.scene().sigMouseMoved,
+            rateLimit=60,
+            slot=self.mouseMoved
+        )
+
+    def mouseMoved(self, evt):
+        pos = evt[0] 
+        if self.plot1.sceneBoundingRect().contains(pos):
+
+            mousePoint = self.plot1.plotItem.vb.mapSceneToView(pos)
+            x = mousePoint.x()
+            y = mousePoint.y()
+
+            # 找最近的x索引
+            index = int(x)
+            if index>=array_size or index<0 or len(self.adc1)==0:
+                    return
+            
+            adc = np.array([self.adc1[index], self.adc2[index], self.adc3[index], self.adc4[index]])
+            # 找最近的y索引
+            indey = np.abs(adc-y).argmin()
+
+            x_snap = self.yaml[index][0]+self.yaml[index][1]*0.001
+            y_sanp = adc[indey]
+            
+            # 更新十字线
+            self.vLine.setPos(index)
+            self.hLine.setPos(y_sanp)
+
+            # 更新文字
+            self.label.setText(f"x={x_snap:.3f}\ny={y_sanp:.3f}")
+            self.label.setPos(index, y_sanp)
 
     def on_com_changed(self):
         self.port = self.combo_com.currentData()
@@ -366,6 +419,9 @@ class GraphWindow(QtWidgets.QWidget):
             self.update_timer.stop()
 
             self.com_btn.setText("打开")
+
+    # def k_plot_wave(self):
+    #     for()
 
     def on_clear_chart(self):
         curves = [self.curve1, self.curve2, self.curve3, self.curve4]
@@ -475,7 +531,7 @@ class GraphWindow(QtWidgets.QWidget):
         for j,x in enumerate(_data):
             _data[j] = (x-mi)/(ma-mi)
         peaks = peak_main(_data, statistics.mean(_data))
-        print(statistics.mean(_data))
+        # print(statistics.mean(_data))
 
         for l in self.peaks_lines[i]:
             l.setVisible(False)
@@ -530,8 +586,8 @@ def peak_initial(adc_vec, interval, adc_length, initials_length, threshold):
     return initials
 
 def peak_main(adc_vec, threshold):
-    interval = 50
-    adc_length = 2927
+    interval = 25
+    adc_length = array_size
     initials_length = 15
 	
     initials = peak_initial(adc_vec, interval, adc_length, initials_length, threshold)
