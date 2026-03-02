@@ -259,21 +259,24 @@ def main():
         # 缓存当前行（ACK 成功后才读取下一行）
         current_cmd = None
         current_info = None
+        last_current = True
 
         while True:
             # 循环写入表头
-            if count%ws_in.max_row==0:
+            if last_current:
                 count=0
                 loop_time += 1
+                iter_excel = ws_in.iter_rows(min_row=2, values_only=True)
                 for i, value in enumerate(head_data):
-                    ws_out.cell(row=1, column=i+1, value=value)
-                wb_out.save(xlsx_path)
+                    ws_out.cell(row=1, column=i+1+loop_time*gap_len, value=value)
+                last_current = False
             
             # 只有当当前没有待发送行时，才取 Excel 下一行
             if current_cmd is None:
                 cmd, info = excel_operate(iter_excel)
                 if cmd is None:
-                    break
+                    last_current = True
+                    continue
                 current_cmd, current_info = cmd, info
 
             # 打印 Excel 读取内容（可控频率）
@@ -318,6 +321,7 @@ def main():
             inst.close()
         finally:
             rm.close()
+        wb_out.save(xlsx_path)
         print("结束。")
 
 if __name__ == "__main__":
