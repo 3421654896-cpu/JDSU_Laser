@@ -10,7 +10,7 @@ import keyboard
 import statistics
 import time
 
-array_size = 3008
+array_size = 2927
 
 ser = serial.Serial()
 
@@ -531,7 +531,7 @@ def peak_initial(adc_vec, interval, adc_length, initials_length, threshold):
 
 def peak_main(adc_vec, threshold):
     interval = 50
-    adc_length = 3008
+    adc_length = 2927
     initials_length = 15
 	
     initials = peak_initial(adc_vec, interval, adc_length, initials_length, threshold)
