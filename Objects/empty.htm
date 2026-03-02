@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\empty.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\empty.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Thu Feb 26 11:00:19 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Mon Mar  2 10:19:27 2026
 <BR><P>
 <H3>Maximum Stack Usage =        288 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -700,7 +700,7 @@ Global Symbols
 <P><STRONG><a name="[7]"></a>DebugMon_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f2xx_it.o(.text.DebugMon_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f2xx.o(RESET)
 </UL>
-<P><STRONG><a name="[11]"></a>EXTI1_IRQHandler</STRONG> (Thumb, 44 bytes, Stack size 8 bytes, stm32f2xx_it.o(.text.EXTI1_IRQHandler))
+<P><STRONG><a name="[11]"></a>EXTI1_IRQHandler</STRONG> (Thumb, 56 bytes, Stack size 8 bytes, stm32f2xx_it.o(.text.EXTI1_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = EXTI1_IRQHandler &rArr; EXTI_GetITStatus
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI_ClearITPendingBit
@@ -1020,7 +1020,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f2xx.o(.text)
 </UL>
-<P><STRONG><a name="[2f]"></a>USART1_IRQHandler</STRONG> (Thumb, 198 bytes, Stack size 8 bytes, stm32f2xx_it.o(.text.USART1_IRQHandler))
+<P><STRONG><a name="[2f]"></a>USART1_IRQHandler</STRONG> (Thumb, 202 bytes, Stack size 8 bytes, stm32f2xx_it.o(.text.USART1_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = USART1_IRQHandler &rArr; USART_GetITStatus
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ReceiveData
@@ -1160,7 +1160,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[bb]"></a>write_ms5614t_table</STRONG> (Thumb, 540 bytes, Stack size 56 bytes, ms5614t.o(.text.write_ms5614t_table))
+<P><STRONG><a name="[bb]"></a>write_ms5614t_table</STRONG> (Thumb, 538 bytes, Stack size 56 bytes, ms5614t.o(.text.write_ms5614t_table))
 <BR><BR>[Stack]<UL><LI>Max Depth = 264<LI>Call Chain = write_ms5614t_table &rArr; Find_Peaks &rArr; Find_Initial &rArr; __aeabi_f2d
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sampleVoltage
