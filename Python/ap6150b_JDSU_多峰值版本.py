@@ -18,6 +18,7 @@ from datetime import datetime
 
 import pyvisa
 import serial
+import openpyxl
 from openpyxl import load_workbook
 import tkinter as tk
 from tkinter import filedialog
@@ -34,7 +35,7 @@ VISA_TIMEOUT_MS = 3000
 VISA_RETRY = 2
 
 FLUSH_EVERY_N = 10
-CSV_BASENAME = f"AQ6150B_log_{time.strftime('%H%M%S')}.csv"
+XLSX_BASENAME = f"AQ6150B_log_{time.strftime('%H%M%S')}.xlsx"
 
 ACK_VALUE = 0x21
 ACK_RESEND_SLEEP_S = 0.001  # 每次重发后短暂停一下，避免占满CPU
@@ -235,74 +236,82 @@ def main():
         try_write(inst, ":UNIT:POW DBM")
 
         desktop = get_desktop_path()
-        csv_path = os.path.join(desktop, CSV_BASENAME)
-        file_exists = os.path.isfile(csv_path)
+        xlsx_path = os.path.join(desktop, XLSX_BASENAME)
+        # file_exists = os.path.isfile(xlsx_path)
 
-        with open(csv_path, "a", newline="", encoding="utf-8") as f:
-            writer = csv.writer(f)
-            if not file_exists:
-                writer.writerow([
-                    "timestamp_iso",
-                    "peak1_wavelength_nm", "peak1_power_mW",
-                    "peak2_wavelength_nm", "peak2_power_mW"
-                ])
+        # with open(xlsx_path, "a", newline="", encoding="utf-8") as f:
+        #     writer = csv.writer(f)
+        wb_out = openpyxl.Workbook()
+        ws_out = wb_out.active
 
-            print("开始记录（ACK 不成功则一直重发同一行，不推进 Excel）。Ctrl+C 结束。")
+        head_data = ["timestamp_iso",
+                "peak1_wavelength_nm", "peak1_power_mW",
+                "peak2_wavelength_nm", "peak2_power_mW"]
+        gap_len = len(head_data)+1
 
-            count = 0
-            since_flush = 0
+        print("开始记录（ACK 不成功则一直重发同一行，不推进 Excel）。Ctrl+C 结束。")
 
-            # 缓存当前行（ACK 成功后才读取下一行）
+        count = 0
+        # since_flush = 0
+        # since_row = 2
+        loop_time = -1
+
+        # 缓存当前行（ACK 成功后才读取下一行）
+        current_cmd = None
+        current_info = None
+
+        while True:
+            # 循环写入表头
+            if count%ws_in.max_row==0:
+                count=0
+                loop_time += 1
+                for i, value in enumerate(head_data):
+                    ws_out.cell(row=1, column=i+1, value=value)
+                wb_out.save(xlsx_path)
+            
+            # 只有当当前没有待发送行时，才取 Excel 下一行
+            if current_cmd is None:
+                cmd, info = excel_operate(iter_excel)
+                if cmd is None:
+                    break
+                current_cmd, current_info = cmd, info
+
+            # 打印 Excel 读取内容（可控频率）
+            if PRINT_EXCEL_EVERY > 0 and ((count + 1) % PRINT_EXCEL_EVERY == 0):
+                print("----excel----")
+                print(current_info)
+                print("----excel----")
+
+            # 串口发送
+            serial_write(current_cmd)
+
+            # 等 ACK（不成功就一直重发，不推进）
+            wait_ack_0x21_forever(current_cmd)
+
+            # ACK 成功：计数并“推进到下一行”
+            count += 1
+            print("计数:" + str(count))
             current_cmd = None
             current_info = None
 
-            while True:
-                # 只有当当前没有待发送行时，才取 Excel 下一行
-                if current_cmd is None:
-                    cmd, info = excel_operate(iter_excel)
-                    if cmd is None:
-                        break
-                    current_cmd, current_info = cmd, info
+            # 读 AQ（失败短重试）
+            ts = datetime.now().isoformat(timespec="milliseconds")
+            wav1_nm = pow1_mw = wav2_nm = pow2_mw = float("nan")
+            for _ in range(VISA_RETRY + 1):
+                try:
+                    wav1_nm, pow1_mw, wav2_nm, pow2_mw = read_two_peaks_stable(inst)
+                    break
+                except Exception:
+                    time.sleep(0.01)
 
-                # 打印 Excel 读取内容（可控频率）
-                if PRINT_EXCEL_EVERY > 0 and ((count + 1) % PRINT_EXCEL_EVERY == 0):
-                    print("----excel----")
-                    print(current_info)
-                    print("----excel----")
-
-                # 串口发送
-                serial_write(current_cmd)
-
-                # 等 ACK（不成功就一直重发，不推进）
-                wait_ack_0x21_forever(current_cmd)
-
-                # ACK 成功：计数并“推进到下一行”
-                count += 1
-                print("计数:" + str(count))
-                current_cmd = None
-                current_info = None
-
-                # 读 AQ（失败短重试）
-                ts = datetime.now().isoformat(timespec="milliseconds")
-                wav1_nm = pow1_mw = wav2_nm = pow2_mw = float("nan")
-                for _ in range(VISA_RETRY + 1):
-                    try:
-                        wav1_nm, pow1_mw, wav2_nm, pow2_mw = read_two_peaks_stable(inst)
-                        break
-                    except Exception:
-                        time.sleep(0.01)
-
-                # 写 CSV（波长保留3位，功率mW保留6位）
-                writer.writerow([ts, trunc3(wav1_nm), trunc6(pow1_mw), trunc3(wav2_nm), trunc6(pow2_mw)])
-                since_flush += 1
-                if since_flush >= FLUSH_EVERY_N:
-                    f.flush()
-                    since_flush = 0
-
-        print("Excel 数据读完，结束。")
+            # 写 CSV（波长保留3位，功率mW保留6位）
+            cur_row = [ts, trunc3(wav1_nm), trunc6(pow1_mw), trunc3(wav2_nm), trunc6(pow2_mw)]
+            for i, value in enumerate(cur_row):
+                ws_out.cell(row=count+1, column=i+1+loop_time*gap_len, value=value)
 
     except KeyboardInterrupt:
         print("\n用户中断，已停止。")
+        wb_out.save(xlsx_path)
 
     finally:
         try:
