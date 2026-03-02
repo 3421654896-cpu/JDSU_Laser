@@ -456,7 +456,7 @@ class GraphWindow(QtWidgets.QWidget):
 
         for i in range(4):
             for j in range(15):
-                self.num_labels[i][j].setText("{:.2f}".format(self.waves[i][j]) if not self.waves[i][j]==0 else "0")
+                self.num_labels[i][j].setText("{:.3f}".format(self.waves[i][j]) if not self.waves[i][j]==0 else "0")
             if self.visible_lines[i]:
                 self.cal_peaks_line(i)
             else:
