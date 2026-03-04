@@ -33,7 +33,7 @@ def split_number(x):
 
 def dac_main(ws):
     lines = []
-    for row in range(1, ws.max_row + 1):
+    for row in range(2, ws.max_row + 1):
         # 从1开始计数
         e = ws.cell(row=row, column=5).value  # E列
         f = ws.cell(row=row, column=6).value  # F列
@@ -65,7 +65,7 @@ def dac_main(ws):
 def wave_main(ws):
     results = []
     yaml_results = []
-    for row in range(1, ws.max_row + 1):
+    for row in range(2, ws.max_row + 1):
         # 空值跳过（你也可以改成写 {0,0}）
         value = ws.cell(row=row, column=9).value
         if pd.isna(value):

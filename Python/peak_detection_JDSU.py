@@ -12,7 +12,7 @@ import time
 import yaml
 import numpy as np
 
-array_size = 2927
+array_size = 1904
 
 ser = serial.Serial()
 
