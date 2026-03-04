@@ -32,7 +32,7 @@ void delay_us(uint32_t us);
 void delay_ms(__IO uint32_t ms);
 void delay_s(__IO uint32_t s);
 
-extern uint8_t tx_buffer[512];
+extern uint8_t tx_buffer[32768];
 
 #endif /* __MAIN_H */
 

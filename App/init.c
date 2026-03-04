@@ -4,7 +4,7 @@
 #define DWT_CTRL    (*(volatile uint32_t *)0xE0001000)
 #define DWT_CYCCNT  (*(volatile uint32_t *)0xE0001004)
 
-uint8_t tx_buffer[512] = {0};
+uint8_t tx_buffer[32768] = {0};
 
 /**
   * @brief  Sets System clock frequency to 180MHz and configure HCLK, PCLK2 
@@ -254,9 +254,9 @@ void USART_DMA_Send(uint8_t *data, uint16_t length){
 	
 	while(DMA_GetCmdStatus(DMA2_Stream7));
 	
-	memcpy(tx_buffer, data, length);
-	
 	DMA_SetCurrDataCounter(DMA2_Stream7, length);
+	
+	memcpy(tx_buffer, data, length);
 	
 	DMA_ClearFlag(DMA2_Stream7, 
 								DMA_FLAG_TCIF7 | DMA_FLAG_HTIF7 | DMA_FLAG_TEIF7 |

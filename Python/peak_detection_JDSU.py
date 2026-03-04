@@ -26,29 +26,28 @@ rx_buffer = bytearray()
 frames_queue = deque(maxlen=200)
 
 def serial_thread():
-    pack_size = 4+array_size*8+60*4+5
+    pack_size = 4+array_size*8+2+60*4+5 # 帧长度是变长的，但是接收的时候按定长为标准，接收不定长的帧
     def process_buffer(buf):
-        if len(buf)<2*pack_size:
-            return
         while True:
             idx = buf.find(b'\xee\xee')
             if idx<0:
-                buf.clear()
-                break
+                if len(buf) > 1:
+                    del buf[:-1]
+                    break
+            elif idx>0:
+                # print(buf)
+                del buf[:idx]
             
-            if len(buf) < idx + pack_size:
-                if idx > 0:
-                    del buf[:idx]
+            end_idx = buf.find(b'\xff\xff')
+            if end_idx<0:
                 break
 
-            frame = buf[idx:idx+pack_size]
+            frame = buf[idx:end_idx+2]
             # print(frame)
 
             if frame[-2:] == b'\xff\xff':
                 frames_queue.append(frame)
-                del buf[:idx+pack_size]
-            else:
-                del buf[idx:idx+1]
+                del buf[:end_idx+2]
 
     while True:
         with ser_cond:
@@ -236,9 +235,11 @@ class GraphWindow(QtWidgets.QWidget):
 
         self.waves = [[0 for _ in range(15)] for _ in range(4)]
 
+        self.voltage_range = 5
         self.plot1.setXRange(0,array_size)
         self.plot1.setYRange(0,6)
-        self.plot1.getViewBox().setLimits(xMin=-1000,xMax=5000,yMin=-5,yMax=5)
+        self.plot1.getViewBox().setLimits(xMin=-1000,xMax=5000,
+                                          yMin=-self.voltage_range,yMax=self.voltage_range)
         self.plot1.showGrid(x=True, y=True)
 
         self.plot1.addLegend()
@@ -305,20 +306,20 @@ class GraphWindow(QtWidgets.QWidget):
         
         QtWidgets.QShortcut(QtGui.QKeySequence("P"), self, activated=self.toggle_pause)
 
-        with open("C:/Users/xiechengxin/Desktop/JDSU_Laser_最新/Python/wave_const.yaml", 'r', encoding="utf-8") as file:
+        with open("./wave_const.yaml", 'r', encoding="utf-8") as file:
             yaml_data = yaml.safe_load(file)
             # print((yaml_data['Wave_DATA']))
             self.yaml = yaml_data['Wave_DATA']
 
+        self.visual_index = 0
+        self.visual_y = 0
         self.vLine = pg.InfiniteLine(angle=90, movable=False, pen=pg.mkPen('r'))
         self.hLine = pg.InfiniteLine(angle=0, movable=False, pen=pg.mkPen('r'))
         self.plot1.addItem(self.vLine, ignoreBounds=True)
         self.plot1.addItem(self.hLine, ignoreBounds=True)
 
-
         self.label = pg.TextItem(color='w')
         self.plot1.addItem(self.label)
-
 
         self.plot1.proxy = pg.SignalProxy(
             self.plot1.scene().sigMouseMoved,
@@ -339,20 +340,33 @@ class GraphWindow(QtWidgets.QWidget):
             if index>=array_size or index<0 or len(self.adc1)==0:
                     return
             
-            adc = np.array([self.adc1[index], self.adc2[index], self.adc3[index], self.adc4[index]])
-            # 找最近的y索引
-            indey = np.abs(adc-y).argmin()
+            self.visual_index = index
+            self.visual_y = y
+            self.update_crosshair(index, y)
 
-            x_snap = self.yaml[index][0]+self.yaml[index][1]*0.001
-            y_sanp = adc[indey]
-            
-            # 更新十字线
-            self.vLine.setPos(index)
-            self.hLine.setPos(y_sanp)
+    def update_crosshair(self, index, y):
+        if index >= array_size or index < 0 \
+        or y > self.voltage_range or y < -self.voltage_range \
+        or len(self.adc1) == 0:
+            return
+        
+        adc = np.array([
+            self.adc1[index],
+            self.adc2[index],
+            self.adc3[index],
+            self.adc4[index]
+        ])
 
-            # 更新文字
-            self.label.setText(f"x={x_snap:.3f}\ny={y_sanp:.3f}")
-            self.label.setPos(index, y_sanp)
+        indey = np.abs(adc-y).argmin()
+
+        x_snap = self.yaml[index][0] + self.yaml[index][1]*0.001
+        y_snap = adc[indey]
+
+        self.vLine.setPos(index)
+        self.hLine.setPos(y_snap)
+
+        self.label.setText(f"x={x_snap:.3f}\ny={y_snap:.3f}")
+        self.label.setPos(index, y_snap)
 
     def on_com_changed(self):
         self.port = self.combo_com.currentData()
@@ -444,59 +458,82 @@ class GraphWindow(QtWidgets.QWidget):
         ser.write(bytes(command_frame))
 
     def process_frame(self):
-        if len(frames_queue)==0 or self.process_down==False:
+        try:
+            if len(frames_queue)==0 or self.process_down==False:
+                # print("no valid frame")
+                return
+            raw = frames_queue.popleft()
+            self.process_down = False
+            single_size = 8
+
+            # print(len(raw))
+            if raw[0]!=0xEE and raw[1]!=0xEE:
+                print("pack head error")
+                self.process_down = True
+                print(raw)
+                return 
+            
+            for i in range(2, array_size*8+2, single_size):
+                com_input = raw[i:i+single_size]
+
+                ch1 = (com_input[0]<<8)+com_input[1]
+                ch2 = (com_input[2]<<8)+com_input[3]
+                ch3 = (com_input[4]<<8)+com_input[5]
+                ch4 = (com_input[6]<<8)+com_input[7]
+
+                v1 = ch1*2.5/4095
+                v2 = ch2*2.5/4095
+                v3 = ch3*2.5/4095
+                v4 = ch4*2.5/4095
+
+                self.adc1.append(v1)
+                self.adc2.append(v2)
+                self.adc3.append(v3)
+                self.adc4.append(v4)
+
+                self.data1.append(ch1)
+                self.data2.append(ch2)
+                self.data3.append(ch3)
+                self.data4.append(ch4)
+
+                if ((raw[array_size*8+2]<<8)+raw[array_size*8+3])!=array_size:
+                    print("array_size_error")
+                    self.process_down = True
+                    return
+
+                if raw[array_size*8+4]!=0xAB:
+                    print("wave head error")
+                    print(hex(raw[array_size*8+4]))
+                    self.process_down = True
+                    return
+            self.waves = [[0 for _ in range(15)] for _ in range(4)]
+            frame_start = array_size*8+4
+            data_len = 0
+            for i in range(0, 4):
+                # frame_start = array_size*8+3+i*61
+                frame_start += (data_len*4+1)
+
+                data_len = raw[frame_start]
+                # print(data_len)
+                data_start = frame_start+1
+                for j in range(data_len):
+                    cell_start = data_start+j*4
+                    # print(cell_start)
+                    int_high = raw[cell_start]
+                    int_low = raw[cell_start+1]
+                    dec_high = raw[cell_start+2]
+                    dec_low = raw[cell_start+3]
+                    get_wave = (int_high<<8)+int_low+((dec_high<<8)+dec_low)*0.001
+                    # print(i)
+                    self.waves[i][j] = get_wave
+            # print(self.waves)
+
+            self.process_down = True
+        except Exception as e:
+            print(e)
+            print(len(raw))
+            self.process_down = True
             return
-        raw = frames_queue.popleft()
-        self.process_down = False
-        single_size = 8
-
-        if raw[0]!=0xEE and raw[1]!=0xEE:
-            print("pack head error")
-        
-        for i in range(2, array_size*8+2, single_size):
-            com_input = raw[i:i+single_size]
-
-            ch1 = (com_input[0]<<8)+com_input[1]
-            ch2 = (com_input[2]<<8)+com_input[3]
-            ch3 = (com_input[4]<<8)+com_input[5]
-            ch4 = (com_input[6]<<8)+com_input[7]
-
-            v1 = ch1*2.5/4095
-            v2 = ch2*2.5/4095
-            v3 = ch3*2.5/4095
-            v4 = ch4*2.5/4095
-
-            self.adc1.append(v1)
-            self.adc2.append(v2)
-            self.adc3.append(v3)
-            self.adc4.append(v4)
-
-            self.data1.append(ch1)
-            self.data2.append(ch2)
-            self.data3.append(ch3)
-            self.data4.append(ch4)
-
-            if raw[array_size*8+2]!=0xAB:
-                print("wave head error")
-                break
-        self.waves = [[0 for _ in range(15)] for _ in range(4)]
-        for i in range(0, 4):
-            frame_start = array_size*8+3+i*61
-
-            data_len = raw[frame_start]
-            data_start = frame_start+1
-            for j in range(data_len):
-                cell_start = data_start+j*4
-                int_high = raw[cell_start]
-                int_low = raw[cell_start+1]
-                dec_high = raw[cell_start+2]
-                dec_low = raw[cell_start+3]
-                get_wave = (int_high<<8)+int_low+((dec_high<<8)+dec_low)*0.001
-                # print(i)
-                self.waves[i][j] = get_wave
-        # print(self.waves)
-
-        self.process_down = True
 
     def update_plot(self):
         if self.process_down == False:
@@ -505,11 +542,16 @@ class GraphWindow(QtWidgets.QWidget):
 
         x = list(range(array_size))
 
+        # 更新曲线
         self.curve1.setData(x,self.adc1)
         self.curve2.setData(x,self.adc2)
         self.curve3.setData(x,self.adc3)
         self.curve4.setData(x,self.adc4)
 
+        # 更新光标
+        self.update_crosshair(self.visual_index, self.visual_y)
+
+        # 更新峰值可视化线
         for i in range(4):
             for j in range(15):
                 self.num_labels[i][j].setText("{:.3f}".format(self.waves[i][j]) if not self.waves[i][j]==0 else "0")

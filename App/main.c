@@ -4,7 +4,8 @@
 uint8_t test = 0x21;
 uint8_t getData = 0;
 uint8_t workState = TABLE_STATE;
-uint8_t uSyncConvertedvalues[8] = {0};
+uint16_t txCount = 0;
+uint8_t txBuffer[PACK_SIZE] = {0};
 
 int main(void)
 {
@@ -55,7 +56,7 @@ int main(void)
 //				adcData[1] = getAdc & 0xFF;
 				//USART_DMA_Send(adcData, 2);
 //				USART_SendData(USART1, getData);
-
-				delay_us(10);
+				
+				delay_us(5);
     }
 }

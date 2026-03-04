@@ -4,7 +4,7 @@
 #include "stm32f2xx.h"
 #include "datastruct.h"
 
-#define INTERVAL 70
+#define INTERVAL 25
 #define PEAKS_COUNT 15
 
 extern uint16_t item;
@@ -14,19 +14,20 @@ extern uint16_t adc2[Number];
 extern uint16_t adc3[Number];
 extern uint16_t adc4[Number];
 
-extern float adc_norvec[Number];
+extern int adc_norvec[Number];
 
-extern uint16_t peaks1[PEAKS_COUNT];
-extern uint16_t peaks2[PEAKS_COUNT];
-extern uint16_t peaks3[PEAKS_COUNT];
-extern uint16_t peaks4[PEAKS_COUNT];
+extern float peaks1[PEAKS_COUNT];
+extern float peaks2[PEAKS_COUNT];
+extern float peaks3[PEAKS_COUNT];
+extern float peaks4[PEAKS_COUNT];
 
-extern uint8_t packPeaks[4*4*PEAKS_COUNT+5];
+extern int int_part;
+extern int decimal_part;
 
-uint8_t Find_Peaks(uint16_t *adc_vec, uint16_t *peaks_vec, uint16_t adc_length);
+uint8_t Find_Peaks(uint16_t *adc_vec, float *peaks_vec, uint16_t adc_length);
 
-void Find_Initial(float *adc_norvec, uint16_t *initials, uint16_t adc_length, float threshold);
+void Find_Initial(int *adc_norvec, uint16_t *initials, uint16_t adc_length, int threshold, int gap);
 
-void SendPeaks(uint8_t p1, uint8_t p2, uint8_t p3, uint8_t p4);
+void FillPeaks(uint8_t p1, uint8_t p2, uint8_t p3, uint8_t p4);
 
 #endif

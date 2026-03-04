@@ -7,37 +7,39 @@ uint16_t adc2[Number]={0};
 uint16_t adc3[Number]={0};
 uint16_t adc4[Number]={0};
 
-float adc_norvec[Number]={0};//全局变量，否则数据出错
+int adc_norvec[Number]={0};//全局变量，否则数据出错
 
-uint16_t peaks1[PEAKS_COUNT]={0};
-uint16_t peaks2[PEAKS_COUNT]={0};
-uint16_t peaks3[PEAKS_COUNT]={0};
-uint16_t peaks4[PEAKS_COUNT]={0};
+float peaks1[PEAKS_COUNT]={0};
+float peaks2[PEAKS_COUNT]={0};
+float peaks3[PEAKS_COUNT]={0};
+float peaks4[PEAKS_COUNT]={0};
 
-uint8_t packPeaks[4*4*PEAKS_COUNT+5] = {0};
+int int_part = 0;
+int decimal_part = 0;
 
-uint8_t Find_Peaks(uint16_t *adc_vec, uint16_t *peaks_vec, uint16_t adc_length){
+uint8_t Find_Peaks(uint16_t *adc_vec, float *peaks_vec, uint16_t adc_length){
 	uint16_t initials[PEAKS_COUNT]={0};
-	memset(peaks_vec, 0, sizeof(uint16_t)*PEAKS_COUNT);
+	memset(peaks_vec, 0, sizeof(float)*PEAKS_COUNT);
 	
-	float ma = adc_vec[0], mi = adc_vec[0];
+	int ma = adc_vec[0], mi = adc_vec[0];
 	for(int i=0;i<adc_length;i++){
 		if(adc_vec[i]>ma) ma = adc_vec[i];
 		if(adc_vec[i]<mi) mi = adc_vec[i];
 	}
 	
-	float mean = 0;
-	float gap = ma-mi;
+	int mean = 0;
+	int gap = ma-mi;
 //	float *adc_norvec = (float*)calloc(3000, sizeof(float));
 	for(int i=0;i<adc_length;i++){
-		adc_norvec[i] = (adc_vec[i]-mi)/gap;
+		adc_norvec[i] = (adc_vec[i]-mi);
 		mean+=adc_norvec[i];
 	}
-	mean = mean / (float)adc_length;
-	Find_Initial(adc_norvec, initials, adc_length, mean);
+//	mean = mean / (float)adc_length;
+	Find_Initial(adc_norvec, initials, adc_length, mean, gap);
 	
 	uint8_t i=0;
 	for(;i<PEAKS_COUNT;i++){
+		if(i<5) initials[i] = 1;
 		if(initials[i]==0) break;
 		int start = initials[i]-INTERVAL>=0?initials[i]-INTERVAL:0;
 		int end = initials[i]+INTERVAL<adc_length?initials[i]+INTERVAL:adc_length;
@@ -46,27 +48,34 @@ uint8_t Find_Peaks(uint16_t *adc_vec, uint16_t *peaks_vec, uint16_t adc_length){
 			sumxy+=adc_vec[j]*j;
 			sumy+=adc_vec[j];
 		}
-		peaks_vec[i] = sumxy/sumy;//position
+//		peaks_vec[i] = sumxy/sumy;//position
+		float peak_indexf = (float)sumxy/(float)sumy;
+		peak_indexf = 156.45;
+		int peak_low = (int)peak_indexf;
+		float ratio = peak_indexf - peak_low;
+		float wave_low = Wave_DATA[peak_low][0]+Wave_DATA[peak_low][1]*0.001;
+		float wave_high = Wave_DATA[peak_low+1][0]+Wave_DATA[peak_low+1][1]*0.001;
+		peaks_vec[i] = wave_low*(1-ratio)+wave_high*ratio;
 	}
 	return i;
 }
 
-void Find_Initial(float *adc_norvec, uint16_t *initials, uint16_t adc_length, float threshold){
-	if(threshold>0.15) return;
+void Find_Initial(int *adc_norvec, uint16_t *initials, uint16_t adc_length, int threshold, int gap){
+	if(100*threshold>15*gap) return;
 	uint16_t it = 0;
 	for(uint16_t i=1;i<adc_length-1;i++){
 		if(it>=PEAKS_COUNT) break;
 		int start = i-INTERVAL>=0?i-INTERVAL:0;
 		int end = i+INTERVAL<=adc_length?i+INTERVAL:adc_length;
 		
-		float front=-0xFFFF,back=-0xFFFF;
+		int front=-0xFFFF, back=-0xFFFF;
 		for(int j=start;j<i;j++){
 			if(adc_norvec[j]>front) front = adc_norvec[j];
 		}
 		for(int j=i+1;j<end;j++){
 			if(adc_norvec[j]>back) back = adc_norvec[j];
 		}
-		if((adc_norvec[i]>front||adc_norvec[i]==front)&&(adc_norvec[i]>back||adc_norvec[i]==back)&&adc_norvec[i]>0.6){
+		if((adc_norvec[i]>front||adc_norvec[i]==front)&&(adc_norvec[i]>back||adc_norvec[i]==back)&&10*adc_norvec[i]>6*gap){
 			initials[it] = i;
 			i+=INTERVAL;
 			it++;
@@ -74,80 +83,50 @@ void Find_Initial(float *adc_norvec, uint16_t *initials, uint16_t adc_length, fl
 	}
 }
 
-void SendPeaks(uint8_t p1, uint8_t p2, uint8_t p3, uint8_t p4){
-		uint8_t indexCount = 0;
-		packPeaks[indexCount++] = 0xAB;
-//		packPeaks[indexCount++] = 0x04;
-		
-//		packPeaks[indexCount++] = 0xEF;
-		packPeaks[indexCount++] = p1;
+void FillPeaks(uint8_t p1, uint8_t p2, uint8_t p3, uint8_t p4){
+		txBuffer[txCount++] = 0xAB;
+	
+		txBuffer[txCount++] = p1;
 		int i=0;
 		for(;i<p1;i++){
-			packPeaks[indexCount++] = (Wave_DATA[peaks1[i]][0]>>8) & 0xFF;
-			packPeaks[indexCount++] = Wave_DATA[peaks1[i]][0] & 0xFF;
-			packPeaks[indexCount++] = (Wave_DATA[peaks1[i]][1]>>8) & 0xFF;
-			packPeaks[indexCount++] = Wave_DATA[peaks1[i]][1] & 0xFF;
+			int_part = peaks1[i];
+			decimal_part = (peaks1[i] - int_part)*1000;
+			txBuffer[txCount++] = (int_part>>8) & 0xFF;
+			txBuffer[txCount++] = int_part & 0xFF;
+			txBuffer[txCount++] = (decimal_part>>8) & 0xFF;
+			txBuffer[txCount++] = decimal_part & 0xFF;
 		}
-		for(;i<PEAKS_COUNT;i++){
-			packPeaks[indexCount++] = 0x00;
-			packPeaks[indexCount++] = 0x00;
-			packPeaks[indexCount++] = 0x00;
-			packPeaks[indexCount++] = 0x00;
-		}
-//		packPeaks[indexCount++] = 0xFE;
 		
 		i=0;
-//		packPeaks[indexCount++] = 0xEF;
-		packPeaks[indexCount++] = p2;
+		txBuffer[txCount++] = p2;
 		for(;i<p2;i++){
-			packPeaks[indexCount++] = (Wave_DATA[peaks2[i]][0]>>8) & 0xFF;
-			packPeaks[indexCount++] = Wave_DATA[peaks2[i]][0] & 0xFF;
-			packPeaks[indexCount++] = (Wave_DATA[peaks2[i]][1]>>8) & 0xFF;
-			packPeaks[indexCount++] = Wave_DATA[peaks2[i]][1] & 0xFF;
+			int_part = peaks2[i];
+			decimal_part = (peaks2[i] - int_part)*1000;
+			txBuffer[txCount++] = (int_part>>8) & 0xFF;
+			txBuffer[txCount++] = int_part & 0xFF;
+			txBuffer[txCount++] = (decimal_part>>8) & 0xFF;
+			txBuffer[txCount++] = decimal_part & 0xFF;
 		}
-		for(;i<PEAKS_COUNT;i++){
-			packPeaks[indexCount++] = 0x00;
-			packPeaks[indexCount++] = 0x00;
-			packPeaks[indexCount++] = 0x00;
-			packPeaks[indexCount++] = 0x00;
-		}
-//		packPeaks[indexCount++] = 0xFE;
 		
 		i=0;
-//		packPeaks[indexCount++] = 0xEF;
-		packPeaks[indexCount++] = p3;
+		txBuffer[txCount++] = p3;
 		for(;i<p3;i++){
-			packPeaks[indexCount++] = (Wave_DATA[peaks3[i]][0]>>8) & 0xFF;
-			packPeaks[indexCount++] = Wave_DATA[peaks3[i]][0] & 0xFF;
-			packPeaks[indexCount++] = (Wave_DATA[peaks3[i]][1]>>8) & 0xFF;
-			packPeaks[indexCount++] = Wave_DATA[peaks3[i]][1] & 0xFF;
+			int_part = peaks3[i];
+			decimal_part = (peaks3[i] - int_part)*1000;
+			txBuffer[txCount++] = (int_part>>8) & 0xFF;
+			txBuffer[txCount++] = int_part & 0xFF;
+			txBuffer[txCount++] = (decimal_part>>8) & 0xFF;
+			txBuffer[txCount++] = decimal_part & 0xFF;
 		}
-		for(;i<PEAKS_COUNT;i++){
-			packPeaks[indexCount++] = 0x00;
-			packPeaks[indexCount++] = 0x00;
-			packPeaks[indexCount++] = 0x00;
-			packPeaks[indexCount++] = 0x00;
-		}
-//		packPeaks[indexCount++] = 0xFE;
 		
 		i=0;
-//		packPeaks[indexCount++] = 0xEF;
-		packPeaks[indexCount++] = p4;
+		txBuffer[txCount++] = p4;
 		for(;i<p4;i++){
-			packPeaks[indexCount++] = (Wave_DATA[peaks4[i]][0]>>8) & 0xFF;
-			packPeaks[indexCount++] = Wave_DATA[peaks4[i]][0] & 0xFF;
-			packPeaks[indexCount++] = (Wave_DATA[peaks4[i]][1]>>8) & 0xFF;
-			packPeaks[indexCount++] = Wave_DATA[peaks4[i]][1] & 0xFF;
+			int_part = peaks4[i];
+			decimal_part = (peaks4[i] - int_part)*1000;
+			txBuffer[txCount++] = (int_part>>8) & 0xFF;
+			txBuffer[txCount++] = int_part & 0xFF;
+			txBuffer[txCount++] = (decimal_part>>8) & 0xFF;
+			txBuffer[txCount++] = decimal_part & 0xFF;
 		}
-		for(;i<PEAKS_COUNT;i++){
-			packPeaks[indexCount++] = 0x00;
-			packPeaks[indexCount++] = 0x00;
-			packPeaks[indexCount++] = 0x00;
-			packPeaks[indexCount++] = 0x00;
-		}
-//		packPeaks[indexCount++] = 0xFE;
-		
-//		packPeaks[indexCount] = 0xBA;
-		
-		USART_DMA_Send(packPeaks, 4*4*PEAKS_COUNT+5);
 }
