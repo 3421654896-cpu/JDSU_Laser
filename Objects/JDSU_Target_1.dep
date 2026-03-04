@@ -1,5 +1,6 @@
 Dependencies for Project 'JDSU', Target 'Target_1': (DO NOT MODIFY !)
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 CompilerVersion: 6220000::V6.22::ARMCLANG
 F (.\App\main.c)(0x699EAFF9)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ./App -I ./Bsp -I ./Libraries/CMSIS/CoreSupport -I ./Libraries/CMSIS/DeviceSupport -I ./Libraries/CMSIS/DeviceSupport/startup -I ./Libraries/STM32F2xx_StdPeriph_Driver/inc -I ./Libraries/STM32F2xx_StdPeriph_Driver/src-D__UVISION_VERSION="540" -DSTM32F205xx-o ./objects/main.o -MMD)
 I (App\main.h)(0x699EAFF9)
@@ -1453,6 +1454,8 @@ I (Libraries\STM32F2xx_StdPeriph_Driver\inc\stm32f2xx_tim.h)(0x699EAFF9)
 I (Libraries\STM32F2xx_StdPeriph_Driver\inc\stm32f2xx_usart.h)(0x699EAFF9)
 I (Libraries\STM32F2xx_StdPeriph_Driver\inc\misc.h)(0x699EAFF9)
 =======
+=======
+>>>>>>> Stashed changes
 CompilerVersion: 6240000::V6.24::ARMCLANG
 F (.\App\main.c)(0x69A694E8)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ./App -I ./Bsp -I ./Libraries/CMSIS/CoreSupport -I ./Libraries/CMSIS/DeviceSupport -I ./Libraries/CMSIS/DeviceSupport/startup -I ./Libraries/STM32F2xx_StdPeriph_Driver/inc -I ./Libraries/STM32F2xx_StdPeriph_Driver/src-D__UVISION_VERSION="543" -DSTM32F205xx-o ./objects/main.o -MMD)
 I (App\main.h)(0x69A78FAC)
@@ -2905,4 +2908,7 @@ I (Libraries\STM32F2xx_StdPeriph_Driver\inc\stm32f2xx_syscfg.h)(0x69A4E924)
 I (Libraries\STM32F2xx_StdPeriph_Driver\inc\stm32f2xx_tim.h)(0x69A4E924)
 I (Libraries\STM32F2xx_StdPeriph_Driver\inc\stm32f2xx_usart.h)(0x69A4E924)
 I (Libraries\STM32F2xx_StdPeriph_Driver\inc\misc.h)(0x69A4E924)
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
