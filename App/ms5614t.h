@@ -83,6 +83,7 @@ void write_ms5614t_table();
 void write_ms5614t_manual();
 void modify_table_loop();
 void ClearRxBuff();
+void sendTxBuffer(int dac_size, int p1, int p2, int p3, int p4);
 
 #ifdef __cplusplus
 }

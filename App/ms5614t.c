@@ -101,21 +101,17 @@ void MS5614T_SetCode(MS5614T_Channel_t ch, uint16_t code, MS5614T_Speed_t spd, M
     if (pwr == MS5614T_POWERDOWN) DAC1_PD_LOW(); else DAC1_PD_HIGH();
     DAC1_LDAC_LOW();
 
-    /* FS?????(?? twH(FS)) */
     DAC1_FS_HIGH();
     short_delay(DAC_DELAY);
 
-    /* CS??,??FS???(?? tsu(CS朏S)) */
     DAC1_CS_LOW();
     short_delay(DAC_DELAY);
 
-    /* FS???????16bit(?? tsu(FS朇K)) */
     DAC1_FS_LOW();
     short_delay(DAC_DELAY);
 
     SPI2_Send16(frame);
 
-    /* 16bit?????FS/CS(??????) */
     short_delay(DAC_DELAY);
     DAC1_FS_HIGH();
     short_delay(DAC_DELAY);
@@ -184,21 +180,17 @@ void MS5614T2_SetCode(MS5614T_Channel_t ch, uint16_t code, MS5614T_Speed_t spd, 
     if (pwr == MS5614T_POWERDOWN) DAC2_PD_LOW(); else DAC2_PD_HIGH();
     DAC2_LDAC_LOW();
 
-    /* FS?????(?? twH(FS)) */
     DAC2_FS_HIGH();
     short_delay(DAC_DELAY);
 
-    /* CS??,??FS??? */
     DAC2_CS_LOW();
     short_delay(DAC_DELAY);
 
-    /* FS??????? */
     DAC2_FS_LOW();
     short_delay(DAC_DELAY);
 
     SPI3_Send16(frame);
 
-    /* ????FS/CS */
     short_delay(DAC_DELAY);
     DAC2_FS_HIGH();
     short_delay(DAC_DELAY);
@@ -214,9 +206,11 @@ void write_ms5614t_table(){
 		MS5614T2_SetCode(MS5614T_DAC_A, GAIN, MS5614T_SPEED_FAST, MS5614T_NORMAL);
 		MS5614T2_SetCode(MS5614T_DAC_C, SOA, MS5614T_SPEED_FAST, MS5614T_NORMAL);
 		
-		uint8_t front[2] = {0xEE,0xEE};
-		uint8_t back[2] = {0xFF,0xFF};
-		USART_DMA_Send(front, 2);
+		memset(txBuffer, 0, PACK_SIZE*sizeof(uint8_t));
+		txBuffer[0] = 0xEE;
+		txBuffer[1] = 0xEE;
+		txCount = 2;
+	
 		for (i = 0; i < Number;) 
 		{
 				if(workState == MANUAL_STATE) break;
@@ -230,12 +224,16 @@ void write_ms5614t_table(){
 			
 				// 波长数据0x00就跳过
 				if ((IDACData[0] == 0xFFFF) && (IDACData[1] == 0xFFFF) && (IDACData[2] == 0xFFFF)){
-						uint8_t p1 = Find_Peaks(adc1, peaks1, i);
-						uint8_t p2 = Find_Peaks(adc2, peaks2, i);
-						uint8_t p3 = Find_Peaks(adc3, peaks3, i);
-						uint8_t p4 = Find_Peaks(adc4, peaks4, i);
+						uint8_t p1 = Find_Peaks(adc1, peaks1, i-1);
+						uint8_t p2 = Find_Peaks(adc2, peaks2, i-1);
+						uint8_t p3 = Find_Peaks(adc3, peaks3, i-1);
+						uint8_t p4 = Find_Peaks(adc4, peaks4, i-1);
 				
-						SendPeaks(p1,p2,p3,p4);
+						txBuffer[txCount++] = ((i-1) >> 8) & 0xFF;
+						txBuffer[txCount++] = (i-1) & 0xFF;
+						FillPeaks(p1,p2,p3,p4);
+					
+						sendTxBuffer(i-1, p1, p2, p3, p4);
 						break;
 				}
 			
@@ -252,7 +250,6 @@ void write_ms5614t_table(){
 				
 				delay_us(wave_time);
 		}
-		USART_DMA_Send(back, 2);
 }
 
 void write_ms5614t_manual(){
@@ -313,8 +310,17 @@ void sampleVoltage(){
 		for(u8 adc_idx=0;adc_idx<4;adc_idx++){
 				adcData = ADC_Write_Loop() & 0x0FFF;
 				uADCOriginvalues[adc_idx] = adcData;
-				uSyncConvertedvalues[adc_idx*2] = adcData>>8 & 0xFF;
-				uSyncConvertedvalues[adc_idx*2+1] = adcData & 0xFF;
+				txBuffer[txCount++] = (adcData >> 8) & 0xFF;
+				txBuffer[txCount++] = adcData & 0xFF;
 		}
-		USART_DMA_Send(uSyncConvertedvalues, 8);
+}
+
+void sendTxBuffer(int dac_size, int p1, int p2, int p3, int p4){
+		int floating_size = 4+8*dac_size+3+4+4*(p1+p2+p3+p4);
+	
+		txBuffer[txCount++] = 0xFF;
+		txBuffer[txCount++] = 0xFF;
+		
+		if(txCount!=floating_size) return;
+		USART_DMA_Send(txBuffer, floating_size);
 }

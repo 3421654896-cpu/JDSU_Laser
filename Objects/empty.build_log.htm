@@ -3,31 +3,58 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: ¦ÌVision V5.40.0.0
-Copyright (C) 2024 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: a xiechengxin, a, LIC=Z3C6R-KQ00L-06VQU-SMN1X-GM93L-NY9CR
+IDE-Version: ¦ÌVision V5.43.1.0
+Copyright (C) 2025 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: l yk, sztu, LIC=UJWP0-BSFF3-EVQ1R-KP9EV-MS34I-EYY5F
  
 Tool Versions:
-Toolchain:       MDK-ARM Professional  Version: 5.40.0.3
-Toolchain Path:  D:\Keil_v5\ARM\ARMCLANG\Bin
-C Compiler:      ArmClang.exe V6.22
-Assembler:       Armasm.exe V6.22
-Linker/Locator:  ArmLink.exe V6.22
-Library Manager: ArmAr.exe V6.22
-Hex Converter:   FromElf.exe V6.22
-CPU DLL:         SARMCM3.DLL V5.40.0.3
+Toolchain:       MDK-ARM Plus  Version: 5.43.0.0
+Toolchain Path:  D:\keil\Keil_v5\ARM\ARMCLANG\Bin
+C Compiler:      ArmClang.exe V6.24
+Assembler:       Armasm.exe V6.24
+Linker/Locator:  ArmLink.exe V6.24
+Library Manager: ArmAr.exe V6.24
+Hex Converter:   FromElf.exe V6.24
+CPU DLL:         SARMCM3.DLL V5.43.0.0
 Dialog DLL:      DCM.DLL V1.17.5.0
-Target DLL:      CMSIS_AGDI.dll V1.33.18.0
-Dialog DLL:      TCM.DLL V1.56.4.0
+Target DLL:      CMSIS_AGDI.dll V1.33.24.0
+Dialog DLL:      TCM.DLL V1.56.6.0
  
 <h2>Project:</h2>
-C:\Users\xiechengxin\Desktop\JDSU_Laser_×îÐÂ\JDSU.uvprojx
-Project File Date:  02/26/2026
+C:\Users\yk\Desktop\laser\JDSU_4ADC_1_28\JDSU.uvprojx
+Project File Date:  03/02/2026
 
 <h2>Output:</h2>
+<<<<<<< Updated upstream
 *** Using Compiler 'V6.22', folder: 'D:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target_1'
 compiling stm32f2xx_it.c...
+=======
+*** Using Compiler 'V6.24', folder: 'D:\keil\Keil_v5\ARM\ARMCLANG\Bin'
+Build target 'Target_1'
+compiling adc.c...
+compiling stm32f2xx_it.c...
+compiling main.c...
+compiling peak_detection.c...
+App/wave_const.c(3): warning: unknown attribute 'at' ignored [-Wunknown-attributes]
+    3 | atloc(Wave_Addr)
+      | ^~~~~~~~~~~~~~~~
+App\datastruct.h(7): note: expanded from macro 'atloc'
+    7 | #define atloc(v) __attribute__((at(v)))
+      |                                 ^~~~~
+1 warning generated.
+compiling wave_const.c...
+compiling init.c...
+compiling ms5614t.c...
+App/pwr_const.c(3): warning: unknown attribute 'at' ignored [-Wunknown-attributes]
+    3 | atloc(Pwr_Addr)
+      | ^~~~~~~~~~~~~~~
+App\datastruct.h(7): note: expanded from macro 'atloc'
+    7 | #define atloc(v) __attribute__((at(v)))
+      |                                 ^~~~~
+1 warning generated.
+compiling pwr_const.c...
+>>>>>>> Stashed changes
 App/dac_const.c(3): warning: unknown attribute 'at' ignored [-Wunknown-attributes]
     3 | atloc(Para_Addr)
       | ^~~~~~~~~~~~~~~~
@@ -36,6 +63,7 @@ App\datastruct.h(7): note: expanded from macro 'atloc'
       |                                 ^~~~~
 1 warning generated.
 compiling dac_const.c...
+<<<<<<< Updated upstream
 compiling stm32f2xx_cryp_des.c...
 compiling peak_detection.c...
 compiling adc.c...
@@ -96,9 +124,11 @@ compiling stm32f2xx_spi.c...
 compiling stm32f2xx_syscfg.c...
 compiling stm32f2xx_usart.c...
 compiling stm32f2xx_tim.c...
+=======
+>>>>>>> Stashed changes
 linking...
-Program Size: Code=13026 RO-data=40438 RW-data=8 ZI-data=50544  
-".\Objects\empty.axf" - 0 Error(s), 4 Warning(s).
+Program Size: Code=13986 RO-data=40438 RW-data=8 ZI-data=114752  
+".\Objects\empty.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -110,7 +140,11 @@ Package Vendor: Keil
 <h2>Collection of Component include folders:</h2>
 
 <h2>Collection of Component Files used:</h2>
+<<<<<<< Updated upstream
 Build Time Elapsed:  00:00:04
+=======
+Build Time Elapsed:  00:00:01
+>>>>>>> Stashed changes
 </pre>
 </body>
 </html>

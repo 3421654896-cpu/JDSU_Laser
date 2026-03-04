@@ -12,6 +12,8 @@
 #include <math.h>
 #include <string.h>
 
+#define PACK_SIZE 4+Number*8+2+4*15+4+1
+
 typedef enum
 {
     TABLE_STATE = 0,
@@ -23,12 +25,13 @@ extern const u16 Wave_DAC[Number][3];
 extern const u16 Wave_DATA[Number][2];
 extern const u16 Pwr_DATA[Number][2];
 
-extern uint8_t uSyncConvertedvalues[8];
+extern uint8_t txBuffer[PACK_SIZE];
 
 extern uint16_t wave_time;
 extern uint8_t getData;
 extern uint8_t workState;
 extern uint8_t lastGet;
+extern uint16_t txCount;
 
 void sampleVoltage();
 
