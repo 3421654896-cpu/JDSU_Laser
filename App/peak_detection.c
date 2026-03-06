@@ -39,7 +39,7 @@ uint8_t Find_Peaks(uint16_t *adc_vec, float *peaks_vec, uint16_t adc_length){
 	
 	uint8_t i=0;
 	for(;i<PEAKS_COUNT;i++){
-		if(i<5) initials[i] = 1;
+		//if(i<5) initials[i] = 1;
 		if(initials[i]==0) break;
 		int start = initials[i]-INTERVAL>=0?initials[i]-INTERVAL:0;
 		int end = initials[i]+INTERVAL<adc_length?initials[i]+INTERVAL:adc_length;
@@ -50,7 +50,7 @@ uint8_t Find_Peaks(uint16_t *adc_vec, float *peaks_vec, uint16_t adc_length){
 		}
 //		peaks_vec[i] = sumxy/sumy;//position
 		float peak_indexf = (float)sumxy/(float)sumy;
-		peak_indexf = 156.45;
+		//peak_indexf = 156.45;
 		int peak_low = (int)peak_indexf;
 		float ratio = peak_indexf - peak_low;
 		float wave_low = Wave_DATA[peak_low][0]+Wave_DATA[peak_low][1]*0.001;
@@ -61,7 +61,7 @@ uint8_t Find_Peaks(uint16_t *adc_vec, float *peaks_vec, uint16_t adc_length){
 }
 
 void Find_Initial(int *adc_norvec, uint16_t *initials, uint16_t adc_length, int threshold, int gap){
-	if(100*threshold>15*gap) return;
+	if(100*threshold>15*adc_length*gap) return;
 	uint16_t it = 0;
 	for(uint16_t i=1;i<adc_length-1;i++){
 		if(it>=PEAKS_COUNT) break;

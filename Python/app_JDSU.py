@@ -109,23 +109,6 @@ def get_desktop_path():
 def serial_write(info: bytes):
     ser.write(info)
 
-def wait_ack_0x21_forever(regDataCommand: bytes) -> None:
-    """
-    一直等待直到收到 ACK=0x21。
-    期间如果没收到或收到的不是0x21，就重发同一条命令，不推进。
-    """
-    while True:
-        b = ser.read(1)
-        if b:
-            v = int.from_bytes(b, "big")
-            if PRINT_ACK:
-                print(f"接收到数据: {v}")
-            if v == ACK_VALUE:
-                return
-        # 没收到或不是0x21 -> 重发
-        serial_write(regDataCommand)
-        time.sleep(ACK_RESEND_SLEEP_S)
-
 def try_write(inst, cmd):
     try:
         inst.write(cmd)
@@ -451,15 +434,25 @@ class APWorker(QThread):
 
                     # 打印 Excel 读取内容（可控频率）
                     if PRINT_EXCEL_EVERY > 0 and ((count + 1) % PRINT_EXCEL_EVERY == 0):
-                        self.log_signal.emit("----excel----")
-                        self.log_signal.emit(current_info)
-                        self.log_signal.emit("----excel----")
+                        self.log("----excel----")
+                        self.log(current_info)
+                        self.log("----excel----")
 
                     # 串口发送
                     serial_write(current_cmd)
 
                     # 等 ACK（不成功就一直重发，不推进）
-                    wait_ack_0x21_forever(current_cmd)
+                    while True:
+                        b = ser.read(1)
+                        if b:
+                            v = int.from_bytes(b, "big")
+                            if PRINT_ACK:
+                                self.log(f"接收到数据: {v}")
+                            if v == ACK_VALUE:
+                                break
+                        # 没收到或不是0x21 -> 重发
+                        serial_write(current_cmd)
+                        time.sleep(ACK_RESEND_SLEEP_S)
 
                     # ACK 成功：计数并“推进到下一行”
                     count += 1
@@ -586,7 +579,7 @@ class MainWindow(QMainWindow):
 
     def on_switch_mode(self, index):
         self.MCU_mode = index
-        command_frame = [0]*9
+        command_frame = [0]*tx_size
         command_frame[0] = 0xFF
         command_frame[1] = 0xFF
         command_frame[2] = 0x01
@@ -993,7 +986,7 @@ class GraphWindow(QtWidgets.QWidget):
         
         QtWidgets.QShortcut(QtGui.QKeySequence("P"), self, activated=self.toggle_pause)
 
-        with open("./wave_const.yaml", 'r', encoding="utf-8") as file:
+        with open("C:/Users/xiechengxin/Desktop/JDSU_Laser_最新/Python/wave_const.yaml", 'r', encoding="utf-8") as file:
             yaml_data = yaml.safe_load(file)
             # print((yaml_data['Wave_DATA']))
             self.yaml = yaml_data['Wave_DATA']
