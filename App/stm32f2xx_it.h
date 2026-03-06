@@ -41,6 +41,8 @@
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
+#define USART_RX_SIZE 13 
+
 void NMI_Handler(void);
 void HardFault_Handler(void);
 void MemManage_Handler(void);
@@ -55,7 +57,7 @@ void EXTI1_IRQHandler(void);
 void USART1_IRQHandler(void);
 void DMA2_Stream7_IRQHandler(void);
 
-extern uint8_t aRxBuffer[8];
+extern uint8_t aRxBuffer[USART_RX_SIZE];
 extern uint8_t ReceEndFlag;
 
 #ifdef __cplusplus

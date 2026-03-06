@@ -41,7 +41,7 @@ uint8_t lastGet = 0;
 
 __IO uint8_t uhRxCounter = 0;
 
-uint8_t aRxBuffer[8] = {0};
+uint8_t aRxBuffer[USART_RX_SIZE] = {0};
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -191,7 +191,7 @@ void USART1_IRQHandler(void)
 				
 				uhRxCounter++;
 				
-				if (uhRxCounter == 8)
+				if (uhRxCounter == USART_RX_SIZE)
 				{
 					ReceEndFlag = 1;
 					uhRxCounter = 0;

@@ -3,19 +3,7 @@
 <title>Static Call Graph - [.\Objects\empty.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\empty.axf</H1><HR>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Wed Mar  4 10:23:11 2026
-=======
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6240002: Last Updated: Wed Mar  4 09:49:34 2026
->>>>>>> Stashed changes
-=======
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6240002: Last Updated: Wed Mar  4 09:49:34 2026
->>>>>>> Stashed changes
-=======
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6240002: Last Updated: Wed Mar  4 09:49:34 2026
->>>>>>> Stashed changes
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6240002: Last Updated: Fri Mar  6 10:22:15 2026
 <BR><P>
 <H3>Maximum Stack Usage =        332 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1167,12 +1155,13 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
 
-<P><STRONG><a name="[be]"></a>modify_table_loop</STRONG> (Thumb, 52 bytes, Stack size 8 bytes, ms5614t.o(.text.modify_table_loop))
+<P><STRONG><a name="[be]"></a>modify_table_loop</STRONG> (Thumb, 120 bytes, Stack size 8 bytes, ms5614t.o(.text.modify_table_loop))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = modify_table_loop &rArr; ClearRxBuff
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ClearRxBuff
 </UL>
 <BR>[Called By]<UL><LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_ms5614t_table
+<LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_ms5614t_manual
 </UL>
 
 <P><STRONG><a name="[bf]"></a>sampleVoltage</STRONG> (Thumb, 124 bytes, Stack size 16 bytes, ms5614t.o(.text.sampleVoltage))
@@ -1191,10 +1180,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_ms5614t_table
 </UL>
 
-<P><STRONG><a name="[bc]"></a>write_ms5614t_manual</STRONG> (Thumb, 318 bytes, Stack size 32 bytes, ms5614t.o(.text.write_ms5614t_manual))
-<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = write_ms5614t_manual &rArr; MS5614T2_SetCode &rArr; SPI3_Send16 &rArr; SPI_I2S_SendData
+<P><STRONG><a name="[bc]"></a>write_ms5614t_manual</STRONG> (Thumb, 360 bytes, Stack size 24 bytes, ms5614t.o(.text.write_ms5614t_manual))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = write_ms5614t_manual &rArr; MS5614T2_SetCode &rArr; SPI3_Send16 &rArr; SPI_I2S_SendData
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_DMA_Send
+<LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;modify_table_loop
 <LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MS5614T2_SetCode
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MS5614T_SetCode
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ClearRxBuff
@@ -1202,7 +1192,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[bd]"></a>write_ms5614t_table</STRONG> (Thumb, 630 bytes, Stack size 64 bytes, ms5614t.o(.text.write_ms5614t_table))
+<P><STRONG><a name="[bd]"></a>write_ms5614t_table</STRONG> (Thumb, 646 bytes, Stack size 64 bytes, ms5614t.o(.text.write_ms5614t_table))
 <BR><BR>[Stack]<UL><LI>Max Depth = 308 + Unknown Stack Size
 <LI>Call Chain = write_ms5614t_table &rArr; Find_Peaks &rArr; Find_Initial
 </UL>
