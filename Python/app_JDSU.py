@@ -498,18 +498,29 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("可调谐激光器")
         self.resize(1000, 800)
 
+        menubar = self.menuBar()
+
+        self.menu_port = menubar.addMenu("端口")
+        self.menu_baud = menubar.addMenu("波特率")
+        self.menu_page = menubar.addMenu("工作模式")
+
         self.baud_rates = [9600, 115200, 2000000, 3000000, 4000000, 6000000]
         self.baud = 2000000
+        self.baud_act = None
 
         self.ports = []
         for p in list_ports.comports():
             self.ports.append([p.device, p.description])
-        self.port = self.ports[0][0]
+        self.port = list_ports.comports()[0].device
+        self.port_act = None
+
+        self.MCU_mode = 0
+        self.mode_act = None
 
         global ser
         ser.port = self.port
         ser.baudrate = self.baud
-
+        
         self.stack = QStackedWidget()
         self.stack.currentChanged.connect(self.on_switch_mode)
         
@@ -520,17 +531,6 @@ class MainWindow(QMainWindow):
         self.stack.addWidget(self.page_ap6150)
 
         self.setCentralWidget(self.stack)
-
-        self.MCU_mode = 0
-
-        self.action_peak = QAction("寻峰模式", self)
-        self.action_ap6150 = QAction("扫波长模式", self)
-
-        menubar = self.menuBar()
-
-        self.menu_port = menubar.addMenu("端口")
-        self.menu_baud = menubar.addMenu("波特率")
-        self.menu_page = menubar.addMenu("工作模式")
 
         self.init_menu()
 
@@ -545,37 +545,38 @@ class MainWindow(QMainWindow):
             action.setData(baud)
             action.triggered.connect(self.set_baudrate)
             self.menu_baud.addAction(action)
-            if baud == 2000000:
+            if baud == self.baud:
                 action.setChecked(True)
+                self.baud_act = action
 
         # 工作模式
-        self.menu_page.addAction(self.action_peak)
-        self.menu_page.addAction(self.action_ap6150)
+        work_mode = ["寻峰模式", "扫波长模式"]
+        for i, mode_str in enumerate(work_mode):
+            action = QAction(mode_str,self)
+            action.setCheckable(True)
+            action.setData(i)
+            action.triggered.connect(self.set_page)
+            self.menu_page.addAction(action)
+            if i == self.MCU_mode:
+                action.setChecked(True)
+                self.mode_act = action
 
-        self.action_peak.setCheckable(True)
-        self.action_ap6150.setCheckable(True)
-        self.action_peak.triggered.connect(self.open_peak_page)
-        self.action_ap6150.triggered.connect(self.open_ap6150_page)
+    def update_ports_menu(self):
+        menu = self.sender()
 
-        self.action_peak.setChecked(True)
+        menu.clear()
+        self.ports.clear()
 
-    def open_peak_page(self):
-        if switch_mode_enable:
-            self.stack.setCurrentIndex(0)
-            for act in self.menu_page.actions():
-                act.setChecked(False)
-            self.action_peak.setChecked(True)
-        else:
-            QMessageBox.warning(self, "警告", "先将当前页面工作流停止再进行切换")
-
-    def open_ap6150_page(self):
-        if switch_mode_enable:
-            self.stack.setCurrentIndex(1)
-            for act in self.menu_page.actions():
-                act.setChecked(False)
-            self.action_ap6150.setChecked(True)
-        else:
-            QMessageBox.warning(self, "警告", "先将当前页面工作流停止再进行切换")
+        for p in list_ports.comports():
+            self.ports.append([p.device, p.description])
+            action = QAction(f"{p.device} {p.description}", self)
+            action.setCheckable(True)
+            action.setData(p.device)
+            action.triggered.connect(self.set_com_port)
+            menu.addAction(action)
+            if p.device == self.port:
+                action.setChecked(True)
+                self.port_act = action
 
     def on_switch_mode(self, index):
         self.MCU_mode = index
@@ -598,41 +599,43 @@ class MainWindow(QMainWindow):
         else:
             ser.write(bytes(command_frame))
 
-    def set_baudrate(self):
-        global ser
+    def set_page(self):
         action = self.sender()
-        self.baud = action.data()
-        ser.baudrate = self.baud
-        for act in self.menu_baud.actions():
-            act.setChecked(False)
-        action.setChecked(True)
+        if switch_mode_enable:
+            self.MCU_mode = action.data()
+            self.stack.setCurrentIndex(self.MCU_mode)
+            self.mode_act.setChecked(False)
+            action.setChecked(True)
+            self.mode_act = action
+        else:
+            action.setChecked(False)
+            QMessageBox.warning(self, "警告", "先停止当前页面工作流再切换模式")
 
     def set_com_port(self):
         global ser
         action = self.sender()
-        self.port = action.data()
-        ser.port = self.port
-        for act in self.menu_port.actions():
-            act.setChecked(False)
-        action.setChecked(True)
+        if switch_mode_enable:
+            self.port = action.data()
+            ser.port = self.port
+            self.port_act.setChecked(False)
+            action.setChecked(True)
+            self.port_act = action
+        else:
+            action.setChecked(False)
+            QMessageBox.warning(self, "警告", "先停止当前页面工作流停止再修改端口")
 
-    def update_ports_menu(self):
-        menu = self.sender()
-
-        menu.clear()
-        self.ports.clear()
-
-        for p in list_ports.comports():
-            self.ports.append([p.device, p.description])
-
-        for port in self.ports:
-            action = QAction(f"{port[0]} {port[1]}", self)
-            action.setCheckable(True)
-            action.setData(port[0])
-            action.triggered.connect(self.set_com_port)
-            menu.addAction(action)
-            if port[0] == self.port:
-                action.setChecked(True)
+    def set_baudrate(self):
+        global ser
+        action = self.sender()
+        if switch_mode_enable:
+            self.baud = action.data()
+            ser.baudrate = self.baud
+            self.baud_act.setChecked(False)
+            action.setChecked(True)
+            self.baud_act = action
+        else:
+            action.setChecked(False)
+            QMessageBox.warning(self, "警告", "先停止当前页面工作流停止再修改波特率")
 
 class ap6150bWindow(QtWidgets.QWidget):
     def __init__(self):
@@ -668,6 +671,8 @@ class ap6150bWindow(QtWidgets.QWidget):
 
         self.fileText_edit = QLineEdit()
         self.fileText_edit.setPlaceholderText("选择波长数据文件")
+        self.fileText_edit.setMinimumWidth(100)
+        self.fileText_edit.setMaximumHeight(25)
         self.file_button = QPushButton("...")
         self.file_path = ""
 
@@ -840,23 +845,23 @@ class GraphWindow(QtWidgets.QWidget):
         # ])
         # self.combo_baud.setCurrentText("2000000")
 
+        lab_interval = QtWidgets.QLabel("单数据间隔(us):")
+        self.interval_text = QtWidgets.QLineEdit("10")
+        self.interval_text.setMinimumWidth(100)
+        self.interval_text.setMaximumHeight(25)
+
         self.com_btn = QtWidgets.QPushButton("打开")
         self.com_btn.setMinimumWidth(100)
 
-        lab_mode = QtWidgets.QLabel("工作模式:")
-        self.combo_mode = QtWidgets.QComboBox()
-        self.combo_mode.setMinimumWidth(100)
-        self.combo_mode.addItems([
-            "寻峰模式",
-            "扫波长模式",
-        ])
-        self.combo_mode.setCurrentText("寻峰模式")
-        self.MCU_mode = 0
-
-        lab_interval = QtWidgets.QLabel("单数据间隔(us):")
-        self.interval_text = QtWidgets.QTextEdit("10")
-        self.interval_text.setMinimumWidth(100)
-        self.interval_text.setMaximumHeight(25)
+        # lab_mode = QtWidgets.QLabel("工作模式:")
+        # self.combo_mode = QtWidgets.QComboBox()
+        # self.combo_mode.setMinimumWidth(100)
+        # self.combo_mode.addItems([
+        #     "寻峰模式",
+        #     "扫波长模式",
+        # ])
+        # self.combo_mode.setCurrentText("寻峰模式")
+        # self.MCU_mode = 0
 
         self.clear_btn = QtWidgets.QPushButton("清空数据")
         self.clear_btn.setMinimumWidth(100)
@@ -864,7 +869,7 @@ class GraphWindow(QtWidgets.QWidget):
         # self.combo_com.currentTextChanged.connect(self.on_com_changed)
         # self.combo_baud.currentTextChanged.connect(self.on_baud_changed)
         self.com_btn.clicked.connect(self.on_open_changed)
-        self.combo_mode.currentTextChanged.connect(self.on_switch_mode)
+        # self.combo_mode.currentTextChanged.connect(self.on_switch_mode)
         self.interval_text.textChanged.connect(self.on_interval_changed)
         self.clear_btn.clicked.connect(self.on_clear_chart)
         
@@ -878,16 +883,17 @@ class GraphWindow(QtWidgets.QWidget):
         # self.ctrl_layout.addSpacing(20)
         # self.ctrl_layout.addStretch()
 
-        self.ctrl_layout.addWidget(lab_mode)
-        self.ctrl_layout.addWidget(self.combo_mode)
-        self.ctrl_layout.addSpacing(20)
-        self.ctrl_layout.addStretch()
-        self.ctrl_layout.addWidget(self.com_btn)
-        self.ctrl_layout.addSpacing(20)
-        self.ctrl_layout.addStretch()
+        # self.ctrl_layout.addWidget(lab_mode)
+        # self.ctrl_layout.addWidget(self.combo_mode)
+        # self.ctrl_layout.addSpacing(20)
+        # self.ctrl_layout.addStretch()
 
         self.ctrl_layout.addWidget(lab_interval)
         self.ctrl_layout.addWidget(self.interval_text)
+        self.ctrl_layout.addSpacing(20)
+        self.ctrl_layout.addStretch()
+
+        self.ctrl_layout.addWidget(self.com_btn)
         self.ctrl_layout.addSpacing(20)
         self.ctrl_layout.addStretch()
 
@@ -973,7 +979,7 @@ class GraphWindow(QtWidgets.QWidget):
         # ser.port = self.port
         # ser.baudrate = self.baud
 
-        self.interval = int(self.interval_text.toPlainText())
+        self.interval = int(self.interval_text.text())
 
         self.worker = peakWorker()
         self.worker.start()
@@ -986,7 +992,7 @@ class GraphWindow(QtWidgets.QWidget):
         
         QtWidgets.QShortcut(QtGui.QKeySequence("P"), self, activated=self.toggle_pause)
 
-        with open("C:/Users/xiechengxin/Desktop/JDSU_Laser_最新/Python/wave_const.yaml", 'r', encoding="utf-8") as file:
+        with open("./wave_const.yaml", 'r', encoding="utf-8") as file:
             yaml_data = yaml.safe_load(file)
             # print((yaml_data['Wave_DATA']))
             self.yaml = yaml_data['Wave_DATA']
@@ -1136,32 +1142,32 @@ class GraphWindow(QtWidgets.QWidget):
             for label in self.num_labels[idx]:  
                 label.setText("0")
 
-    def on_switch_mode(self):
-        self.MCU_mode ^= 1
-        command_frame = [0]*tx_size
-        command_frame[0] = 0xFF
-        command_frame[1] = 0xFF
-        command_frame[2] = 0x01
-        command_frame[3] = 0x02
-        command_frame[8] = self.MCU_mode & 0xFF
+    # def on_switch_mode(self):
+    #     self.MCU_mode ^= 1
+    #     command_frame = [0]*tx_size
+    #     command_frame[0] = 0xFF
+    #     command_frame[1] = 0xFF
+    #     command_frame[2] = 0x01
+    #     command_frame[3] = 0x02
+    #     command_frame[8] = self.MCU_mode & 0xFF
 
-        if not ser.is_open:
-            QMessageBox.information(self, "提示", "改工作模式前确保串口端口和波特率选对")
-            try:
-                self.com_btn.setEnabled(False)
-                ser.open()
-                ser.write(bytes(command_frame))
-                ser.close()
-                self.com_btn.setEnabled(True)
-                QMessageBox.information(self, "提示", "工作模式已生效")
-            except Exception as e:
-                QMessageBox.warning(self, "警告", f"发生异常:\n{str(e)}")
-                return
-        else:
-            ser.write(bytes(command_frame))
+    #     if not ser.is_open:
+    #         QMessageBox.information(self, "提示", "改工作模式前确保串口端口和波特率选对")
+    #         try:
+    #             self.com_btn.setEnabled(False)
+    #             ser.open()
+    #             ser.write(bytes(command_frame))
+    #             ser.close()
+    #             self.com_btn.setEnabled(True)
+    #             QMessageBox.information(self, "提示", "工作模式已生效")
+    #         except Exception as e:
+    #             QMessageBox.warning(self, "警告", f"发生异常:\n{str(e)}")
+    #             return
+    #     else:
+    #         ser.write(bytes(command_frame))
 
     def on_interval_changed(self):
-        self.interval = int(self.interval_text.toPlainText())
+        self.interval = int(self.interval_text.text())
         command_frame = [0]*tx_size
         command_frame[0] = 0xFF
         command_frame[1] = 0xFF

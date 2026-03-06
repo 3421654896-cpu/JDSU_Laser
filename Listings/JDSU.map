@@ -1,4 +1,4 @@
-Component: Arm Compiler for Embedded 6.22 Tool: armlink [5ee90200]
+Component: Arm Compiler for Embedded 6.24 Tool: armlink [5f371500]
 
 ==============================================================================
 
@@ -3324,27 +3324,27 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       464          0          0          0          0       3325   adc.o
-         0          0      24000          0          0        557   dac_const.o
-       946          0          0          0      32768       8697   init.o
-       122          0          0          0      32075       1256   main.o
-       230          0          0          0          0       3034   misc.o
-      2684          6          0          2          8       6501   ms5614t.o
-      2088          0          0          0      48248       3517   peak_detection.o
-        64         26        388          0       1536        860   startup_stm32f2xx.o
-       598          0          0          0          0       5788   stm32f2xx_dma.o
-       330          0          0          0          0       2768   stm32f2xx_exti.o
-       400          0          0          0          0       4537   stm32f2xx_gpio.o
-       340          0          0          0         16       2469   stm32f2xx_it.o
-       634          0         16          0          0       9249   stm32f2xx_rcc.o
-       362          0          0          0          0       7131   stm32f2xx_spi.o
-        86          0          0          0          0       1977   stm32f2xx_syscfg.o
-       788          0          0          0          0       7272   stm32f2xx_usart.o
-       376          0          0          4          0       3089   system_stm32f2xx.o
-         0          0      16000          0          0        560   wave_const.o
+       464          0          0          0          0       3324   adc.o
+         0          0      24000          0          0        556   dac_const.o
+       946          0          0          0      32768       8696   init.o
+       122          0          0          0      32075       1255   main.o
+       230          0          0          0          0       3033   misc.o
+      2684          6          0          2          8       6500   ms5614t.o
+      2088          0          0          0      48248       3516   peak_detection.o
+        64         26        388          0       1536        856   startup_stm32f2xx.o
+       598          0          0          0          0       5787   stm32f2xx_dma.o
+       330          0          0          0          0       2767   stm32f2xx_exti.o
+       400          0          0          0          0       4536   stm32f2xx_gpio.o
+       340          0          0          0         16       2468   stm32f2xx_it.o
+       634          0         16          0          0       9248   stm32f2xx_rcc.o
+       362          0          0          0          0       7130   stm32f2xx_spi.o
+        86          0          0          0          0       1976   stm32f2xx_syscfg.o
+       788          0          0          0          0       7271   stm32f2xx_usart.o
+       376          0          0          4          0       3088   system_stm32f2xx.o
+         0          0      16000          0          0        559   wave_const.o
 
     ----------------------------------------------------------------------
-     10576         32      40438          8     114664      72587   Object Totals
+     10576         32      40438          8     114664      72566   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         64          0          2          2         13          0   (incl. Padding)
 
@@ -3412,8 +3412,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     14082        180      40438          8     114760      73531   Grand Totals
-     14082        180      40438          8     114760      73531   ELF Image Totals
+     14082        180      40438          8     114760      73510   Grand Totals
+     14082        180      40438          8     114760      73510   ELF Image Totals
      14082        180      40438          8          0          0   ROM Totals
 
 ==============================================================================
