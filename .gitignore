@@ -1,9 +1,6 @@
-# *.o
-# *.htm
-# RTE/*
-# DebugConfig/*
-# Listings/*
-# Objects/*
-# *.xiechengxin
-# *.yk
-# *.uvoptx
+*.o
+*.htm
+Objects/*
+*.xiechengxin
+*.yk
+*.uvoptx
