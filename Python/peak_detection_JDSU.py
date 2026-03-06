@@ -306,7 +306,7 @@ class GraphWindow(QtWidgets.QWidget):
         
         QtWidgets.QShortcut(QtGui.QKeySequence("P"), self, activated=self.toggle_pause)
 
-        with open("./wave_const.yaml", 'r', encoding="utf-8") as file:
+        with open("C:/Users/xiechengxin/Desktop/JDSU_Laser_最新/Python/wave_const.yaml", 'r', encoding="utf-8") as file:
             yaml_data = yaml.safe_load(file)
             # print((yaml_data['Wave_DATA']))
             self.yaml = yaml_data['Wave_DATA']
