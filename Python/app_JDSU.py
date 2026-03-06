@@ -43,7 +43,7 @@ ACK_RESEND_SLEEP_S = 0.001  # 每次重发后短暂停一下，避免占满CPU
 
 array_size = 1904
 
-tx_size = 9
+tx_size = 13
 # ==========================
 
 ser = serial.Serial()
@@ -139,23 +139,29 @@ def excel_operate(iter_excel):
     """
     try:
         row = next(iter_excel)
-        readPhase = int(row[4])
-        readwaveA = int(row[5])
-        readwaveB = int(row[6])
+        readGain = int(row[6])
+        readSOA = int(row[7])
+        readPhase = int(row[8])
+        readwaveA = int(row[9])
+        readwaveB = int(row[10])
 
         bWrite = [0] * tx_size
         bWrite[0] = 0xFF
         bWrite[1] = 0xFF
         bWrite[2] = 0x00
-        bWrite[3] = (readPhase >> 8) & 0xFF
-        bWrite[4] = (readPhase >> 0) & 0xFF
-        bWrite[5] = (readwaveA >> 8) & 0xFF
-        bWrite[6] = (readwaveA >> 0) & 0xFF
-        bWrite[7] = (readwaveB >> 8) & 0xFF
-        bWrite[8] = (readwaveB >> 0) & 0xFF
+        bWrite[3] = (readGain >> 8) & 0xFF
+        bWrite[4] = (readGain >> 0) & 0xFF
+        bWrite[5] = (readSOA >> 8) & 0xFF
+        bWrite[6] = (readSOA >> 0) & 0xFF
+        bWrite[7] = (readPhase >> 8) & 0xFF
+        bWrite[8] = (readPhase >> 0) & 0xFF
+        bWrite[9] = (readwaveA >> 8) & 0xFF
+        bWrite[10] = (readwaveA >> 0) & 0xFF
+        bWrite[11] = (readwaveB >> 8) & 0xFF
+        bWrite[12] = (readwaveB >> 0) & 0xFF
 
         cmd = bytes(bWrite)
-        info = f"phase={readPhase}, waveA={readwaveA}, waveB={readwaveB}"
+        info = f"Gain={readGain}, SOA={readSOA}, phase={readPhase}, waveA={readwaveA}, waveB={readwaveB}"
         return cmd, info
     except Exception:
         return None, None
@@ -358,7 +364,6 @@ class peakWorker(QThread):
                 # print(rx_buffer)
                 process_buffer(rx_buffer)
 
-
 class APWorker(QThread):
     log_signal = pyqtSignal(str,str)
 
@@ -500,6 +505,18 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("可调谐激光器")
         self.resize(1000, 800)
 
+        self.baud_rates = [9600, 115200, 2000000, 3000000, 4000000, 6000000]
+        self.baud = 2000000
+
+        self.ports = []
+        for p in list_ports.comports():
+            self.ports.append([p.device, p.description])
+        self.port = self.ports[0][0]
+
+        global ser
+        ser.port = self.port
+        ser.baudrate = self.baud
+
         self.stack = QStackedWidget()
         self.stack.currentChanged.connect(self.on_switch_mode)
         
@@ -513,31 +530,57 @@ class MainWindow(QMainWindow):
 
         self.MCU_mode = 0
 
+        self.action_peak = QAction("寻峰模式", self)
+        self.action_ap6150 = QAction("扫波长模式", self)
+
+        menubar = self.menuBar()
+
+        self.menu_port = menubar.addMenu("端口")
+        self.menu_baud = menubar.addMenu("波特率")
+        self.menu_page = menubar.addMenu("工作模式")
+
         self.init_menu()
 
     def init_menu(self):
-        menubar = self.menuBar()
+        # 端口
+        self.menu_port.aboutToShow.connect(self.update_ports_menu)
 
-        menu_page = menubar.addMenu("工作模式")
+        # 波特率
+        for baud in self.baud_rates:
+            action = QAction(str(baud), self)
+            action.setCheckable(True)
+            action.setData(baud)
+            action.triggered.connect(self.set_baudrate)
+            self.menu_baud.addAction(action)
+            if baud == 2000000:
+                action.setChecked(True)
 
-        action_peak = QAction("寻峰模式", self)
-        action_ap6150 = QAction("扫波长模式", self)
+        # 工作模式
+        self.menu_page.addAction(self.action_peak)
+        self.menu_page.addAction(self.action_ap6150)
 
-        menu_page.addAction(action_peak)
-        menu_page.addAction(action_ap6150)
+        self.action_peak.setCheckable(True)
+        self.action_ap6150.setCheckable(True)
+        self.action_peak.triggered.connect(self.open_peak_page)
+        self.action_ap6150.triggered.connect(self.open_ap6150_page)
 
-        action_peak.triggered.connect(self.open_peak_page)
-        action_ap6150.triggered.connect(self.open_ap6150_page)
+        self.action_peak.setChecked(True)
 
     def open_peak_page(self):
         if switch_mode_enable:
             self.stack.setCurrentIndex(0)
+            for act in self.menu_page.actions():
+                act.setChecked(False)
+            self.action_peak.setChecked(True)
         else:
             QMessageBox.warning(self, "警告", "先将当前页面工作流停止再进行切换")
 
     def open_ap6150_page(self):
         if switch_mode_enable:
             self.stack.setCurrentIndex(1)
+            for act in self.menu_page.actions():
+                act.setChecked(False)
+            self.action_ap6150.setChecked(True)
         else:
             QMessageBox.warning(self, "警告", "先将当前页面工作流停止再进行切换")
 
@@ -557,11 +600,46 @@ class MainWindow(QMainWindow):
                 ser.close()
             except Exception as e:
                 QMessageBox.warning(self, "警告", "改工作模式前确保串口端口和波特率选对")
-                QMessageBox.warning(self, "crash", f"发生异常:\n{str(e)}")
+                QMessageBox.critical(self, "crash", f"发生异常:\n{str(e)}")
                 return
         else:
             ser.write(bytes(command_frame))
-        # QMessageBox.information(self, "提示", "工作模式已修改")
+
+    def set_baudrate(self):
+        global ser
+        action = self.sender()
+        self.baud = action.data()
+        ser.baudrate = self.baud
+        for act in self.menu_baud.actions():
+            act.setChecked(False)
+        action.setChecked(True)
+
+    def set_com_port(self):
+        global ser
+        action = self.sender()
+        self.port = action.data()
+        ser.port = self.port
+        for act in self.menu_port.actions():
+            act.setChecked(False)
+        action.setChecked(True)
+
+    def update_ports_menu(self):
+        menu = self.sender()
+
+        menu.clear()
+        self.ports.clear()
+
+        for p in list_ports.comports():
+            self.ports.append([p.device, p.description])
+
+        for port in self.ports:
+            action = QAction(f"{port[0]} {port[1]}", self)
+            action.setCheckable(True)
+            action.setData(port[0])
+            action.triggered.connect(self.set_com_port)
+            menu.addAction(action)
+            if port[0] == self.port:
+                action.setChecked(True)
 
 class ap6150bWindow(QtWidgets.QWidget):
     def __init__(self):
@@ -576,24 +654,24 @@ class ap6150bWindow(QtWidgets.QWidget):
         self.ctrl_panel.setLayout(self.ctrl_layout)
         self.ctrl_panel.setMaximumHeight(80)
 
-        lab_com = QtWidgets.QLabel("COM端口:")
-        self.combo_com = MQComboBox()
-        self.combo_com.setMinimumWidth(100)
-        if self.combo_com.count() > 0:
-            self.combo_com.setCurrentIndex(0)
+        # lab_com = QtWidgets.QLabel("COM端口:")
+        # self.combo_com = MQComboBox()
+        # self.combo_com.setMinimumWidth(100)
+        # if self.combo_com.count() > 0:
+        #     self.combo_com.setCurrentIndex(0)
 
-        lab_baud = QtWidgets.QLabel("波特率:")
-        self.combo_baud = QtWidgets.QComboBox()
-        self.combo_baud.setMinimumWidth(100)
-        self.combo_baud.addItems([
-            "9600",
-            "115200",
-            "2000000",
-            "3000000",
-            "4000000",
-            "6000000"
-        ])
-        self.combo_baud.setCurrentText("2000000")
+        # lab_baud = QtWidgets.QLabel("波特率:")
+        # self.combo_baud = QtWidgets.QComboBox()
+        # self.combo_baud.setMinimumWidth(100)
+        # self.combo_baud.addItems([
+        #     "9600",
+        #     "115200",
+        #     "2000000",
+        #     "3000000",
+        #     "4000000",
+        #     "6000000"
+        # ])
+        # self.combo_baud.setCurrentText("2000000")
 
         self.fileText_edit = QLineEdit()
         self.fileText_edit.setPlaceholderText("选择波长数据文件")
@@ -606,19 +684,21 @@ class ap6150bWindow(QtWidgets.QWidget):
         self.clear_btn = QtWidgets.QPushButton("清空日志")
         self.clear_btn.setMinimumWidth(100)
 
+        # self.combo_com.currentTextChanged.connect(self.on_com_changed)
+        # self.combo_baud.currentTextChanged.connect(self.on_baud_changed)
         self.file_button.clicked.connect(self.select_file)
         self.com_btn.clicked.connect(self.ap_thread)
         self.clear_btn.clicked.connect(self.on_clear)
 
-        self.ctrl_layout.addWidget(lab_com)
-        self.ctrl_layout.addWidget(self.combo_com)
-        self.ctrl_layout.addSpacing(20)
-        self.ctrl_layout.addStretch()
+        # self.ctrl_layout.addWidget(lab_com)
+        # self.ctrl_layout.addWidget(self.combo_com)
+        # self.ctrl_layout.addSpacing(20)
+        # self.ctrl_layout.addStretch()
 
-        self.ctrl_layout.addWidget(lab_baud)
-        self.ctrl_layout.addWidget(self.combo_baud)
-        self.ctrl_layout.addSpacing(20)
-        self.ctrl_layout.addStretch()
+        # self.ctrl_layout.addWidget(lab_baud)
+        # self.ctrl_layout.addWidget(self.combo_baud)
+        # self.ctrl_layout.addSpacing(20)
+        # self.ctrl_layout.addStretch()
 
         self.ctrl_layout.addWidget(self.fileText_edit)
         self.ctrl_layout.addWidget(self.file_button)
@@ -636,8 +716,35 @@ class ap6150bWindow(QtWidgets.QWidget):
         self.printf_area = LogWidget()
         layout.addWidget(self.printf_area)
 
+        # self.port = self.combo_com.currentData()
+        # self.baud = int(self.combo_baud.currentText())
+        # global ser
+        # ser.port = self.port
+        # ser.baudrate = self.baud
+
         # self.worker = APWorker(self.file_path)
         # self.worker.log_signal.connect(self.printf_area.log)
+
+    # def showEvent(self, a0):
+    #     self.port = self.combo_com.currentData()
+    #     self.baud = int(self.combo_baud.currentText())
+    #     global ser
+    #     ser.port = self.port
+    #     ser.baudrate = self.baud
+    #     return super().showEvent(a0)
+
+    # def on_com_changed(self):
+    #     self.port = self.combo_com.currentData()
+    #     self.update_serial()
+
+    # def on_baud_changed(self):
+    #     self.baud = int(self.combo_baud.currentText())
+    #     self.update_serial()
+    
+    # def update_serial(self):
+    #     global ser
+    #     ser.port = self.port
+    #     ser.baudrate = self.baud
 
     def select_file(self):
         self.file_path, _ = QFileDialog.getOpenFileName(
@@ -677,8 +784,8 @@ class ap6150bWindow(QtWidgets.QWidget):
                 return
 
             switch_mode_enable = False
-            self.combo_com.setEnabled(False)
-            self.combo_baud.setEnabled(False)
+            # self.combo_com.setEnabled(False)
+            # self.combo_baud.setEnabled(False)
 
             self.com_btn.setText("关闭")
         elif do_close:
@@ -691,8 +798,8 @@ class ap6150bWindow(QtWidgets.QWidget):
                 return
             
             switch_mode_enable = True
-            self.combo_com.setEnabled(True)
-            self.combo_baud.setEnabled(True)
+            # self.combo_com.setEnabled(True)
+            # self.combo_baud.setEnabled(True)
 
             self.worker.running = False
             self.worker.quit()
@@ -721,24 +828,24 @@ class GraphWindow(QtWidgets.QWidget):
         self.ctrl_panel.setLayout(self.ctrl_layout)
         self.ctrl_panel.setMaximumHeight(80)
 
-        lab_com = QtWidgets.QLabel("COM端口:")
-        self.combo_com = MQComboBox()
-        self.combo_com.setMinimumWidth(100)
-        if self.combo_com.count() > 0:
-            self.combo_com.setCurrentIndex(0)
+        # lab_com = QtWidgets.QLabel("COM端口:")
+        # self.combo_com = MQComboBox()
+        # self.combo_com.setMinimumWidth(100)
+        # if self.combo_com.count() > 0:
+        #     self.combo_com.setCurrentIndex(0)
 
-        lab_baud = QtWidgets.QLabel("波特率:")
-        self.combo_baud = QtWidgets.QComboBox()
-        self.combo_baud.setMinimumWidth(100)
-        self.combo_baud.addItems([
-            "9600",
-            "115200",
-            "2000000",
-            "3000000",
-            "4000000",
-            "6000000"
-        ])
-        self.combo_baud.setCurrentText("2000000")
+        # lab_baud = QtWidgets.QLabel("波特率:")
+        # self.combo_baud = QtWidgets.QComboBox()
+        # self.combo_baud.setMinimumWidth(100)
+        # self.combo_baud.addItems([
+        #     "9600",
+        #     "115200",
+        #     "2000000",
+        #     "3000000",
+        #     "4000000",
+        #     "6000000"
+        # ])
+        # self.combo_baud.setCurrentText("2000000")
 
         self.com_btn = QtWidgets.QPushButton("打开")
         self.com_btn.setMinimumWidth(100)
@@ -761,22 +868,23 @@ class GraphWindow(QtWidgets.QWidget):
         self.clear_btn = QtWidgets.QPushButton("清空数据")
         self.clear_btn.setMinimumWidth(100)
 
-        self.combo_com.currentTextChanged.connect(self.on_com_changed)
-        self.combo_baud.currentTextChanged.connect(self.on_baud_changed)
+        # self.combo_com.currentTextChanged.connect(self.on_com_changed)
+        # self.combo_baud.currentTextChanged.connect(self.on_baud_changed)
         self.com_btn.clicked.connect(self.on_open_changed)
         self.combo_mode.currentTextChanged.connect(self.on_switch_mode)
         self.interval_text.textChanged.connect(self.on_interval_changed)
         self.clear_btn.clicked.connect(self.on_clear_chart)
         
-        self.ctrl_layout.addWidget(lab_com)
-        self.ctrl_layout.addWidget(self.combo_com)
-        self.ctrl_layout.addSpacing(20)
-        self.ctrl_layout.addStretch()
+        # self.ctrl_layout.addWidget(lab_com)
+        # self.ctrl_layout.addWidget(self.combo_com)
+        # self.ctrl_layout.addSpacing(20)
+        # self.ctrl_layout.addStretch()
 
-        self.ctrl_layout.addWidget(lab_baud)
-        self.ctrl_layout.addWidget(self.combo_baud)
-        self.ctrl_layout.addSpacing(20)
-        self.ctrl_layout.addStretch()
+        # self.ctrl_layout.addWidget(lab_baud)
+        # self.ctrl_layout.addWidget(self.combo_baud)
+        # self.ctrl_layout.addSpacing(20)
+        # self.ctrl_layout.addStretch()
+
         self.ctrl_layout.addWidget(lab_mode)
         self.ctrl_layout.addWidget(self.combo_mode)
         self.ctrl_layout.addSpacing(20)
@@ -866,12 +974,13 @@ class GraphWindow(QtWidgets.QWidget):
 
         layout.addWidget(self.num_panel, 2, 0, 1, 2)
 
-        self.port = self.combo_com.currentData()
-        self.baud = int(self.combo_baud.currentText())
+        # self.port = self.combo_com.currentData()
+        # self.baud = int(self.combo_baud.currentText())
+        # global ser
+        # ser.port = self.port
+        # ser.baudrate = self.baud
+
         self.interval = int(self.interval_text.toPlainText())
-        global ser
-        ser.port = self.port
-        ser.baudrate = self.baud
 
         self.worker = peakWorker()
         self.worker.start()
@@ -884,7 +993,7 @@ class GraphWindow(QtWidgets.QWidget):
         
         QtWidgets.QShortcut(QtGui.QKeySequence("P"), self, activated=self.toggle_pause)
 
-        with open("C:/Users/xiechengxin/Desktop/JDSU_Laser_最新/Python/wave_const.yaml", 'r', encoding="utf-8") as file:
+        with open("./wave_const.yaml", 'r', encoding="utf-8") as file:
             yaml_data = yaml.safe_load(file)
             # print((yaml_data['Wave_DATA']))
             self.yaml = yaml_data['Wave_DATA']
@@ -905,8 +1014,16 @@ class GraphWindow(QtWidgets.QWidget):
             slot=self.mouseMoved
         )
 
+    # def showEvent(self, a0):
+    #     self.port = self.combo_com.currentData()
+    #     self.baud = int(self.combo_baud.currentText())
+    #     global ser
+    #     ser.port = self.port
+    #     ser.baudrate = self.baud
+    #     return super().showEvent(a0)
+
     def mouseMoved(self, evt):
-        pos = evt[0] 
+        pos = evt[0]
         if self.plot1.sceneBoundingRect().contains(pos):
 
             mousePoint = self.plot1.plotItem.vb.mapSceneToView(pos)
@@ -946,18 +1063,18 @@ class GraphWindow(QtWidgets.QWidget):
         self.label.setText(f"x={x_snap:.3f}\ny={y_snap:.3f}")
         self.label.setPos(index, y_snap)
 
-    def on_com_changed(self):
-        self.port = self.combo_com.currentData()
-        self.update_serial()
+    # def on_com_changed(self):
+    #     self.port = self.combo_com.currentData()
+    #     self.update_serial()
 
-    def on_baud_changed(self):
-        self.baud = int(self.combo_baud.currentText())
-        self.update_serial()
+    # def on_baud_changed(self):
+    #     self.baud = int(self.combo_baud.currentText())
+    #     self.update_serial()
     
-    def update_serial(self):
-        global ser
-        ser.port = self.port
-        ser.baudrate = self.baud
+    # def update_serial(self):
+    #     global ser
+    #     ser.port = self.port
+    #     ser.baudrate = self.baud
 
     def on_open_changed(self):
         global ser_open
@@ -988,8 +1105,8 @@ class GraphWindow(QtWidgets.QWidget):
                 return
             
             switch_mode_enable = False
-            self.combo_com.setEnabled(False)
-            self.combo_baud.setEnabled(False)
+            # self.combo_com.setEnabled(False)
+            # self.combo_baud.setEnabled(False)
             self.clear_btn.setEnabled(False)
             self.on_interval_changed()
 
@@ -1007,8 +1124,8 @@ class GraphWindow(QtWidgets.QWidget):
                 return
             
             switch_mode_enable = True
-            self.combo_com.setEnabled(True)
-            self.combo_baud.setEnabled(True)
+            # self.combo_com.setEnabled(True)
+            # self.combo_baud.setEnabled(True)
             self.clear_btn.setEnabled(True)
 
             self.frame_timer.stop()
@@ -1280,12 +1397,12 @@ if __name__=="__main__":
             font-family: Microsoft YaHei;
         }
     """)
-    win = GraphWindow()
-    win.setWindowTitle("ADC Plot")
-    win.resize(1000,800)
-    win.show()
-    # win = MainWindow()
+    # win = GraphWindow()
+    # win.setWindowTitle("ADC Plot")
+    # win.resize(1000,800)
     # win.show()
+    win = MainWindow()
+    win.show()
     sys.exit(app.exec_())
 
 

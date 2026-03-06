@@ -214,7 +214,7 @@ void write_ms5614t_table(){
 		for (i = 0; i < Number;) 
 		{
 				if(workState == MANUAL_STATE) break;
-				if(aRxBuffer[0] == Head && aRxBuffer[1] == Head) modify_table_loop();
+				if(ReceEndFlag==1 && aRxBuffer[0] == Head && aRxBuffer[1] == Head) modify_table_loop();
 			  // 提前把一个波长的通道数据取出来
 			  for(j = 0; j < 3; j++)
 			  {
@@ -258,29 +258,36 @@ void write_ms5614t_manual(){
 		u16 WriteData = 0;
 		u8 i;
 	
-		MS5614T2_SetCode(MS5614T_DAC_A, GAIN, MS5614T_SPEED_FAST, MS5614T_NORMAL);
-		MS5614T2_SetCode(MS5614T_DAC_C, SOA, MS5614T_SPEED_FAST, MS5614T_NORMAL);
+//		MS5614T2_SetCode(MS5614T_DAC_A, GAIN, MS5614T_SPEED_FAST, MS5614T_NORMAL);
+//		MS5614T2_SetCode(MS5614T_DAC_C, SOA, MS5614T_SPEED_FAST, MS5614T_NORMAL);
 	
 		if (ReceEndFlag != 1)
 			return ;
 	
 		ReceEndFlag = 0;
 		
-//		USART_DMA_Send(aRxBuffer, 8);
+//		USART_DMA_Send(aRxBuffer, USART_RX_SIZE);
 		
 		if (aRxBuffer[0] == Head && aRxBuffer[1] == Head)
 		{
-				for(i = 0; i < 3; i++)
-				{
-						WriteData = ((aRxBuffer[2 + 2 * i] << 8) + aRxBuffer[3 + 2 * i]);
-						switch(i){
-							case 0:MS5614T2_SetCode(MS5614T_DAC_B, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
-							case 1:MS5614T_SetCode(MS5614T_DAC_A, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
-							case 2:MS5614T_SetCode(MS5614T_DAC_C, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
-						}			
+				if(aRxBuffer[2] == 0x00){
+						for(i = 0; i < 5; i++)
+						{
+								WriteData = ((aRxBuffer[3 + 2 * i] << 8) + aRxBuffer[4 + 2 * i]);
+								switch(i){
+									case 0:MS5614T2_SetCode(MS5614T_DAC_A, GAIN, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
+									case 1:MS5614T2_SetCode(MS5614T_DAC_C, SOA, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
+									case 2:MS5614T2_SetCode(MS5614T_DAC_B, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
+									case 3:MS5614T_SetCode(MS5614T_DAC_A, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
+									case 4:MS5614T_SetCode(MS5614T_DAC_C, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
+								}			
+						}
+						USART_DMA_Send(&flag, 1);
+						ClearRxBuff();
 				}
-				USART_DMA_Send(&flag, 1);
-				ClearRxBuff();
+				else if(aRxBuffer[2] == 0x01){
+						modify_table_loop();
+				}
 		}
 		if ((aRxBuffer[0] != Head) && (aRxBuffer[0] != 0x00))
 		{
@@ -290,16 +297,23 @@ void write_ms5614t_manual(){
 
 void modify_table_loop(){
 		// 0x01 change wave_time
-		if(aRxBuffer[2] == 0x01){
-				wave_time = (aRxBuffer[6]<<8)+aRxBuffer[7];
+		if(aRxBuffer[3] == 0x01){
+				wave_time = (aRxBuffer[7]<<8)+aRxBuffer[8];
 //				uint8_t waveArray[2] = {(wave_time>>8)&0xFF, wave_time&0xFF};
 //				USART_DMA_Send(waveArray, 2);
 		}
+		// 0x02 switch workState
+		else if(aRxBuffer[3] == 0x02){
+				workState = aRxBuffer[8];
+				ClearRxBuff();
+				lastGet = 0;
+		}
 		ClearRxBuff();
+		ReceEndFlag = 0;
 }
 
 void ClearRxBuff(){
-		for (u8 i = 0; i < 8; i++)
+		for (u8 i = 0; i < USART_RX_SIZE; i++)
 	  {
 				aRxBuffer[i] = 0;
 		}
