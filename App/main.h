@@ -21,7 +21,7 @@ typedef enum
 }MAIN_LOOP_STATE;
 
 
-extern const u16 Wave_DAC[Number][3];
+extern const u16 Wave_DAC[Number][5];
 extern const u16 Wave_DATA[Number][2];
 extern const u16 Pwr_DATA[Number][2];
 

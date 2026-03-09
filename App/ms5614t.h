@@ -64,8 +64,8 @@ typedef enum
 #define DAC2_PD_LOW()    GPIO_ResetBits(DAC2_PD_PORT, DAC2_PD_PIN)
 #define DAC2_PD_HIGH()   GPIO_SetBits(DAC2_PD_PORT, DAC2_PD_PIN)
 
-#define GAIN 3000
-#define SOA 3000
+#define GAIN 3357
+#define SOA 3357
 
 extern uint16_t uADCOriginvalues[4];
 
