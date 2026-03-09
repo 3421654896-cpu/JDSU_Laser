@@ -40,7 +40,7 @@ FLUSH_EVERY_N = 10000
 ACK_VALUE = 0x21
 ACK_RESEND_SLEEP_S = 0.001  # 每次重发后短暂停一下，避免占满CPU
 
-array_size = 1904
+array_size = 2001
 
 tx_size = 13
 # ==========================
@@ -647,12 +647,12 @@ class ap6150bWindow(QtWidgets.QWidget):
         self.ctrl_layout.addWidget(self.clear_btn)
 
         layout.addWidget(self.ctrl_panel, 0, 0)
+        
+        self.printf_area = LogWidget()
+        layout.addWidget(self.printf_area)
 
         self.worker = APWorker(self.file_path)
         self.worker.log_signal.connect(self.printf_area.log)
-
-        self.printf_area = LogWidget()
-        layout.addWidget(self.printf_area)
 
     def select_file(self):
         self.file_path, _ = QFileDialog.getOpenFileName(
