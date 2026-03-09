@@ -35,7 +35,7 @@ PRINT_ACK = True           # 打印接收到的ACK
 VISA_TIMEOUT_MS = 3000
 VISA_RETRY = 2
 
-FLUSH_EVERY_N = 100
+FLUSH_EVERY_N = 10000
 
 ACK_VALUE = 0x21
 ACK_RESEND_SLEEP_S = 0.001  # 每次重发后短暂停一下，避免占满CPU
@@ -648,6 +648,9 @@ class ap6150bWindow(QtWidgets.QWidget):
 
         layout.addWidget(self.ctrl_panel, 0, 0)
 
+        self.worker = APWorker(self.file_path)
+        self.worker.log_signal.connect(self.printf_area.log)
+
         self.printf_area = LogWidget()
         layout.addWidget(self.printf_area)
 
@@ -671,9 +674,6 @@ class ap6150bWindow(QtWidgets.QWidget):
         if ap_open == False:
             do_open = True
             ap_open = True 
-            self.worker = APWorker(self.file_path)
-            self.worker.log_signal.connect(self.printf_area.log)
-            self.worker.start()
             # ap_cond.notify_all()
         else: 
             do_close = True
@@ -689,6 +689,10 @@ class ap6150bWindow(QtWidgets.QWidget):
                 return
 
             switch_mode_enable = False
+
+            self.worker = APWorker(self.file_path)
+            self.worker.log_signal.connect(self.printf_area.log)
+            self.worker.start()
 
             self.com_btn.setText("关闭")
         elif do_close:
@@ -706,7 +710,7 @@ class ap6150bWindow(QtWidgets.QWidget):
             self.worker.quit()
             self.worker.wait()
 
-            self.com_btn.setText("打开")
+            self.com_btn.setText("开始")
 
     def on_clear(self):
         self.printf_area.clear()
