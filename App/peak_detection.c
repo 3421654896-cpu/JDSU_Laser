@@ -43,19 +43,21 @@ uint8_t Find_Peaks(uint16_t *adc_vec, float *peaks_vec, uint16_t adc_length){
 		if(initials[i]==0) break;
 		int start = initials[i]-INTERVAL>=0?initials[i]-INTERVAL:0;
 		int end = initials[i]+INTERVAL<adc_length?initials[i]+INTERVAL:adc_length;
-		int sumxy=0, sumy=0;
+		float sumxy=0;
+		int sumy=0;
 		for(int j=start;j<end;j++){
-			sumxy+=adc_vec[j]*j;
+			sumxy+=adc_vec[j]*(Wave_DATA[j][0]+Wave_DATA[j][1]*0.001);
 			sumy+=adc_vec[j];
 		}
 //		peaks_vec[i] = sumxy/sumy;//position
-		float peak_indexf = (float)sumxy/(float)sumy;
+//		float peak_indexf = sumxy/(float)sumy;
 		//peak_indexf = 156.45;
-		int peak_low = (int)peak_indexf;
-		float ratio = peak_indexf - peak_low;
-		float wave_low = Wave_DATA[peak_low][0]+Wave_DATA[peak_low][1]*0.001;
-		float wave_high = Wave_DATA[peak_low+1][0]+Wave_DATA[peak_low+1][1]*0.001;
-		peaks_vec[i] = wave_low*(1-ratio)+wave_high*ratio;
+//		int peak_low = (int)peak_indexf;
+//		float ratio = peak_indexf - peak_low;
+//		float wave_low = Wave_DATA[peak_low][0]+Wave_DATA[peak_low][1]*0.001;
+//		float wave_high = Wave_DATA[peak_low+1][0]+Wave_DATA[peak_low+1][1]*0.001;
+//		peaks_vec[i] = wave_low*(1-ratio)+wave_high*ratio;
+			peaks_vec[i] = sumxy/(float)sumy;
 	}
 	return i;
 }

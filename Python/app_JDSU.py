@@ -780,7 +780,7 @@ class GraphWindow(QtWidgets.QWidget):
         self.voltage_range = 5
         self.plot1.setXRange(0,array_size)
         self.plot1.setYRange(0,6)
-        self.plot1.getViewBox().setLimits(xMin=-1000,xMax=5000,
+        self.plot1.getViewBox().setLimits(xMin=1500,xMax=1600,
                                           yMin=-self.voltage_range,yMax=self.voltage_range)
         self.plot1.showGrid(x=True, y=True)
 
@@ -844,10 +844,12 @@ class GraphWindow(QtWidgets.QWidget):
         
         QtWidgets.QShortcut(QtGui.QKeySequence("P"), self, activated=self.toggle_pause)
 
-        with open("C:/Users/xiechengxin/Desktop/JDSU_Laser_最新/Python/wave_const.yaml", 'r', encoding="utf-8") as file:
+        with open("./wave_const.yaml", 'r', encoding="utf-8") as file:
             yaml_data = yaml.safe_load(file)
             # print((yaml_data['Wave_DATA']))
             self.yaml = yaml_data['Wave_DATA']
+            self.wave_const = [num[0]+num[1]*0.001 for num in self.yaml]
+            self.plot1.setXRange(int(min(self.wave_const)), math.ceil(max(self.wave_const)))
 
         self.visual_index = 0
         self.visual_y = 0
@@ -874,7 +876,7 @@ class GraphWindow(QtWidgets.QWidget):
             y = mousePoint.y()
 
             # 找最近的x索引
-            index = int(x)
+            index = np.abs(np.array(self.wave_const)-x).argmin()
             if index>=array_size or index<0 or len(self.adc1)==0:
                     return
             
@@ -887,7 +889,7 @@ class GraphWindow(QtWidgets.QWidget):
         or y > self.voltage_range or y < -self.voltage_range \
         or len(self.adc1) == 0:
             return
-        
+    
         adc = np.array([
             self.adc1[index],
             self.adc2[index],
@@ -897,14 +899,14 @@ class GraphWindow(QtWidgets.QWidget):
 
         indey = np.abs(adc-y).argmin()
 
-        x_snap = self.yaml[index][0] + self.yaml[index][1]*0.001
+        x_snap = self.wave_const[index]
         y_snap = adc[indey]
 
-        self.vLine.setPos(index)
+        self.vLine.setPos(x_snap)
         self.hLine.setPos(y_snap)
 
         self.label.setText(f"x={x_snap:.3f}\ny={y_snap:.3f}")
-        self.label.setPos(index, y_snap)
+        self.label.setPos(x_snap, y_snap)
 
     def on_open_changed(self):
         global ser_open
@@ -1077,7 +1079,7 @@ class GraphWindow(QtWidgets.QWidget):
             return
         self.process_down = False
 
-        x = list(range(array_size))
+        x = self.wave_const
 
         # 更新曲线
         self.curve1.setData(x,self.adc1)
@@ -1105,18 +1107,18 @@ class GraphWindow(QtWidgets.QWidget):
         _data = datas[i]
         if len(_data) == 0:
             return
-        ma = max(_data)
-        mi = min(_data)
-        for j,x in enumerate(_data):
-            _data[j] = (x-mi)/(ma-mi)
-        peaks = peak_main(_data, statistics.mean(_data))
+        # ma = max(_data)
+        # mi = min(_data)
+        # for j,x in enumerate(_data):
+        #     _data[j] = (x-mi)/(ma-mi)
+        # peaks = peak_main(_data, statistics.mean(_data))
         # print(statistics.mean(_data))
 
         for l in self.peaks_lines[i]:
             l.setVisible(False)
 
-        for idx,p in enumerate(peaks):
-            if p==-1:
+        for idx,p in enumerate(self.waves[i]):
+            if p==0:
                 if idx < len(self.peaks_lines[i]):
                     self.plot1.removeItem(self.peaks_lines[i][idx])
                     del self.peaks_lines[i][idx]
