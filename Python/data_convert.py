@@ -35,15 +35,17 @@ def dac_main(ws):
     lines = []
     for row in range(2, ws.max_row + 1):
         # 从1开始计数
-        e = ws.cell(row=row, column=5).value  # E列
-        f = ws.cell(row=row, column=6).value  # F列
-        g = ws.cell(row=row, column=7).value  # G列
+        g = ws.cell(row=row, column=7).value
+        h = ws.cell(row=row, column=8).value
+        i = ws.cell(row=row, column=9).value
+        j = ws.cell(row=row, column=10).value
+        k = ws.cell(row=row, column=11).value
 
-        if e is None and f is None and g is None:
+        if g is None and h is None and i is None:
             continue
 
-        e_s, f_s, g_s = to_int_str(e), to_int_str(f), to_int_str(g)
-        lines.append(f"{{{e_s}, {f_s}, {g_s}}},")
+        g_s, h_s, i_s, j_s, k_s = to_int_str(g), to_int_str(h), to_int_str(i), to_int_str(j), to_int_str(k)
+        lines.append(f"{{{g_s}, {h_s}, {i_s}, {j_s}, {k_s}}},")
 
     default_name = os.path.splitext(os.path.basename(excel_path))[0] + "_dac"
     save_path = filedialog.asksaveasfilename(
@@ -67,7 +69,7 @@ def wave_main(ws):
     yaml_results = []
     for row in range(2, ws.max_row + 1):
         # 空值跳过（你也可以改成写 {0,0}）
-        value = ws.cell(row=row, column=9).value
+        value = ws.cell(row=row, column=13).value
         if pd.isna(value):
             continue
         integer_part, decimal_part = split_number(value)

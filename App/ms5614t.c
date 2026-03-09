@@ -201,11 +201,8 @@ void write_ms5614t_table(){
 		int i;
 	  int j;
 		uint8_t Head = 0xFF;
-		u16 IDACData[3];	
+		u16 IDACData[5];	
 	
-		MS5614T2_SetCode(MS5614T_DAC_A, GAIN, MS5614T_SPEED_FAST, MS5614T_NORMAL);
-		MS5614T2_SetCode(MS5614T_DAC_C, SOA, MS5614T_SPEED_FAST, MS5614T_NORMAL);
-		
 		memset(txBuffer, 0, PACK_SIZE*sizeof(uint8_t));
 		txBuffer[0] = 0xEE;
 		txBuffer[1] = 0xEE;
@@ -216,7 +213,7 @@ void write_ms5614t_table(){
 				if(workState == MANUAL_STATE) break;
 				if(ReceEndFlag==1 && aRxBuffer[0] == Head && aRxBuffer[1] == Head) modify_table_loop();
 			  // 提前把一个波长的通道数据取出来
-			  for(j = 0; j < 3; j++)
+			  for(j = 0; j < 5; j++)
 			  {
 					  IDACData[j] = ((u16*)&Wave_DAC[i])[j];
 				}
@@ -237,9 +234,11 @@ void write_ms5614t_table(){
 						break;
 				}
 			
-				MS5614T_SetCode(MS5614T_DAC_A, IDACData[1], MS5614T_SPEED_FAST, MS5614T_NORMAL);
-				MS5614T_SetCode(MS5614T_DAC_C, IDACData[2], MS5614T_SPEED_FAST, MS5614T_NORMAL);
-				MS5614T2_SetCode(MS5614T_DAC_B, IDACData[0], MS5614T_SPEED_FAST, MS5614T_NORMAL);
+				MS5614T_SetCode(MS5614T_DAC_A, IDACData[3], MS5614T_SPEED_FAST, MS5614T_NORMAL);
+				MS5614T_SetCode(MS5614T_DAC_C, IDACData[4], MS5614T_SPEED_FAST, MS5614T_NORMAL);
+				MS5614T2_SetCode(MS5614T_DAC_A, IDACData[0], MS5614T_SPEED_FAST, MS5614T_NORMAL);
+				MS5614T2_SetCode(MS5614T_DAC_C, IDACData[1], MS5614T_SPEED_FAST, MS5614T_NORMAL);
+				MS5614T2_SetCode(MS5614T_DAC_B, IDACData[2], MS5614T_SPEED_FAST, MS5614T_NORMAL);
 						
 				sampleVoltage();
 				
