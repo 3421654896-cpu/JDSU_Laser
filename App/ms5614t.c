@@ -3,7 +3,7 @@
 
 #define DAC_DELAY 3
 
-uint16_t wave_time = 10;
+uint32_t wave_time = 10;
 
 uint16_t uADCOriginvalues[4] = {0};
 
@@ -239,6 +239,8 @@ void write_ms5614t_table(){
 				MS5614T2_SetCode(MS5614T_DAC_A, IDACData[0], MS5614T_SPEED_FAST, MS5614T_NORMAL);
 				MS5614T2_SetCode(MS5614T_DAC_C, IDACData[1], MS5614T_SPEED_FAST, MS5614T_NORMAL);
 				MS5614T2_SetCode(MS5614T_DAC_B, IDACData[2], MS5614T_SPEED_FAST, MS5614T_NORMAL);
+				
+				delay_ms(2);
 						
 				sampleVoltage();
 				
@@ -297,7 +299,7 @@ void write_ms5614t_manual(){
 void modify_table_loop(){
 		// 0x01 change wave_time
 		if(aRxBuffer[3] == 0x01){
-				wave_time = (aRxBuffer[7]<<8)+aRxBuffer[8];
+				wave_time = (aRxBuffer[7]<<24)+(aRxBuffer[8]<<16)+(aRxBuffer[9]<<8)+aRxBuffer[10];
 //				uint8_t waveArray[2] = {(wave_time>>8)&0xFF, wave_time&0xFF};
 //				USART_DMA_Send(waveArray, 2);
 		}

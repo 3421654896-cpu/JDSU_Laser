@@ -27,7 +27,7 @@ extern const u16 Pwr_DATA[Number][2];
 
 extern uint8_t txBuffer[PACK_SIZE];
 
-extern uint16_t wave_time;
+extern uint32_t wave_time;
 extern uint8_t getData;
 extern uint8_t workState;
 extern uint8_t lastGet;
