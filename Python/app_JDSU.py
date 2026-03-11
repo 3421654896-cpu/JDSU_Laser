@@ -40,7 +40,7 @@ FLUSH_EVERY_N = 10000
 ACK_VALUE = 0x21
 ACK_RESEND_SLEEP_S = 0.001  # 每次重发后短暂停一下，避免占满CPU
 
-array_size = 2001
+array_size = 1978
 
 tx_size = 13
 # ==========================
@@ -647,7 +647,7 @@ class ap6150bWindow(QtWidgets.QWidget):
         self.ctrl_layout.addWidget(self.clear_btn)
 
         layout.addWidget(self.ctrl_panel, 0, 0)
-        
+
         self.printf_area = LogWidget()
         layout.addWidget(self.printf_area)
 
@@ -844,7 +844,7 @@ class GraphWindow(QtWidgets.QWidget):
         
         QtWidgets.QShortcut(QtGui.QKeySequence("P"), self, activated=self.toggle_pause)
 
-        with open("./wave_const.yaml", 'r', encoding="utf-8") as file:
+        with open("C:/Users/xiechengxin/Desktop/JDSU_Laser_最新/Python/wave_const.yaml", 'r', encoding="utf-8") as file:
             yaml_data = yaml.safe_load(file)
             # print((yaml_data['Wave_DATA']))
             self.yaml = yaml_data['Wave_DATA']
@@ -978,8 +978,10 @@ class GraphWindow(QtWidgets.QWidget):
         command_frame[1] = 0xFF
         command_frame[2] = 0x01
         command_frame[3] = 0x01
-        command_frame[7] = (self.interval>>8) & 0xFF
-        command_frame[8] = self.interval & 0xFF
+        command_frame[7] = (self.interval>>24) & 0xFF
+        command_frame[8] = (self.interval>>16) & 0xFF
+        command_frame[9] = (self.interval>>8) & 0xFF
+        command_frame[10] = self.interval & 0xFF
 
         if not ser.is_open:
             QMessageBox.information(self, "提示", "改间隔前确保串口端口和波特率选对")
