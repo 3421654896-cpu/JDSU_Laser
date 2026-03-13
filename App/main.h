@@ -35,8 +35,8 @@ extern uint16_t txCount;
 
 void sampleVoltage();
 
-#define   Para_Addr               0x08010000
-#define   Wave_Addr               0x08020000
-#define   Pwr_Addr								0x08030000			
+#define   Para_Addr               0x08020000
+#define   Wave_Addr               0x08030000
+#define   Pwr_Addr								0x08040000			
 
 #endif

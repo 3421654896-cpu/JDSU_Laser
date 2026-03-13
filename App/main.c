@@ -57,6 +57,6 @@ int main(void)
 				//USART_DMA_Send(adcData, 2);
 //				USART_SendData(USART1, getData);
 				
-				delay_us(5);
+				delay_us(2);
     }
 }
