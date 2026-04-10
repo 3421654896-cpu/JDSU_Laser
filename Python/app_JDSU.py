@@ -26,6 +26,7 @@ from pathlib import Path
 from datetime import datetime
 from collections import deque
 
+#测试
 # ====== 参数（按需改）======
 ADDR = "GPIB0::7::INSTR"
 
