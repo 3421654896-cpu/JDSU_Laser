@@ -45,7 +45,7 @@ uint8_t Find_Peaks(uint16_t *adc_vec, float *peaks_vec, uint16_t adc_length){
 		int end = initials[i]+INTERVAL<adc_length?initials[i]+INTERVAL:adc_length;
 		float sumxy=0;
 		int sumy=0;
-		for(int j=start;j<end;j++){
+		for(int j=start;j<=end;j++){
 			sumxy+=adc_vec[j]*(Wave_DATA[j][0]+Wave_DATA[j][1]*0.001);
 			sumy+=adc_vec[j];
 		}

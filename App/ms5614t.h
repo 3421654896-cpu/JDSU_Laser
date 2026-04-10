@@ -67,6 +67,9 @@ typedef enum
 #define GAIN 3357
 #define SOA 3357
 
+extern uint16_t frame;
+extern uint16_t adcData;
+extern uint16_t IDACData[5];
 extern uint16_t uADCOriginvalues[4];
 
 /* ?1? DAC */
