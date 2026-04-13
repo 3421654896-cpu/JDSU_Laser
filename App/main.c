@@ -25,7 +25,7 @@ int main(void)
 		MS5614T_Init();    // ?1?(SPI3)
     MS5614T2_Init();   // ?2?(SPI2)
 		ADC_SPI_Init();
-		BUTTON_Config();
+		//BUTTON_Config();
 		LED_Config();
 	
     while (1)

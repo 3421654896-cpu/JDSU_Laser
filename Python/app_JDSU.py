@@ -844,7 +844,7 @@ class GraphWindow(QtWidgets.QWidget):
         
         QtWidgets.QShortcut(QtGui.QKeySequence("P"), self, activated=self.toggle_pause)
 
-        with open("C:/Users/xiechengxin/Desktop/JDSU_Laser_最新/Python/wave_const.yaml", 'r', encoding="utf-8") as file:
+        with open("./wave_const.yaml", 'r', encoding="utf-8") as file:
             yaml_data = yaml.safe_load(file)
             # print((yaml_data['Wave_DATA']))
             self.yaml = yaml_data['Wave_DATA']
@@ -984,7 +984,6 @@ class GraphWindow(QtWidgets.QWidget):
         command_frame[10] = self.interval & 0xFF
 
         if not ser.is_open:
-            QMessageBox.information(self, "提示", "改间隔前确保串口端口和波特率选对")
             try:
                 self.com_btn.setEnabled(False)
                 ser.open()
@@ -993,6 +992,7 @@ class GraphWindow(QtWidgets.QWidget):
                 self.com_btn.setEnabled(True)
                 QMessageBox.information(self, "提示", "间隔已生效")
             except Exception as e:
+                QMessageBox.information(self, "提示", "改间隔前确保串口端口和波特率选对")
                 QMessageBox.information(self, "警告", f"发生异常:\n{str(e)}")
                 return
         else:

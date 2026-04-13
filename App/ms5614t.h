@@ -34,9 +34,9 @@ typedef enum
 #define DAC1_FS_PORT      GPIOB
 #define DAC1_FS_PIN       GPIO_Pin_14
 #define DAC1_LDAC_PORT    GPIOC
-#define DAC1_LDAC_PIN     GPIO_Pin_7
-#define DAC1_PD_PORT      GPIOC
-#define DAC1_PD_PIN       GPIO_Pin_6
+#define DAC1_LDAC_PIN     GPIO_Pin_9
+#define DAC1_PD_PORT      GPIOA
+#define DAC1_PD_PIN       GPIO_Pin_8
 
 #define DAC1_CS_LOW()    GPIO_ResetBits(DAC1_CS_PORT, DAC1_CS_PIN)
 #define DAC1_CS_HIGH()   GPIO_SetBits(DAC1_CS_PORT, DAC1_CS_PIN)

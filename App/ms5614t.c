@@ -47,7 +47,8 @@ void MS5614T_Init(void)
     SPI_InitTypeDef  SPI_InitStructure;
 
 		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB |
-                           RCC_AHB1Periph_GPIOC, ENABLE);
+                           RCC_AHB1Periph_GPIOC |
+													 RCC_AHB1Periph_GPIOA, ENABLE);
 
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI2, ENABLE);
 

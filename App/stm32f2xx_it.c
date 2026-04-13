@@ -168,12 +168,12 @@ void SysTick_Handler(void)
   */ 
 
 void EXTI1_IRQHandler(void){
-	if(EXTI_GetITStatus(EXTI_Line1) != RESET){
-			workState = !workState;
-			ClearRxBuff();
-			lastGet = 0;
-			EXTI_ClearITPendingBit(EXTI_Line1);
-	}
+//	if(EXTI_GetITStatus(EXTI_Line1) != RESET){
+//			workState = !workState;
+//			ClearRxBuff();
+//			lastGet = 0;
+//			EXTI_ClearITPendingBit(EXTI_Line1);
+//	}
 }
 
 void USART1_IRQHandler(void)
