@@ -26,6 +26,7 @@ from pathlib import Path
 from datetime import datetime
 from collections import deque
 
+#测试
 # ====== 参数（按需改）======
 ADDR = "GPIB0::7::INSTR"
 
@@ -40,7 +41,7 @@ FLUSH_EVERY_N = 10000
 ACK_VALUE = 0x21
 ACK_RESEND_SLEEP_S = 0.001  # 每次重发后短暂停一下，避免占满CPU
 
-array_size = 1978
+array_size = 259
 
 tx_size = 13
 # ==========================

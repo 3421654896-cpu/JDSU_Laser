@@ -3,12 +3,15 @@
 
 #define DAC_DELAY 3
 
+uint16_t frame = 0;
+uint16_t adcData = 0;
 uint32_t wave_time = 10;
 
+uint16_t IDACData[5] = {0};
 uint16_t uADCOriginvalues[4] = {0};
 
 /* ------------------ ???:???? FS/CS ?????(ns?,?NOP??) ------------------ */
-static inline void short_delay(volatile uint32_t n)
+inline void short_delay(volatile uint32_t n)
 {
     while (n--) __NOP();
 }
@@ -97,7 +100,7 @@ void MS5614T_Init(void)
 
 void MS5614T_SetCode(MS5614T_Channel_t ch, uint16_t code, MS5614T_Speed_t spd, MS5614T_Power_t pwr)
 {
-    uint16_t frame = MakeFrame(ch, code, spd, pwr);
+    frame = MakeFrame(ch, code, spd, pwr);
 
     if (pwr == MS5614T_POWERDOWN) DAC1_PD_LOW(); else DAC1_PD_HIGH();
     DAC1_LDAC_LOW();
@@ -176,7 +179,7 @@ void MS5614T2_Init(void)
 
 void MS5614T2_SetCode(MS5614T_Channel_t ch, uint16_t code, MS5614T_Speed_t spd, MS5614T_Power_t pwr)
 {
-    uint16_t frame = MakeFrame(ch, code, spd, pwr);
+		frame = MakeFrame(ch, code, spd, pwr);
 
     if (pwr == MS5614T_POWERDOWN) DAC2_PD_LOW(); else DAC2_PD_HIGH();
     DAC2_LDAC_LOW();
@@ -201,8 +204,7 @@ void MS5614T2_SetCode(MS5614T_Channel_t ch, uint16_t code, MS5614T_Speed_t spd, 
 void write_ms5614t_table(){
 		int i;
 	  int j;
-		uint8_t Head = 0xFF;
-		u16 IDACData[5];	
+		uint8_t Head = 0xFF;	
 	
 		memset(txBuffer, 0, PACK_SIZE*sizeof(uint8_t));
 		txBuffer[0] = 0xEE;
@@ -216,7 +218,7 @@ void write_ms5614t_table(){
 			  // 提前把一个波长的通道数据取出来
 			  for(j = 0; j < 5; j++)
 			  {
-					  IDACData[j] = ((u16*)&Wave_DAC[i])[j];
+					  IDACData[j] = Wave_DAC[i][j];
 				}
 				i++;
 			
@@ -235,13 +237,12 @@ void write_ms5614t_table(){
 						break;
 				}
 			
-				MS5614T_SetCode(MS5614T_DAC_A, IDACData[3], MS5614T_SPEED_FAST, MS5614T_NORMAL);
-				MS5614T_SetCode(MS5614T_DAC_C, IDACData[4], MS5614T_SPEED_FAST, MS5614T_NORMAL);
+				
 				MS5614T2_SetCode(MS5614T_DAC_A, IDACData[0], MS5614T_SPEED_FAST, MS5614T_NORMAL);
 				MS5614T2_SetCode(MS5614T_DAC_C, IDACData[1], MS5614T_SPEED_FAST, MS5614T_NORMAL);
 				MS5614T2_SetCode(MS5614T_DAC_B, IDACData[2], MS5614T_SPEED_FAST, MS5614T_NORMAL);
-				
-				delay_ms(2);
+				MS5614T_SetCode(MS5614T_DAC_A, IDACData[3], MS5614T_SPEED_FAST, MS5614T_NORMAL);
+				MS5614T_SetCode(MS5614T_DAC_C, IDACData[4], MS5614T_SPEED_FAST, MS5614T_NORMAL);
 						
 				sampleVoltage();
 				
@@ -250,7 +251,7 @@ void write_ms5614t_table(){
 				adc3[i] = uADCOriginvalues[2];
 				adc4[i] = uADCOriginvalues[3];
 				
-				delay_us(wave_time);
+				delay_us(1);
 		}
 }
 
@@ -322,7 +323,7 @@ void ClearRxBuff(){
 }
 
 void sampleVoltage(){
-		uint16_t adcData = 0;
+		delay_us(wave_time);
 		for(u8 adc_idx=0;adc_idx<4;adc_idx++){
 				adcData = ADC_Write_Loop() & 0x0FFF;
 				uADCOriginvalues[adc_idx] = adcData;

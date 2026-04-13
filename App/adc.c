@@ -80,7 +80,7 @@ void ADC_SPI_Init(void){
 
 uint16_t ADC_SPI_Cmd(uint16_t cmdF){
 		ADC_CS_HIGH();
-		delay_us(1);
+		short_delay(10);
 		ADC_CS_LOW();
 	
 		while(SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);

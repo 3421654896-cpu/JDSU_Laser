@@ -4,7 +4,7 @@
 #include "stm32f2xx.h"
 #include "datastruct.h"
 
-#define INTERVAL 25
+#define INTERVAL 30
 #define PEAKS_COUNT 15
 
 extern uint16_t item;
