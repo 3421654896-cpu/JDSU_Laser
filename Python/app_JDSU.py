@@ -26,6 +26,7 @@ from pathlib import Path
 from datetime import datetime
 from collections import deque
 
+#测试
 # ====== 参数（按需改）======
 ADDR = "GPIB0::7::INSTR"
 
@@ -40,7 +41,7 @@ FLUSH_EVERY_N = 10000
 ACK_VALUE = 0x21
 ACK_RESEND_SLEEP_S = 0.001  # 每次重发后短暂停一下，避免占满CPU
 
-array_size = 1978
+array_size = 259
 
 tx_size = 13
 # ==========================
@@ -267,7 +268,7 @@ class peakWorker(QThread):
         self.running = True
 
     def run(self):
-        pack_size = 4+array_size*8+2+60*4+5 # 帧长度是变长的，但是接收的时候按定长为标准，接收不定长的帧
+        pack_size = 4+4000*8+2+60*4+5 # 帧长度是变长的，但是接收的时候按定长为标准，接收不定长的帧
         def process_buffer(buf):
             while True:
                 idx = buf.find(b'\xee\xee')
@@ -477,9 +478,12 @@ class MainWindow(QMainWindow):
         self.baud_act = None
 
         self.ports = []
-        for p in list_ports.comports():
+        listp = list_ports.comports()
+        for p in listp:
             self.ports.append([p.device, p.description])
-        self.port = list_ports.comports()[0].device
+        target_cp = "CH343"
+        self.port = next((p.device for p in listp if target_cp in p.description), 
+                        listp[0].device if listp else None)
         self.port_act = None
 
         self.MCU_mode = 0
@@ -844,7 +848,7 @@ class GraphWindow(QtWidgets.QWidget):
         
         QtWidgets.QShortcut(QtGui.QKeySequence("P"), self, activated=self.toggle_pause)
 
-        with open("C:/Users/xiechengxin/Desktop/JDSU_Laser_最新/Python/wave_const.yaml", 'r', encoding="utf-8") as file:
+        with open("./wave_const.yaml", 'r', encoding="utf-8") as file:
             yaml_data = yaml.safe_load(file)
             # print((yaml_data['Wave_DATA']))
             self.yaml = yaml_data['Wave_DATA']
@@ -984,7 +988,6 @@ class GraphWindow(QtWidgets.QWidget):
         command_frame[10] = self.interval & 0xFF
 
         if not ser.is_open:
-            QMessageBox.information(self, "提示", "改间隔前确保串口端口和波特率选对")
             try:
                 self.com_btn.setEnabled(False)
                 ser.open()
@@ -993,6 +996,7 @@ class GraphWindow(QtWidgets.QWidget):
                 self.com_btn.setEnabled(True)
                 QMessageBox.information(self, "提示", "间隔已生效")
             except Exception as e:
+                QMessageBox.information(self, "提示", "改间隔前确保串口端口和波特率选对")
                 QMessageBox.information(self, "警告", f"发生异常:\n{str(e)}")
                 return
         else:
@@ -1011,9 +1015,13 @@ class GraphWindow(QtWidgets.QWidget):
             if raw[0]!=0xEE and raw[1]!=0xEE:
                 print("pack head error")
                 self.process_down = True
-                print(raw)
+                # print(raw)
                 return 
             
+            # global array_size
+            # array_size = (raw[2]<<8)+raw[3]
+            # print(array_size)
+
             for i in range(2, array_size*8+2, single_size):
                 com_input = raw[i:i+single_size]
 
@@ -1109,10 +1117,10 @@ class GraphWindow(QtWidgets.QWidget):
         _data = datas[i]
         if len(_data) == 0:
             return
-        # ma = max(_data)
-        # mi = min(_data)
-        # for j,x in enumerate(_data):
-        #     _data[j] = (x-mi)/(ma-mi)
+        ma = max(_data)
+        mi = min(_data)
+        for j,x in enumerate(_data):
+            _data[j] = (x-mi)/(ma-mi)
         # peaks = peak_main(_data, statistics.mean(_data))
         # print(statistics.mean(_data))
 

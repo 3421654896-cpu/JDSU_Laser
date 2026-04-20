@@ -27,9 +27,13 @@ def to_int_str(v):
         return s  # 不是数字就原样输出
     
 def split_number(x):
-    s = f"{float(x):.3f}"
-    integer_part, decimal_part = s.split('.')
-    return int(integer_part), int(decimal_part)
+    try:
+        s = f"{float(x):.3f}"
+        integer_part, decimal_part = s.split('.')
+        return int(integer_part), int(decimal_part)
+    except Exception as e:
+        print(f"excel读取的值:{x}")
+        print(e)
 
 def dac_main(ws):
     lines = []
