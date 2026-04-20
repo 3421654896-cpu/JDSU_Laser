@@ -108,6 +108,7 @@ int main(void)
   MX_SPI1_Init();
   MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
+	ADC_SPI_Init();
 	HAL_UART_Receive_DMA(&huart1, uartFrame, USART_RX_SIZE);
 
   /* USER CODE END 2 */
