@@ -38,6 +38,8 @@ extern "C" {
 #include "stm32f2xx_it.h"
 #include "adc.h"
 #include "usart.h"
+#include "temperature.h"
+#include "stdlib.h"
 #include <stdio.h>
 #include <math.h>
 #include <string.h>

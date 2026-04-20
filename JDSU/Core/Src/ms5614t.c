@@ -244,6 +244,18 @@ void sampleVoltage(void){
 		}
 }
 
+void sampleVoltageStable(void){
+		delay_us(wave_time);
+		uint8_t adc_idx=0;
+//		ADC_Write_Read(adc_idx);
+		for(;adc_idx<4;adc_idx++){
+				adcData = ADC_Write_Read(adc_idx) & 0x0FFF;
+				uADCOriginvalues[adc_idx] = adcData;
+				txBuffer[txCount++] = (adcData >> 8) & 0xFF;
+				txBuffer[txCount++] = adcData & 0xFF;
+		}
+}
+
 void sendTxBuffer(int dac_size, int p1, int p2, int p3, int p4){
 		int floating_size = 4+8*dac_size+3+4+4*(p1+p2+p3+p4);
 	

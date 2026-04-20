@@ -18,9 +18,16 @@
 #define ADC_ENTER_FRAME			(0x2 << 12) | (0x1 << 11)
 #define ADC_LOOP_FRAME			(0x2 << 12)
 
-extern uint16_t adcSPI;
+#define QUEUE_SIZE 					10
 
-void ADC_SPI_Init(void);
+extern uint16_t adcSPI;
+extern uint8_t adcCount;
+extern uint8_t adcStable;
+extern uint16_t adcQueue[10];
+
+void Reset_ADC_Queue(void);
+void ADC_LOOP_SPI_Init(void);
+void ADC_MANUAL_SPI_Init(void);
 uint16_t ADC_SPI_Cmd(uint16_t cmdF);
 uint16_t ADC_Write_Read(uint8_t ch);
 void ADC_Loop_Start(void);

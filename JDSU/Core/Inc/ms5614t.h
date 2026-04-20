@@ -87,6 +87,7 @@ void write_ms5614t_manual(void);
 void modify_table_loop(void);
 void ClearRxBuff(void);
 void sampleVoltage(void);
+void sampleVoltageStable(void);
 void sendTxBuffer(int dac_size, int p1, int p2, int p3, int p4);
 
 void delay_us(__IO uint32_t us);

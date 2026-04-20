@@ -1,6 +1,7 @@
 *.o
 *.htm
 JDSU/MDK-ARM/JDSU/*
+JDSU/MDK-ARM/RTE/*
 *.xiechengxin
 *.yk
 *.uvoptx
