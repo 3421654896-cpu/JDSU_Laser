@@ -1,6 +1,6 @@
 *.o
 *.htm
-Objects/*
+JDSU/MDK-ARM/JDSU/*
 *.xiechengxin
 *.yk
 *.uvoptx
