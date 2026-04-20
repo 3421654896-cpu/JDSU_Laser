@@ -50,7 +50,7 @@ DMA_HandleTypeDef hdma_usart1_rx;
 
 /* USER CODE BEGIN PV */
 uint8_t test = 0x21;
-uint8_t workState = MANUAL_STATE;
+uint8_t workState = TABLE_STATE;
 
 uint8_t txBuffer[PACK_SIZE] = {0};
 

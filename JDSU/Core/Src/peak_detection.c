@@ -77,7 +77,7 @@ void Find_Initial(int *adc_norvec, uint16_t *initials, uint16_t adc_length, int 
 		for(int j=i+1;j<end;j++){
 			if(adc_norvec[j]>back) back = adc_norvec[j];
 		}
-		if((adc_norvec[i]>front||adc_norvec[i]==front)&&(adc_norvec[i]>back||adc_norvec[i]==back)&&adc_norvec[i]>820){
+		if((adc_norvec[i]>front||adc_norvec[i]==front)&&(adc_norvec[i]>back||adc_norvec[i]==back)&&adc_norvec[i]>410){
 			initials[it] = i;
 			i+=INTERVAL;
 			it++;

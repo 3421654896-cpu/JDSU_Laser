@@ -41,7 +41,7 @@ FLUSH_EVERY_N = 10000
 ACK_VALUE = 0x21
 ACK_RESEND_SLEEP_S = 0.001  # 每次重发后短暂停一下，避免占满CPU
 
-array_size = 259
+array_size = 2001
 
 tx_size = 13
 # ==========================
@@ -1137,7 +1137,7 @@ class GraphWindow(QtWidgets.QWidget):
                 vline = pg.InfiniteLine(
                     pos=p,
                     angle=90,
-                    pen=pg.mkPen('r',width=2,style=QtCore.Qt.DashLine)
+                    pen=pg.mkPen('r',width=1,style=QtCore.Qt.DashLine)
                 )
                 self.plot1.addItem(vline)
                 self.peaks_lines[i].append(vline)

@@ -9,7 +9,7 @@ static void ADC_Select_Chs(){
 
 void ADC_SPI_Init(void){
 		volatile uint8_t tmp;
-		HAL_SPI_Receive(&hspi1, (uint8_t*)&tmp, 1, HAL_MAX_DELAY);
+		__HAL_SPI_CLEAR_OVRFLAG(&hspi1);
 		(void)tmp;
 		
 		ADC_SPI_Cmd(0x8000);
@@ -22,9 +22,9 @@ uint16_t ADC_SPI_Cmd(uint16_t cmdF){
 		short_delay(10);
 		ADC_CS_LOW();
 	
-		HAL_SPI_TransmitReceive(&hspi1, (uint8_t*)&cmdF, (uint8_t*)&adcData, 1, HAL_MAX_DELAY);
+		HAL_SPI_TransmitReceive(&hspi1, (uint8_t*)&cmdF, (uint8_t*)&adcSPI, 1, HAL_MAX_DELAY);
 	
-		return adcData;//todo:compare the queue data
+		return adcSPI;//todo:compare the queue data
 }
 
 uint16_t ADC_Write_Read(uint8_t ch){
@@ -36,6 +36,7 @@ uint16_t ADC_Write_Read(uint8_t ch){
 void ADC_Loop_Start(void){
 		ADC_SPI_Cmd(ADC_RESET_FRAME);
 		ADC_SPI_Cmd(ADC_ENTER_FRAME);
+//		ADC_SPI_Cmd(ADC_ENTER_FRAME);
 }
 
 uint16_t ADC_Write_Loop(void){
