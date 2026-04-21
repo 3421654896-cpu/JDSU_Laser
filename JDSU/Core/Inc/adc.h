@@ -13,23 +13,25 @@
 #define ADC_CS_LOW()				HAL_GPIO_WritePin(ADC_CS_PORT, ADC_CS_PIN, GPIO_PIN_RESET)
 #define ADC_CS_HIGH()				HAL_GPIO_WritePin(ADC_CS_PORT, ADC_CS_PIN, GPIO_PIN_SET)
 
-#define ADC_START_FRAME			(0x1 << 12) | (0x1 << 11)
+//#define ADC_START_FRAME			(0x1 << 12) | (0x1 << 11)
 #define ADC_RESET_FRAME			(0x2 << 12) | (0x1 << 11) | (0x1 << 10)
 #define ADC_ENTER_FRAME			(0x2 << 12) | (0x1 << 11)
 #define ADC_LOOP_FRAME			(0x2 << 12)
 
-#define QUEUE_SIZE 					10
+#define WINDOW_SIZE 				50
+#define QUEUE_SIZE 					10000
 
 extern uint16_t adcSPI;
-extern uint8_t adcCount;
-extern uint8_t adcStable;
-extern uint16_t adcQueue[10];
+extern uint32_t adcCount;
+extern uint16_t adcStable;
+extern uint16_t adcQueue[QUEUE_SIZE];
 
 void Reset_ADC_Queue(void);
 void ADC_LOOP_SPI_Init(void);
 void ADC_MANUAL_SPI_Init(void);
 uint16_t ADC_SPI_Cmd(uint16_t cmdF);
 uint16_t ADC_Write_Read(uint8_t ch);
+uint16_t ADC_Write_Read_Stable(uint8_t ch);
 void ADC_Loop_Start(void);
 uint16_t ADC_Write_Loop(void);
 
