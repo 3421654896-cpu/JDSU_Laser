@@ -13,11 +13,12 @@
 #define ADC_CS_LOW()				HAL_GPIO_WritePin(ADC_CS_PORT, ADC_CS_PIN, GPIO_PIN_RESET)
 #define ADC_CS_HIGH()				HAL_GPIO_WritePin(ADC_CS_PORT, ADC_CS_PIN, GPIO_PIN_SET)
 
-//#define ADC_START_FRAME			(0x1 << 12) | (0x1 << 11)
 #define ADC_RESET_FRAME			(0x2 << 12) | (0x1 << 11) | (0x1 << 10)
 #define ADC_ENTER_FRAME			(0x2 << 12) | (0x1 << 11)
 #define ADC_LOOP_FRAME			(0x2 << 12)
 
+#define STABLECOUNT					10
+#define STABLERANGE					410
 #define WINDOW_SIZE 				50
 #define QUEUE_SIZE 					10000
 

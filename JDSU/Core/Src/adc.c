@@ -56,7 +56,7 @@ uint16_t ADC_Write_Read_Stable(uint8_t ch){
 		uint16_t frame = (0x1 << 12) | (ch << 7);
 		Reset_ADC_Queue();
 	
-		while(adcStable<10){
+		while(adcStable<STABLECOUNT){
 				adcQueue[adcCount%QUEUE_SIZE] = ADC_SPI_Cmd(frame);
 				
 //				if(adcCount==QUEUE_SIZE){
@@ -80,7 +80,7 @@ uint16_t ADC_Write_Read_Stable(uint8_t ch){
 								if(adcQueue[cur]>amax) amax = adcQueue[cur];
 								if(adcQueue[cur]<amin) amin = adcQueue[cur];
 						}
-						if(amax-amin<410) adcStable++;
+						if(amax-amin<STABLERANGE) adcStable++;
 				}
 				adcCount++;
 		}
