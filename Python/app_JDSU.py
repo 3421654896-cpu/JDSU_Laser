@@ -783,7 +783,7 @@ class GraphWindow(QtWidgets.QWidget):
 
         self.voltage_range = 5
         self.plot1.setXRange(0,array_size)
-        self.plot1.setYRange(0,6)
+        self.plot1.setYRange(0,3)
         self.plot1.getViewBox().setLimits(xMin=1500,xMax=1600,
                                           yMin=-self.voltage_range,yMax=self.voltage_range)
         self.plot1.showGrid(x=True, y=True)
@@ -967,8 +967,12 @@ class GraphWindow(QtWidgets.QWidget):
 
     def on_clear_chart(self):
         curves = [self.curve1, self.curve2, self.curve3, self.curve4]
+        datas = [self.data1, self.data2, self.data3, self.data4]
+        adcs = [self.adc1, self.adc2, self.adc3, self.adc4]
         for idx in range(4):
             curves[idx].setData([])
+            datas[idx].setData([])
+            adcs[idx].setData([])
             for j in range(len(self.peaks_lines[idx])):
                 self.peaks_lines[idx][j].setVisible(False)
                 del self.peaks_lines[idx][j]

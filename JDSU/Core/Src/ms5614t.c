@@ -154,7 +154,7 @@ void write_ms5614t_table(void){
 				MS5614T_SetCode(MS5614T_DAC_A, IDACData[3], MS5614T_SPEED_FAST, MS5614T_NORMAL);
 				MS5614T_SetCode(MS5614T_DAC_C, IDACData[4], MS5614T_SPEED_FAST, MS5614T_NORMAL);
 						
-				sampleVoltage();
+				sampleVoltageStable();
 				
 				adc1[i] = uADCOriginvalues[0];
 				adc2[i] = uADCOriginvalues[1];
@@ -238,6 +238,7 @@ void sampleVoltage(void){
 		delay_us(wave_time);
 		for(uint8_t adc_idx=0;adc_idx<4;adc_idx++){
 				adcData = ADC_Write_Loop() & 0x0FFF;
+//				adcData = ADC_Write_Read(adc_idx+1) & 0x0FFF;
 				uADCOriginvalues[adc_idx] = adcData;
 				txBuffer[txCount++] = (adcData >> 8) & 0xFF;
 				txBuffer[txCount++] = adcData & 0xFF;
@@ -249,7 +250,7 @@ void sampleVoltageStable(void){
 		uint8_t adc_idx=0;
 //		ADC_Write_Read(adc_idx);
 		for(;adc_idx<4;adc_idx++){
-				adcData = ADC_Write_Read(adc_idx) & 0x0FFF;
+				adcData = ADC_Write_Read_Stable(adc_idx) & 0x0FFF;
 				uADCOriginvalues[adc_idx] = adcData;
 				txBuffer[txCount++] = (adcData >> 8) & 0xFF;
 				txBuffer[txCount++] = adcData & 0xFF;

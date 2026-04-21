@@ -662,9 +662,9 @@ ARM Macro Assembler    Page 11
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=jdsu\startup_stm32f205xx.d -ojdsu\startup_stm32f205xx.o -I.\RTE\_J
-DSU -ID:\keil\Arm\Packs\ARM\CMSIS\6.2.0\CMSIS\Core\Include --predefine="__UVISI
-ON_VERSION SETA 543" --predefine="STM32F205xx SETA 1" --predefine="_RTE_ SETA 1
-" --list=startup_stm32f205xx.lst startup_stm32f205xx.s
+DSU -ID:\Keil_v5\ARM\PACK\ARM\CMSIS\6.1.0\CMSIS\Core\Include --predefine="__UVI
+SION_VERSION SETA 540" --predefine="STM32F205xx SETA 1" --predefine="_RTE_ SETA
+ 1" --list=startup_stm32f205xx.lst startup_stm32f205xx.s
 
 
 
