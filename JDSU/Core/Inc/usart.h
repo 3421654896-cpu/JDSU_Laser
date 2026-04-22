@@ -6,7 +6,7 @@
 
 #define TX_QUEUE_SIZE 5
 #define USART_RX_SIZE 13
-#define PACK_SIZE 4+Number*8+2+4*15+4+1
+#define PACK_SIZE 2+2+Number*8+1+4+4*15+4+2
 
 extern uint8_t getData;
 extern uint8_t lastGet;

@@ -10,6 +10,10 @@ uint32_t wave_time = 10;
 uint16_t IDACData[5] = {0};
 uint16_t uADCOriginvalues[4] = {0};
 
+float tempData = 0;
+uint16_t tempInt = 0;
+uint16_t tempDec = 0;
+
 void delay_us(__IO uint32_t us){
 		uint32_t i;
 		SysTick_Config(SystemCoreClock/1000000);
@@ -113,7 +117,7 @@ void write_ms5614t_table(void){
 		memset(txBuffer, 0, PACK_SIZE*sizeof(uint8_t));
 		txBuffer[0] = 0xEE;
 		txBuffer[1] = 0xEE;
-		txCount = 2;
+		txCount = 4;
 	
 		for (i = 0; i < Number;) 
 		{
@@ -133,17 +137,12 @@ void write_ms5614t_table(void){
 						uint8_t p3 = Find_Peaks(adc3, peaks3, i-1);
 						uint8_t p4 = Find_Peaks(adc4, peaks4, i-1);
 				
-						txBuffer[txCount++] = ((i-1) >> 8) & 0xFF;
-						txBuffer[txCount++] = (i-1) & 0xFF;
+						txBuffer[2] = ((i-1) >> 8) & 0xFF;
+						txBuffer[3] = (i-1) & 0xFF;
 					
-//						txBuffer[2] = ((i-1) >> 8) & 0xFF;
-//						txBuffer[3] = (i-1) & 0xFF;
 						FillPeaks(p1,p2,p3,p4);
 					
-//						uint8_t i_high = (i>>8) & 0xFF;
-//						uint8_t i_low = i & 0xFF;
-//						HAL_UART_Transmit_DMA(&huart1, (uint8_t*)&i_high, 1);
-//						HAL_UART_Transmit_DMA(&huart1, (uint8_t*)&i_low, 1);
+						sampleTemperature();
 						sendTxBuffer(i-1, p1, p2, p3, p4);
 						break;
 				}
@@ -155,6 +154,7 @@ void write_ms5614t_table(void){
 				MS5614T_SetCode(MS5614T_DAC_C, IDACData[4], MS5614T_SPEED_FAST, MS5614T_NORMAL);
 						
 				sampleVoltageStable();
+//				M1820Z_GetTmp();
 				
 				adc1[i] = uADCOriginvalues[0];
 				adc2[i] = uADCOriginvalues[1];
@@ -220,7 +220,6 @@ void modify_table_loop(void){
 		// 0x02 switch workState
 		else if(aRxBuffer[3] == 0x02){
 				workState = aRxBuffer[8];
-//				ClearRxBuff();
 				lastGet = 0;
 		}
 		ClearRxBuff();
@@ -248,7 +247,6 @@ void sampleVoltage(void){
 void sampleVoltageStable(void){
 		delay_us(wave_time);
 		uint8_t adc_idx=0;
-//		ADC_Write_Read(adc_idx);
 		for(;adc_idx<4;adc_idx++){
 				adcData = ADC_Write_Read_Stable(adc_idx) & 0x0FFF;
 				uADCOriginvalues[adc_idx] = adcData;
@@ -257,14 +255,22 @@ void sampleVoltageStable(void){
 		}
 }
 
+void sampleTemperature(void){
+		tempData = 150.1524;
+//		tempData = M1820Z_GetTmp();
+		tempInt = (int)tempData;
+		tempDec = (int)((tempData-tempInt)*10000);
+		txBuffer[txCount++] = (tempInt>>8) & 0xFF;
+		txBuffer[txCount++] = tempInt & 0xFF;
+		txBuffer[txCount++] = (tempDec>>8) & 0xFF;
+		txBuffer[txCount++] = tempDec & 0xFF;
+}
+
 void sendTxBuffer(int dac_size, int p1, int p2, int p3, int p4){
-		int floating_size = 4+8*dac_size+3+4+4*(p1+p2+p3+p4);
+		int floating_size = 4+8*dac_size+3+4+4*(p1+p2+p3+p4)+4;
 	
 		txBuffer[txCount++] = 0xFF;
 		txBuffer[txCount++] = 0xFF;
-	
-//		txBuffer[2] = 0x01;
-//		txBuffer[3] = 0x02;
 		
 		if(txCount!=floating_size) return;
 		

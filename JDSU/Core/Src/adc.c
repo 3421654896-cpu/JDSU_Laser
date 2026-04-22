@@ -81,6 +81,7 @@ uint16_t ADC_Write_Read_Stable(uint8_t ch){
 								if(adcQueue[cur]<amin) amin = adcQueue[cur];
 						}
 						if(amax-amin<STABLERANGE) adcStable++;
+						else adcStable=0;
 				}
 				adcCount++;
 		}

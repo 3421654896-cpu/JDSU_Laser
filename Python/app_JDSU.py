@@ -268,7 +268,7 @@ class peakWorker(QThread):
         self.running = True
 
     def run(self):
-        pack_size = 4+4000*8+2+60*4+5 # 帧长度是变长的，但是接收的时候按定长为标准，接收不定长的帧
+        pack_size = 4+4000*8+2+60*4+5+4 # 帧长度是变长的，但是接收的时候按定长为标准，接收不定长的帧
         def process_buffer(buf):
             while True:
                 idx = buf.find(b'\xee\xee')
@@ -629,6 +629,13 @@ class ap6150bWindow(QtWidgets.QWidget):
         self.file_button = QPushButton("...")
         self.file_path = ""
 
+        lab_temperature = QtWidgets.QLabel("温度(℃):")
+        self.temperature_text = QtWidgets.QLineEdit("0")
+        self.temperature_text.setReadOnly(True)
+        self.temperature_text.setMinimumWidth(100)
+        self.temperature_text.setMaximumHeight(25)
+        self.temperature = 0
+
         self.com_btn = QtWidgets.QPushButton("开始")
         self.com_btn.setMinimumWidth(100)
 
@@ -641,6 +648,11 @@ class ap6150bWindow(QtWidgets.QWidget):
 
         self.ctrl_layout.addWidget(self.fileText_edit)
         self.ctrl_layout.addWidget(self.file_button)
+        self.ctrl_layout.addSpacing(20)
+        self.ctrl_layout.addStretch()
+
+        self.ctrl_layout.addWidget(lab_temperature)
+        self.ctrl_layout.addWidget(self.temperature_text)
         self.ctrl_layout.addSpacing(20)
         self.ctrl_layout.addStretch()
 
@@ -742,6 +754,13 @@ class GraphWindow(QtWidgets.QWidget):
         self.interval_text.setMinimumWidth(100)
         self.interval_text.setMaximumHeight(25)
 
+        lab_temperature = QtWidgets.QLabel("温度(℃):")
+        self.temperature_text = QtWidgets.QLineEdit("0")
+        self.temperature_text.setReadOnly(True)
+        self.temperature_text.setMinimumWidth(100)
+        self.temperature_text.setMaximumHeight(25)
+        self.temperature = 0
+
         self.com_btn = QtWidgets.QPushButton("打开")
         self.com_btn.setMinimumWidth(100)
 
@@ -754,6 +773,11 @@ class GraphWindow(QtWidgets.QWidget):
 
         self.ctrl_layout.addWidget(lab_interval)
         self.ctrl_layout.addWidget(self.interval_text)
+        self.ctrl_layout.addSpacing(20)
+        self.ctrl_layout.addStretch()
+
+        self.ctrl_layout.addWidget(lab_temperature)
+        self.ctrl_layout.addWidget(self.temperature_text)
         self.ctrl_layout.addSpacing(20)
         self.ctrl_layout.addStretch()
 
@@ -971,8 +995,8 @@ class GraphWindow(QtWidgets.QWidget):
         adcs = [self.adc1, self.adc2, self.adc3, self.adc4]
         for idx in range(4):
             curves[idx].setData([])
-            datas[idx].setData([])
-            adcs[idx].setData([])
+            datas[idx].clear()
+            adcs[idx].clear()
             for j in range(len(self.peaks_lines[idx])):
                 self.peaks_lines[idx][j].setVisible(False)
                 del self.peaks_lines[idx][j]
@@ -1026,7 +1050,7 @@ class GraphWindow(QtWidgets.QWidget):
             # array_size = (raw[2]<<8)+raw[3]
             # print(array_size)
 
-            for i in range(2, array_size*8+2, single_size):
+            for i in range(4, array_size*8+4, single_size):
                 com_input = raw[i:i+single_size]
 
                 ch1 = (com_input[0]<<8)+com_input[1]
@@ -1049,7 +1073,8 @@ class GraphWindow(QtWidgets.QWidget):
                 self.data3.append(ch3)
                 self.data4.append(ch4)
 
-                if ((raw[array_size*8+2]<<8)+raw[array_size*8+3])!=array_size:
+                # if ((raw[array_size*8+2]<<8)+raw[array_size*8+3])!=array_size:
+                if ((raw[2]<<8)+raw[3])!=array_size:
                     print("array_size_error")
                     self.process_down = True
                     return
@@ -1060,26 +1085,35 @@ class GraphWindow(QtWidgets.QWidget):
                     self.process_down = True
                     return
             self.waves = [[0 for _ in range(15)] for _ in range(4)]
-            frame_start = array_size*8+4
+            frame_count = array_size*8+4
             data_len = 0
             for i in range(0, 4):
-                # frame_start = array_size*8+3+i*61
-                frame_start += (data_len*4+1)
+                frame_count += 1
 
-                data_len = raw[frame_start]
-                # print(data_len)
-                data_start = frame_start+1
+                data_len = raw[frame_count]
+
                 for j in range(data_len):
-                    cell_start = data_start+j*4
-                    # print(cell_start)
-                    int_high = raw[cell_start]
-                    int_low = raw[cell_start+1]
-                    dec_high = raw[cell_start+2]
-                    dec_low = raw[cell_start+3]
+                    frame_count+=1
+                    int_high = raw[frame_count]
+                    frame_count+=1
+                    int_low = raw[frame_count]
+                    frame_count+=1
+                    dec_high = raw[frame_count]
+                    frame_count+=1
+                    dec_low = raw[frame_count]
                     get_wave = (int_high<<8)+int_low+((dec_high<<8)+dec_low)*0.001
-                    # print(i)
+
                     self.waves[i][j] = get_wave
-            # print(self.waves)
+            
+            frame_count+=1
+            temp_int_high = raw[frame_count]
+            frame_count+=1
+            temp_int_low = raw[frame_count]
+            frame_count+=1
+            temp_dec_high = raw[frame_count]
+            frame_count+=1
+            temp_dec_low = raw[frame_count]
+            self.temperature = (temp_int_high<<8)+temp_int_low+((temp_dec_high<<8)+temp_dec_low)*0.0001
 
             self.process_down = True
         except Exception as e:
@@ -1113,6 +1147,9 @@ class GraphWindow(QtWidgets.QWidget):
             else:
                 for l in self.peaks_lines[i]:
                     l.setVisible(False)
+
+        # 更新温度
+        self.temperature_text.setText(f"{self.temperature}")
 
         self.process_down = True
 

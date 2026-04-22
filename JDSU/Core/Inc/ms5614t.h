@@ -72,6 +72,10 @@ extern uint16_t adcData;
 extern uint16_t IDACData[5];
 extern uint16_t uADCOriginvalues[4];
 
+extern float tempData;
+extern uint16_t tempInt;
+extern uint16_t tempDec;
+
 /* ?1? DAC */
 void MS5614T_Init(void);
 void MS5614T_SetCode(MS5614T_Channel_t channel, uint16_t code,
@@ -88,6 +92,7 @@ void modify_table_loop(void);
 void ClearRxBuff(void);
 void sampleVoltage(void);
 void sampleVoltageStable(void);
+void sampleTemperature(void);
 void sendTxBuffer(int dac_size, int p1, int p2, int p3, int p4);
 
 void delay_us(__IO uint32_t us);
