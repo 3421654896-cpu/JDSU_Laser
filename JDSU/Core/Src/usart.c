@@ -12,8 +12,8 @@ uint16_t tbuffer[USART_RX_SIZE] = {0};
 
 uint16_t txCount = 0;
 uint8_t dma_transfer_complete = 1;
-uint8_t txQueue[TX_QUEUE_SIZE][USART_RX_SIZE] = {0};
-uint16_t txLen[USART_RX_SIZE] = {0};
+uint8_t txQueue[TX_QUEUE_SIZE][USART_TX_SIZE] = {0};
+uint16_t txLen[USART_TX_SIZE] = {0};
 
 void USART_Queue_Send(uint8_t *data, uint16_t len)
 {
@@ -51,6 +51,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 		}
 		else
 		{
+				USART_DMA_Send();
 //				uint8_t flag = 0x21;
 //				HAL_UART_Transmit_DMA(&huart1, &flag, 1);
 		}

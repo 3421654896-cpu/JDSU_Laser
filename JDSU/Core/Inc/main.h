@@ -50,7 +50,8 @@ extern "C" {
 typedef enum
 {
     TABLE_STATE = 0,
-    MANUAL_STATE = 1
+    MANUAL_STATE = 1,
+		EXTRA_STATE = 2,
 }MAIN_LOOP_STATE;
 
 /* USER CODE END ET */
@@ -100,6 +101,7 @@ extern const uint16_t Wave_DATA[Number][2];
 extern const uint16_t Pwr_DATA[Number][2];
 
 extern uint8_t txBuffer[PACK_SIZE];
+extern uint8_t aTxBuffer[USART_TX_SIZE];
 
 extern uint32_t wave_time;
 extern uint8_t workState;

@@ -86,14 +86,21 @@ void MS5614T2_Init(void);
 void MS5614T2_SetCode(MS5614T_Channel_t channel, uint16_t code,
                       MS5614T_Speed_t speed, MS5614T_Power_t power);
 
-void write_ms5614t_table(void);
-void write_ms5614t_manual(void);
 void modify_table_loop(void);
+void checkTemp(uint8_t mode);
 void ClearRxBuff(void);
+
+void write_ms5614t_table(void);
 void sampleVoltage(void);
 void sampleVoltageStable(void);
 void sampleTemperature(void);
 void sendTxBuffer(int dac_size, int p1, int p2, int p3, int p4);
+
+void write_ms5614t_manual(void);
+void ClearTxBuff(void);
+void scanWave(void);
+
+void write_ms5614t_extra(void);
 
 void delay_us(__IO uint32_t us);
 void delay_ms(__IO uint32_t ms);

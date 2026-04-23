@@ -5,7 +5,7 @@
 
 uint16_t frame = 0;
 uint16_t adcData = 0;
-uint32_t wave_time = 10;
+uint32_t wave_time = 1;
 
 uint16_t IDACData[5] = {0};
 uint16_t uADCOriginvalues[4] = {0};
@@ -123,6 +123,7 @@ void write_ms5614t_table(void){
 		{
 				if(workState == MANUAL_STATE) break;
 				if(ReceEndFlag==1 && aRxBuffer[0] == Head && aRxBuffer[1] == Head) modify_table_loop();
+				checkTemp(workState);
 			  // 提前把一个波长的通道数据取出来
 			  for(j = 0; j < 5; j++)
 			  {
@@ -167,40 +168,41 @@ void write_ms5614t_table(void){
 
 void write_ms5614t_manual(void){
 		uint8_t Head = 0xFF;
-		uint8_t flag = 0x21;
-		uint16_t WriteData = 0;
-		uint8_t i;
-	
-//		HAL_UART_Receive_DMA(&huart1, aRxBuffer, USART_RX_SIZE);
-	
-//		MS5614T2_SetCode(MS5614T_DAC_A, GAIN, MS5614T_SPEED_FAST, MS5614T_NORMAL);
-//		MS5614T2_SetCode(MS5614T_DAC_C, SOA, MS5614T_SPEED_FAST, MS5614T_NORMAL);
+		
 //		USART_Queue_Send(&ReceEndFlag, 1);
+		checkTemp(workState);
 	
 		if(ReceEndFlag==0) return;
-	
-//		USART_Queue_Send(&flag, 1);
 		
 		ReceEndFlag = 0;
 		
 		if (aRxBuffer[0] == Head && aRxBuffer[1] == Head)
 		{
 				if(aRxBuffer[2] == 0x00){
-						for(i = 0; i < 5; i++)
-						{
-								WriteData = ((aRxBuffer[3 + 2 * i] << 8) + aRxBuffer[4 + 2 * i]);
-								switch(i){
-									case 0:MS5614T2_SetCode(MS5614T_DAC_A, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
-									case 1:MS5614T2_SetCode(MS5614T_DAC_C, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
-									case 2:MS5614T2_SetCode(MS5614T_DAC_B, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
-									case 3:MS5614T_SetCode(MS5614T_DAC_A, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
-									case 4:MS5614T_SetCode(MS5614T_DAC_C, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
-								}			
-						}
-						USART_Queue_Send(&flag, 1);
-						ClearRxBuff();
+						scanWave();
 				}
 				else if(aRxBuffer[2] == 0x01){
+						modify_table_loop();
+				}
+		}
+		if ((aRxBuffer[0] != Head) && (aRxBuffer[0] != 0x00))
+		{
+				ClearRxBuff();
+		}
+}
+
+void write_ms5614t_extra(void){
+		uint8_t Head = 0xFF;
+	
+		checkTemp(workState);
+	
+		if(ReceEndFlag==0) return;
+		
+		ReceEndFlag = 0;
+		
+		if (aRxBuffer[0] == Head && aRxBuffer[1] == Head)
+		{
+				if(aRxBuffer[2] == 0x01){
 						modify_table_loop();
 				}
 		}
@@ -256,8 +258,8 @@ void sampleVoltageStable(void){
 }
 
 void sampleTemperature(void){
-		tempData = 150.1524;
-//		tempData = M1820Z_GetTmp();
+//		tempData = 150.1524;
+		tempData = M1820Z_GetTmp();
 		tempInt = (int)tempData;
 		tempDec = (int)((tempData-tempInt)*10000);
 		txBuffer[txCount++] = (tempInt>>8) & 0xFF;
@@ -270,10 +272,55 @@ void sendTxBuffer(int dac_size, int p1, int p2, int p3, int p4){
 		int floating_size = 4+8*dac_size+3+4+4*(p1+p2+p3+p4)+4;
 	
 		txBuffer[txCount++] = 0xFF;
-		txBuffer[txCount++] = 0xFF;
+		txBuffer[txCount++] = 0xEF;
 		
 		if(txCount!=floating_size) return;
 		
 		dma_transfer_complete = 0;
 		HAL_UART_Transmit_DMA(&huart1, txBuffer, floating_size);
+}
+
+void ClearTxBuff(){
+		for(uint8_t i=2;i<USART_TX_SIZE;i++){
+				aTxBuffer[i] = 0;
+		}
+}
+
+void scanWave(void){
+		uint16_t WriteData = 0;
+		for(uint8_t i = 0; i < 5; i++)
+		{
+				WriteData = ((aRxBuffer[3 + 2 * i] << 8) + aRxBuffer[4 + 2 * i]);
+				switch(i){
+					case 0:MS5614T2_SetCode(MS5614T_DAC_A, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
+					case 1:MS5614T2_SetCode(MS5614T_DAC_C, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
+					case 2:MS5614T2_SetCode(MS5614T_DAC_B, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
+					case 3:MS5614T_SetCode(MS5614T_DAC_A, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
+					case 4:MS5614T_SetCode(MS5614T_DAC_C, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
+				}			
+		}
+		
+		aTxBuffer[2] = MANUAL_STATE;// the mode of this tx
+		aTxBuffer[3] = 0x00;// 0x00 refer scan wave return
+		aTxBuffer[4] = 0x21;// return flag
+		
+		USART_Queue_Send(aTxBuffer, USART_TX_SIZE);
+		ClearRxBuff();
+		ClearTxBuff();
+}
+
+void checkTemp(uint8_t mode){
+		tempData = M1820Z_GetTmp();
+		tempInt = (int)tempData;
+		tempDec = (int)((tempData-tempInt)*10000);
+	
+		aTxBuffer[2] = mode;// the mode of this tx
+		aTxBuffer[3] = 0x01;// 0x01 refer temperature return
+		aTxBuffer[4] = (tempInt>>8) & 0xFF;
+		aTxBuffer[5] = tempInt & 0xFF;
+		aTxBuffer[6] = (tempDec>>8) & 0xFF;
+		aTxBuffer[7] = tempDec & 0xFF; 
+	
+		USART_Queue_Send(aTxBuffer, USART_TX_SIZE);
+		ClearTxBuff();
 }

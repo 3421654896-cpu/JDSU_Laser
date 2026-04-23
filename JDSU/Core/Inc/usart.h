@@ -5,6 +5,7 @@
 #include "datastruct.h"
 
 #define TX_QUEUE_SIZE 5
+#define USART_TX_SIZE 13
 #define USART_RX_SIZE 13
 #define PACK_SIZE 2+2+Number*8+1+4+4*15+4+2
 
@@ -16,11 +17,10 @@ extern uint8_t txTail;
 extern uint8_t aRxBuffer[USART_RX_SIZE];
 extern uint8_t uartFrame[USART_RX_SIZE];
 
-
 extern uint16_t txCount;
 extern uint8_t dma_transfer_complete;
-extern uint8_t txQueue[TX_QUEUE_SIZE][USART_RX_SIZE];
-extern uint16_t txLen[USART_RX_SIZE];
+extern uint8_t txQueue[TX_QUEUE_SIZE][USART_TX_SIZE];
+extern uint16_t txLen[USART_TX_SIZE];
 
 void USART_Queue_Send(uint8_t *data, uint16_t len);
 void USART_DMA_Send(void);

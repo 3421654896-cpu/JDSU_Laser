@@ -53,6 +53,7 @@ uint8_t test = 0x21;
 uint8_t workState = TABLE_STATE;
 
 uint8_t txBuffer[PACK_SIZE] = {0};
+uint8_t aTxBuffer[USART_TX_SIZE] = {0};
 
 /* USER CODE END PV */
 
@@ -109,6 +110,8 @@ int main(void)
   MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
 	ADC_MANUAL_SPI_Init();
+	aTxBuffer[0] = 0xFF;
+	aTxBuffer[1] = 0xFF;
 	HAL_UART_Receive_DMA(&huart1, uartFrame, USART_RX_SIZE);
 
   /* USER CODE END 2 */
@@ -117,18 +120,44 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		if(workState == MANUAL_STATE)
+		switch(workState)
 		{
-			LED_TABLE_LOW();
-			LED_MANUAL_HIGH();
-			write_ms5614t_manual();
+			case TABLE_STATE:
+			{
+				LED_MANUAL_LOW();
+				LED_TABLE_HIGH();
+				write_ms5614t_table();
+				break;
+			}
+			case MANUAL_STATE:
+			{
+				LED_TABLE_LOW();
+				LED_MANUAL_HIGH();
+				write_ms5614t_manual();
+				break;
+			}
+			case EXTRA_STATE:
+			{
+				LED_TABLE_HIGH();
+				LED_MANUAL_HIGH();
+				write_ms5614t_extra();
+				break;
+			}
+			default:break;
 		}
-		else
-		{
-			LED_MANUAL_LOW();
-			LED_TABLE_HIGH();
-			write_ms5614t_table();
-		}
+//		if(workState == MANUAL_STATE)
+//		{
+//			LED_TABLE_LOW();
+//			LED_MANUAL_HIGH();
+//			write_ms5614t_manual();
+//		}
+//		else if(workState == TABLE_STATE)
+//		{
+//			LED_MANUAL_LOW();
+//			LED_TABLE_HIGH();
+//			write_ms5614t_table();
+//		}
+//		else if(workState == )
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

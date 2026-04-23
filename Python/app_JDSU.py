@@ -25,6 +25,8 @@ from serial.tools import list_ports
 from pathlib import Path
 from datetime import datetime
 from collections import deque
+from queue import Queue
+from queue import Empty
 
 #测试
 # ====== 参数（按需改）======
@@ -41,12 +43,12 @@ FLUSH_EVERY_N = 10000
 ACK_VALUE = 0x21
 ACK_RESEND_SLEEP_S = 0.001  # 每次重发后短暂停一下，避免占满CPU
 
-array_size = 2001
+array_size = 4000
 
 tx_size = 13
 # ==========================
 
-ser = serial.Serial()
+ser = serial.Serial(timeout=0.5)
 
 ser_open = False
 ser_cond = threading.Condition()
@@ -131,6 +133,15 @@ def trunc6(x):
         return "nan"
     try:
         return f"{float(x):.6f}"
+    except Exception:
+        return "nan"
+
+def trunc4(x):
+    """mW 建议保留 6 位小数更有意义"""
+    if x is None or (isinstance(x, float) and math.isnan(x)):
+        return "nan"
+    try:
+        return f"{float(x):.4f}"
     except Exception:
         return "nan"
 
@@ -263,14 +274,17 @@ class LogWidget(QPlainTextEdit):
             cursor.deleteChar()
 
 class peakWorker(QThread):
+    temp_signal = pyqtSignal(float)
+
     def __init__(self):
         super().__init__()
         self.running = True
+        self.perx_size = 13
 
     def run(self):
         pack_size = 4+4000*8+2+60*4+5+4 # 帧长度是变长的，但是接收的时候按定长为标准，接收不定长的帧
         def process_buffer(buf):
-            while True:
+            while self.running:
                 idx = buf.find(b'\xee\xee')
                 if idx<0:
                     if len(buf) > 1:
@@ -280,16 +294,35 @@ class peakWorker(QThread):
                     # print(buf)
                     del buf[:idx]
                 
-                end_idx = buf.find(b'\xff\xff')
+                end_idx = buf.find(b'\xff\xef')
                 if end_idx<0:
                     break
 
                 frame = buf[idx:end_idx+2]
                 # print(frame)
 
-                if frame[-2:] == b'\xff\xff':
+                if frame[-2:] == b'\xff\xef':
                     frames_queue.append(frame)
                     del buf[:end_idx+2]
+
+        def process_temperature(buf):
+            while self.running:
+                idx = buf.find(b'\xff\xff')
+                if idx<0:
+                    break
+
+                temp_frame = buf[idx:idx+self.perx_size]
+                if(len(temp_frame)<self.perx_size):
+                    break
+                del buf[idx:idx+self.perx_size]
+
+                temp_int_high = temp_frame[4]
+                temp_int_low = temp_frame[5]
+                temp_dec_high = temp_frame[6]
+                temp_dec_low = temp_frame[7]
+                temperature = (temp_int_high<<8) + temp_int_low + \
+                                ((temp_dec_high<<8)+temp_dec_low)*0.0001
+                self.temp_signal.emit(temperature)
 
         while self.running:
             with ser_cond:
@@ -298,27 +331,53 @@ class peakWorker(QThread):
                     rx_buffer.clear()
             if ser.is_open:
                 try:
-                    data = ser.read(pack_size)
+                    data = ser.read(64)
                 except Exception as e:
                     print("Serial Error:",e)
                     continue
                 rx_buffer.extend(data)
-                # print(rx_buffer)
+                process_temperature(rx_buffer)
                 process_buffer(rx_buffer)
 
 class APWorker(QThread):
     log_signal = pyqtSignal(str,str)
+    temp_signal = pyqtSignal(float)
 
     def __init__(self, file_path):
         super().__init__()
         self.file_path = file_path
+        self.aprx_size = 13
         self.running = True
+        self.temperature = 0
+        self.flag_queue = Queue()
 
     def log(self, msg, level="info"):
         self.log_signal.emit(msg, level)
 
+    def serial_recv_loop(self):
+        while self.running:
+            b = list(ser.read(self.aprx_size))
+            if not b:
+                continue
+
+            if b[0] == 0xFF and b[1] == 0xFF:
+                if b[3] == 0x00 and b[4] == 0x21:
+                    self.flag_queue.put(b)
+
+                elif b[3] == 0x01:
+                    temp_int_high = b[4]
+                    temp_int_low = b[5]
+                    temp_dec_high = b[6]
+                    temp_dec_low = b[7]
+                    self.temperature = (temp_int_high<<8) + temp_int_low + \
+                                    ((temp_dec_high<<8)+temp_dec_low)*0.0001
+                    self.temp_signal.emit(self.temperature)
+
     def run(self):
         try:
+            recv_thread = threading.Thread(target=self.serial_recv_loop, daemon=True)
+            recv_thread.start()
+
             XLSX_BASENAME = f"AQ6150B_log_{time.strftime('%H%M%S')}.xlsx"
             excel_path = self.file_path
             if not excel_path:
@@ -361,7 +420,7 @@ class APWorker(QThread):
 
                 head_data = ["timestamp_iso",
                         "peak1_wavelength_nm", "peak1_power_mW",
-                        "peak2_wavelength_nm", "peak2_power_mW"]
+                        "peak2_wavelength_nm", "peak2_power_mW", "temperature"]
                 gap_len = len(head_data)+1
 
                 self.log("开始记录(ACK 不成功则一直重发同一行，不推进 Excel)。Ctrl+C 结束。")
@@ -399,21 +458,40 @@ class APWorker(QThread):
                         self.log(current_info)
                         self.log("----excel----")
 
+                    while True:
+                        try:
+                            self.flag_queue.get_nowait()
+                        except Empty:
+                            break
+
                     # 串口发送
                     serial_write(current_cmd)
 
                     # 等 ACK（不成功就一直重发，不推进）
                     while True:
-                        b = ser.read(1)
-                        if b:
-                            v = int.from_bytes(b, "big")
-                            if PRINT_ACK:
-                                self.log(f"接收到数据: {v}")
-                            if v == ACK_VALUE:
-                                break
-                        # 没收到或不是0x21 -> 重发
-                        serial_write(current_cmd)
-                        time.sleep(ACK_RESEND_SLEEP_S)
+                        try:
+                            flag = self.flag_queue.get(timeout=1.0)
+                            break
+                        except Empty:
+                            serial_write(current_cmd)
+                        # b = ser.read(self.aprx_size)
+                        # if b:
+                        #     v = int.from_bytes(b, "big")
+                        #     if PRINT_ACK:
+                        #         self.log(f"接收到数据: {v}")
+                        #     if v[0] == 0xFF and v[1] == 0xFF and v[2] == 0x01:
+                        #         if v[3] == 0x00 and v[4] == 0x21:
+                        #             break
+                        #         elif v[3] == 0x01:
+                        #             temp_int_high = v[4]
+                        #             temp_int_low = v[5]
+                        #             temp_dec_high = v[6]
+                        #             temp_dec_low = v[7]
+                        #             self.temperature = (temp_int_high<<8)+temp_int_low+((temp_dec_high<<8)+temp_dec_low)*0.0001
+
+                        # # 没收到或不是0x21 -> 重发
+                        # serial_write(current_cmd)
+                        # time.sleep(ACK_RESEND_SLEEP_S)
 
                     # ACK 成功：计数并“推进到下一行”
                     count += 1
@@ -432,7 +510,7 @@ class APWorker(QThread):
                             time.sleep(0.01)
 
                     # 写（波长保留3位，功率mW保留6位）
-                    cur_row = [ts, trunc3(wav1_nm), trunc6(pow1_mw), trunc3(wav2_nm), trunc6(pow2_mw)]
+                    cur_row = [ts, trunc3(wav1_nm), trunc6(pow1_mw), trunc3(wav2_nm), trunc6(pow2_mw), trunc4(self.temperature)]
                     for i, value in enumerate(cur_row):
                         ws_out.cell(row=count+1, column=i+1+loop_time*gap_len, value=value)
 
@@ -498,9 +576,11 @@ class MainWindow(QMainWindow):
         
         self.page_peak = GraphWindow()
         self.page_ap6150 = ap6150bWindow()
+        self.page_extra = extraWindow()
 
         self.stack.addWidget(self.page_peak)
         self.stack.addWidget(self.page_ap6150)
+        self.stack.addWidget(self.page_extra)
 
         self.setCentralWidget(self.stack)
 
@@ -522,7 +602,7 @@ class MainWindow(QMainWindow):
                 self.baud_act = action
 
         # 工作模式
-        work_mode = ["寻峰模式", "扫波长模式"]
+        work_mode = ["寻峰模式", "扫波长模式", "单值模式"]
         for i, mode_str in enumerate(work_mode):
             action = QAction(mode_str,self)
             action.setCheckable(True)
@@ -667,8 +747,9 @@ class ap6150bWindow(QtWidgets.QWidget):
         self.printf_area = LogWidget()
         layout.addWidget(self.printf_area)
 
-        self.worker = APWorker(self.file_path)
+        self.worker =  APWorker(self.file_path)
         self.worker.log_signal.connect(self.printf_area.log)
+        self.worker.temp_signal.connect(self.update_temp)
 
     def select_file(self):
         self.file_path, _ = QFileDialog.getOpenFileName(
@@ -708,10 +789,13 @@ class ap6150bWindow(QtWidgets.QWidget):
 
             self.worker = APWorker(self.file_path)
             self.worker.log_signal.connect(self.printf_area.log)
+            self.worker.temp_signal.connect(self.update_temp)
             self.worker.start()
 
             self.com_btn.setText("关闭")
         elif do_close:
+            self.worker.running = False
+
             try:
                 ser.close()
             except Exception as e:
@@ -722,14 +806,17 @@ class ap6150bWindow(QtWidgets.QWidget):
             
             switch_mode_enable = True
 
-            self.worker.running = False
-            self.worker.quit()
+            # self.worker.quit()
             self.worker.wait()
 
             self.com_btn.setText("开始")
 
     def on_clear(self):
         self.printf_area.clear()
+
+    def update_temp(self, _temperature):
+        self.temperature = _temperature
+        self.temperature_text.setText(f"{_temperature}")
 
 class GraphWindow(QtWidgets.QWidget):
     def __init__(self):
@@ -750,7 +837,7 @@ class GraphWindow(QtWidgets.QWidget):
         self.ctrl_panel.setMaximumHeight(80)
 
         lab_interval = QtWidgets.QLabel("单数据间隔(us):")
-        self.interval_text = QtWidgets.QLineEdit("10")
+        self.interval_text = QtWidgets.QLineEdit("1")
         self.interval_text.setMinimumWidth(100)
         self.interval_text.setMaximumHeight(25)
 
@@ -805,13 +892,6 @@ class GraphWindow(QtWidgets.QWidget):
 
         self.waves = [[0 for _ in range(15)] for _ in range(4)]
 
-        self.voltage_range = 5
-        self.plot1.setXRange(0,array_size)
-        self.plot1.setYRange(0,3)
-        self.plot1.getViewBox().setLimits(xMin=1500,xMax=1600,
-                                          yMin=-self.voltage_range,yMax=self.voltage_range)
-        self.plot1.showGrid(x=True, y=True)
-
         self.plot1.addLegend()
         self.curve1 = self.plot1.plot(pen='yellow', name='CH0')
         self.curve2 = self.plot1.plot(pen='green', name='CH1')
@@ -862,15 +942,14 @@ class GraphWindow(QtWidgets.QWidget):
         self.interval = int(self.interval_text.text())
 
         self.worker = peakWorker()
-        self.worker.start()
+        self.worker.temp_signal.connect(self.update_temp)
+        # self.worker.start()
         
         self.frame_timer = QtCore.QTimer()    
         self.frame_timer.timeout.connect(self.process_frame)
         
         self.update_timer = QtCore.QTimer()    
         self.update_timer.timeout.connect(self.update_plot)
-        
-        QtWidgets.QShortcut(QtGui.QKeySequence("P"), self, activated=self.toggle_pause)
 
         with open("./wave_const.yaml", 'r', encoding="utf-8") as file:
             yaml_data = yaml.safe_load(file)
@@ -878,6 +957,13 @@ class GraphWindow(QtWidgets.QWidget):
             self.yaml = yaml_data['Wave_DATA']
             self.wave_const = [num[0]+num[1]*0.001 for num in self.yaml]
             self.plot1.setXRange(int(min(self.wave_const)), math.ceil(max(self.wave_const)))
+
+        self.voltage_range = 5
+        self.plot1.setXRange(0,array_size)
+        self.plot1.setYRange(0,3)
+        self.plot1.getViewBox().setLimits(xMin=self.wave_const[0],xMax=self.wave_const[-1],
+                                          yMin=-self.voltage_range/self.voltage_range,yMax=self.voltage_range)
+        self.plot1.showGrid(x=True, y=True)
 
         self.visual_index = 0
         self.visual_y = 0
@@ -968,11 +1054,17 @@ class GraphWindow(QtWidgets.QWidget):
             self.clear_btn.setEnabled(False)
             self.on_interval_changed()
 
+            self.worker = peakWorker()
+            self.worker.temp_signal.connect(self.update_temp)
+            self.worker.start()
+
             self.frame_timer.start(1)
             self.update_timer.start(2)
 
             self.com_btn.setText("关闭")
         elif do_close:
+            self.worker.running = False
+
             try:
                 ser.close()
             except Exception as e:
@@ -987,6 +1079,9 @@ class GraphWindow(QtWidgets.QWidget):
             self.frame_timer.stop()
             self.update_timer.stop()
 
+            # self.worker.quit()
+            self.worker.wait()
+
             self.com_btn.setText("打开")
 
     def on_clear_chart(self):
@@ -997,11 +1092,14 @@ class GraphWindow(QtWidgets.QWidget):
             curves[idx].setData([])
             datas[idx].clear()
             adcs[idx].clear()
+            self.temperature = 0
+
             for j in range(len(self.peaks_lines[idx])):
                 self.peaks_lines[idx][j].setVisible(False)
                 del self.peaks_lines[idx][j]
             for label in self.num_labels[idx]:  
                 label.setText("0")
+            self.temperature_text.setText("0")
 
     def on_interval_changed(self):
         self.interval = int(self.interval_text.text())
@@ -1046,8 +1144,8 @@ class GraphWindow(QtWidgets.QWidget):
                 # print(raw)
                 return 
             
-            # global array_size
-            # array_size = (raw[2]<<8)+raw[3]
+            global array_size
+            array_size = (raw[2]<<8)+raw[3]
             # print(array_size)
 
             for i in range(4, array_size*8+4, single_size):
@@ -1074,10 +1172,10 @@ class GraphWindow(QtWidgets.QWidget):
                 self.data4.append(ch4)
 
                 # if ((raw[array_size*8+2]<<8)+raw[array_size*8+3])!=array_size:
-                if ((raw[2]<<8)+raw[3])!=array_size:
-                    print("array_size_error")
-                    self.process_down = True
-                    return
+                # if ((raw[2]<<8)+raw[3])!=array_size:
+                #     print("array_size_error")
+                #     self.process_down = True
+                #     return
 
                 if raw[array_size*8+4]!=0xAB:
                     print("wave head error")
@@ -1113,7 +1211,8 @@ class GraphWindow(QtWidgets.QWidget):
             temp_dec_high = raw[frame_count]
             frame_count+=1
             temp_dec_low = raw[frame_count]
-            self.temperature = (temp_int_high<<8)+temp_int_low+((temp_dec_high<<8)+temp_dec_low)*0.0001
+            temperature = (temp_int_high<<8)+temp_int_low+((temp_dec_high<<8)+temp_dec_low)*0.0001
+            self.update_temp(temperature)
 
             self.process_down = True
         except Exception as e:
@@ -1122,18 +1221,28 @@ class GraphWindow(QtWidgets.QWidget):
             self.process_down = True
             return
 
+    def update_temp(self, _temperature):
+        self.temperature = _temperature
+        self.temperature_text.setText(f"{_temperature}")
+
     def update_plot(self):
         if self.process_down == False:
             return
+        if not len(self.wave_const) == len(self.adc1):
+            # print("size error")
+            return
         self.process_down = False
 
+        self.plot1.setXRange(0, array_size)
+        self.plot1.getViewBox().setLimits(xMin=self.wave_const[0]-5,xMax=self.wave_const[-1]+5,
+                                          yMin=-self.voltage_range/self.voltage_range,yMax=self.voltage_range)
         x = self.wave_const
 
         # 更新曲线
-        self.curve1.setData(x,self.adc1)
-        self.curve2.setData(x,self.adc2)
-        self.curve3.setData(x,self.adc3)
-        self.curve4.setData(x,self.adc4)
+        self.curve1.setData(np.array(x),np.array(self.adc1))
+        self.curve2.setData(np.array(x),np.array(self.adc2))
+        self.curve3.setData(np.array(x),np.array(self.adc3))
+        self.curve4.setData(np.array(x),np.array(self.adc4))
 
         # 更新光标
         self.update_crosshair(self.visual_index, self.visual_y)
@@ -1147,9 +1256,6 @@ class GraphWindow(QtWidgets.QWidget):
             else:
                 for l in self.peaks_lines[i]:
                     l.setVisible(False)
-
-        # 更新温度
-        self.temperature_text.setText(f"{self.temperature}")
 
         self.process_down = True
 
@@ -1190,13 +1296,32 @@ class GraphWindow(QtWidgets.QWidget):
         visible = (state == QtCore.Qt.Checked)
         self.visible_lines[i] = visible
 
-    def toggle_pause(self):
-        if self.paused: 
-            self.timer.start(1) 
-            self.paused = False
-        else: 
-            self.timer.stop() 
-            self.paused = True
+class extraWindow(QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
+        layout = QtWidgets.QGridLayout()
+        self.setLayout(layout)
+
+        self.ctrl_panel = QtWidgets.QWidget()
+        self.ctrl_layout = QtWidgets.QHBoxLayout()
+        self.ctrl_layout.setContentsMargins(5,5,5,5)
+        self.ctrl_layout.setSpacing(10)
+        self.ctrl_panel.setLayout(self.ctrl_layout)
+        self.ctrl_panel.setMaximumHeight(80)
+
+        lab_temperature = QtWidgets.QLabel("温度(℃):")
+        self.temperature_text = QtWidgets.QLineEdit("0")
+        self.temperature_text.setReadOnly(True)
+        self.temperature_text.setMinimumWidth(100)
+        self.temperature_text.setMaximumHeight(25)
+        self.temperature = 0
+
+        self.ctrl_layout.addWidget(lab_temperature)
+        self.ctrl_layout.addWidget(self.temperature_text)
+        self.ctrl_layout.addSpacing(20)
+        self.ctrl_layout.addStretch()
+
+        layout.addWidget(self.ctrl_panel, 0, 0)
 
 def peak_initial(adc_vec, interval, adc_length, initials_length, threshold):
     initials = [0]*initials_length
