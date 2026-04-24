@@ -123,7 +123,7 @@ void write_ms5614t_table(void){
 		{
 				if(workState != TABLE_STATE) break;
 				if(ReceEndFlag==1 && aRxBuffer[0] == Head && aRxBuffer[1] == Head) modify_table_loop();
-				checkTemp(workState);
+//				checkTemp(workState);
 			  // 提前把一个波长的通道数据取出来
 			  for(j = 0; j < 5; j++)
 			  {
