@@ -121,7 +121,7 @@ void write_ms5614t_table(void){
 	
 		for (i = 0; i < Number;) 
 		{
-				if(workState == MANUAL_STATE) break;
+				if(workState != TABLE_STATE) break;
 				if(ReceEndFlag==1 && aRxBuffer[0] == Head && aRxBuffer[1] == Head) modify_table_loop();
 				checkTemp(workState);
 			  // 提前把一个波长的通道数据取出来

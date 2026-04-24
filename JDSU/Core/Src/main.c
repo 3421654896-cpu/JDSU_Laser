@@ -120,6 +120,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+//		workState = MANUAL_STATE;
 		switch(workState)
 		{
 			case TABLE_STATE:
@@ -143,7 +144,6 @@ int main(void)
 				write_ms5614t_extra();
 				break;
 			}
-			default:break;
 		}
 //		if(workState == MANUAL_STATE)
 //		{
