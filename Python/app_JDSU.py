@@ -336,7 +336,7 @@ class peakWorker(QThread):
                     print("Serial Error:",e)
                     continue
                 rx_buffer.extend(data)
-                process_temperature(rx_buffer)
+                # process_temperature(rx_buffer)
                 process_buffer(rx_buffer)
 
 class APWorker(QThread):
@@ -959,7 +959,7 @@ class GraphWindow(QtWidgets.QWidget):
             self.plot1.setXRange(int(min(self.wave_const)), math.ceil(max(self.wave_const)))
 
         self.voltage_range = 5
-        self.plot1.setXRange(0,array_size)
+        # self.plot1.setXRange(0,array_size)
         self.plot1.setYRange(0,3)
         self.plot1.getViewBox().setLimits(xMin=self.wave_const[0],xMax=self.wave_const[-1],
                                           yMin=-self.voltage_range/self.voltage_range,yMax=self.voltage_range)
@@ -1146,8 +1146,13 @@ class GraphWindow(QtWidgets.QWidget):
             
             global array_size
             array_size = (raw[2]<<8)+raw[3]
+            
             # print(array_size)
 
+            self.adc1.clear()
+            self.adc2.clear()
+            self.adc3.clear()
+            self.adc4.clear()
             for i in range(4, array_size*8+4, single_size):
                 com_input = raw[i:i+single_size]
 
@@ -1233,7 +1238,7 @@ class GraphWindow(QtWidgets.QWidget):
             return
         self.process_down = False
 
-        self.plot1.setXRange(0, array_size)
+        # self.plot1.setXRange(0, array_size)
         self.plot1.getViewBox().setLimits(xMin=self.wave_const[0]-5,xMax=self.wave_const[-1]+5,
                                           yMin=-self.voltage_range/self.voltage_range,yMax=self.voltage_range)
         x = self.wave_const
