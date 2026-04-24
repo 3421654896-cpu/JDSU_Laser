@@ -101,9 +101,9 @@ float M1820Z_GetTmp(void){
     M1820Z_WriteByte(0xCC);
     M1820Z_WriteByte(0x44);
 
-//    delay_ms(20);
+    delay_ms(20);
 //		HAL_GPIO_WritePin(TEMP_PORT, TEMP_PIN, GPIO_PIN_SET);
-		while(M1820Z_ReadBit()==0){delay_us(2);}
+//		while(M1820Z_ReadBit()==0){delay_us(2);}
 
     M1820Z_Reset();
     M1820Z_WriteByte(0xCC);
@@ -112,7 +112,7 @@ float M1820Z_GetTmp(void){
     temp_l = M1820Z_ReadByte();
     temp_h = M1820Z_ReadByte();
 	
-    temp = (temp_h << 8) | temp_l;
+    temp = (int16_t)((temp_h << 8) | temp_l);
 		
 		float tmpResult;
 //		if(direct) tmpResult = 40.f-(float)temp/256.f;
