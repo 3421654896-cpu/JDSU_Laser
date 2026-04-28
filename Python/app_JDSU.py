@@ -1281,7 +1281,6 @@ class GraphWindow(QtWidgets.QWidget):
         for usp in self.us_points:
             self.plot1.removeItem(usp)
         for usl,adcl in zip(us_list,adc_list):
-            print(len)
             for pt in usl:
                 x_data.append(self.wave_const[pt])
                 y_data.append(adcl[pt])
