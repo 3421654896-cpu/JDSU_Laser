@@ -1554,7 +1554,7 @@ class extraWindow(QtWidgets.QWidget):
     def gain_transfer(self, x):
         x = float(x)
         self.gain = int(
-            (1+(x/1000)*18)*100*4096/(2*1.25*110)
+            (1+(x/1000)*18)*100*4096/(2*1.25*160)
         )
         self.gain_dac_text.setText(f"{self.gain}")
         self.reset_write_state()
@@ -1562,7 +1562,7 @@ class extraWindow(QtWidgets.QWidget):
     def soa_transfer(self, x):
         x = float(x)
         self.soa = int(
-            (1+(x/1000)*18)*100*4096/(2*1.25*110)
+            (1+(x/1000)*18)*100*4096/(2*1.25*160)
         )
         self.soa_dac_text.setText(f"{self.soa}")
         self.reset_write_state()
@@ -1570,7 +1570,7 @@ class extraWindow(QtWidgets.QWidget):
     def phase_transfer(self, x):
         x = float(x)
         self.phase = int(
-            (1+(x/1000)*365)*100*4096/(2*1.25*160)
+            (1+(x/1000)*365)*100*4096/(2*1.25*365)
         )
         self.phase_dac_text.setText(f"{self.phase}")
         self.reset_write_state()
@@ -1594,14 +1594,14 @@ class extraWindow(QtWidgets.QWidget):
     def rt_transfer(self, r, t):
         v7 = r*2.5/4095
         v6 = t*2.5/4095
-        self.pdr = (1.25-v7)/2000
-        self.pdt = (1.25-v6)/2000
+        self.pdr = (1.25-v7)/2
+        self.pdt = (1.25-v6)/2
         self.ratio_rt = self.pdr/self.pdt
 
         self.pdr_v.setText(f"{v7:.2f}V")
         self.pdt_v.setText(f"{v6:.2f}V")
-        self.pdr_text.setText(f"{self.pdr:.3f}")
-        self.pdt_text.setText(f"{self.pdt:.3f}")
+        self.pdr_text.setText(f"{self.pdr:.4f}")
+        self.pdt_text.setText(f"{self.pdt:.4f}")
         self.ratio_rt_text.setText(f"{self.ratio_rt:.3f}")
 
     def reset_write_state(self):
