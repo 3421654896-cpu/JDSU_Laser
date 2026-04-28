@@ -154,7 +154,7 @@ void write_ms5614t_table(void){
 				MS5614T_SetCode(MS5614T_DAC_A, IDACData[3], MS5614T_SPEED_FAST, MS5614T_NORMAL);
 				MS5614T_SetCode(MS5614T_DAC_C, IDACData[4], MS5614T_SPEED_FAST, MS5614T_NORMAL);
 						
-				sampleVoltageStable();
+				sampleVoltageStable(i);
 //				M1820Z_GetTmp();
 				
 				adc1[i] = uADCOriginvalues[0];
@@ -251,14 +251,17 @@ void sampleVoltage(void){
 		}
 }
 
-void sampleVoltageStable(void){
+void sampleVoltageStable(uint16_t i){
 		delay_us(wave_time);
 		uint8_t adc_idx=0;
+		uint8_t stable_flag = 1;
 		for(;adc_idx<4;adc_idx++){
-				adcData = ADC_Write_Read_Stable(adc_idx) & 0x0FFF;
+				stable_flag = 1;
+				adcData = ADC_Write_Read_Stable(adc_idx, &stable_flag) & 0x0FFF;
 				uADCOriginvalues[adc_idx] = adcData;
 				txBuffer[txCount++] = (adcData >> 8) & 0xFF;
 				txBuffer[txCount++] = adcData & 0xFF;
+				txBuffer[txCount++] = stable_flag;
 		}
 }
 
@@ -274,7 +277,7 @@ void sampleTemperature(void){
 }
 
 void sendTxBuffer(int dac_size, int p1, int p2, int p3, int p4){
-		int floating_size = 4+8*dac_size+3+4+4*(p1+p2+p3+p4)+4;
+		int floating_size = 4+12*dac_size+3+4+4*(p1+p2+p3+p4)+4;
 	
 		txBuffer[txCount++] = 0xFF;
 		txBuffer[txCount++] = 0xEF;
@@ -355,14 +358,15 @@ void singleValue(void){
 
 void checkRT(void){
 		uint8_t txIdx = 2;
+		uint8_t sa = 0;
 		aTxBuffer[txIdx++] = EXTRA_STATE;
 		aTxBuffer[txIdx++] = 0x02;
 	
-		adcData = ADC_Write_Read_Stable(6) & 0x0FFF;
+		adcData = ADC_Write_Read_Stable(6, &sa) & 0x0FFF;
 		aTxBuffer[txIdx++] = (adcData >> 8) & 0xFF;
 		aTxBuffer[txIdx++] = (adcData) & 0xFF;
 		
-		adcData = ADC_Write_Read_Stable(7) & 0x0FFF;
+		adcData = ADC_Write_Read_Stable(7, &sa) & 0x0FFF;
 		aTxBuffer[txIdx++] = (adcData >> 8) & 0xFF;
 		aTxBuffer[txIdx++] = (adcData) & 0xFF;
 		

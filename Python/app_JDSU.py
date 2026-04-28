@@ -282,7 +282,7 @@ class peakWorker(QThread):
         self.perx_size = 20
 
     def run(self):
-        pack_size = 4+4000*8+2+60*4+5+4 # 帧长度是变长的，但是接收的时候按定长为标准，接收不定长的帧
+        pack_size = 4+2500*12+2+60*4+5+4 # 帧长度是变长的，但是接收的时候按定长为标准，接收不定长的帧
         def process_buffer(buf):
             while self.running:
                 idx = buf.find(b'\xee\xee')
@@ -820,6 +820,7 @@ class GraphWindow(QtWidgets.QWidget):
         self.process_down = True
         self.peaks_lines = [[] for _ in range(4)]
         self.visible_lines = [False for _ in range(4)]
+        self.us_points = []
 
         layout = QtWidgets.QGridLayout()
         self.setLayout(layout)
@@ -885,13 +886,19 @@ class GraphWindow(QtWidgets.QWidget):
         self.data3 = deque(maxlen=array_size)
         self.data4 = deque(maxlen=array_size)
 
+        self.usdata1 = deque(maxlen=array_size)
+        self.usdata2 = deque(maxlen=array_size)
+        self.usdata3 = deque(maxlen=array_size)
+        self.usdata4 = deque(maxlen=array_size)
+
         self.waves = [[0 for _ in range(15)] for _ in range(4)]
 
         self.plot1.addLegend()
-        self.curve1 = self.plot1.plot(pen='yellow', name='CH0')
-        self.curve2 = self.plot1.plot(pen='green', name='CH1')
-        self.curve3 = self.plot1.plot(pen='blue', name='CH2')
-        self.curve4 = self.plot1.plot(pen='purple', name='CH3')
+        self.color_list = ['yellow','green','blue','purple']
+        self.curve1 = self.plot1.plot(pen=self.color_list[0], name='CH0')
+        self.curve2 = self.plot1.plot(pen=self.color_list[1], name='CH1')
+        self.curve3 = self.plot1.plot(pen=self.color_list[2], name='CH2')
+        self.curve4 = self.plot1.plot(pen=self.color_list[3], name='CH3')
 
         self.num_panel = QtWidgets.QWidget()
         self.num_layout = QtWidgets.QGridLayout()
@@ -1130,7 +1137,7 @@ class GraphWindow(QtWidgets.QWidget):
                 return
             raw = frames_queue.popleft()
             self.process_down = False
-            single_size = 8
+            single_size = 12
 
             # print(len(raw))
             if raw[0]!=0xEE and raw[1]!=0xEE:
@@ -1154,6 +1161,11 @@ class GraphWindow(QtWidgets.QWidget):
                 self.data3.clear()
                 self.data4.clear()
 
+                self.usdata1.clear()
+                self.usdata2.clear()
+                self.usdata3.clear()
+                self.usdata4.clear()
+
                 self.adc1 = deque(maxlen=array_size)
                 self.adc2 = deque(maxlen=array_size)
                 self.adc3 = deque(maxlen=array_size)
@@ -1164,13 +1176,23 @@ class GraphWindow(QtWidgets.QWidget):
                 self.data3 = deque(maxlen=array_size)
                 self.data4 = deque(maxlen=array_size)
 
-            for i in range(4, array_size*8+4, single_size):
+                self.usdata1 = list()
+                self.usdata2 = list()
+                self.usdata3 = list()
+                self.usdata4 = list()
+
+            com_index = 0
+            for i in range(4, array_size*12+4, single_size):
                 com_input = raw[i:i+single_size]
 
                 ch1 = (com_input[0]<<8)+com_input[1]
-                ch2 = (com_input[2]<<8)+com_input[3]
-                ch3 = (com_input[4]<<8)+com_input[5]
-                ch4 = (com_input[6]<<8)+com_input[7]
+                st1 = com_input[2]
+                ch2 = (com_input[3]<<8)+com_input[4]
+                st2 = com_input[5]
+                ch3 = (com_input[6]<<8)+com_input[7]
+                st3 = com_input[8]
+                ch4 = (com_input[9]<<8)+com_input[10]
+                st4 = com_input[11]
 
                 v1 = ch1*2.5/4095
                 v2 = ch2*2.5/4095
@@ -1187,19 +1209,29 @@ class GraphWindow(QtWidgets.QWidget):
                 self.data3.append(ch3)
                 self.data4.append(ch4)
 
+                if not st1 ==1:
+                    self.usdata1.append(com_index)
+                if not st2 ==1:
+                    self.usdata2.append(com_index)
+                if not st3 ==1:
+                    self.usdata3.append(com_index)
+                if not st4 ==1:
+                    self.usdata4.append(com_index)
+
+                com_index+=1
                 # if ((raw[array_size*8+2]<<8)+raw[array_size*8+3])!=array_size:
                 # if ((raw[2]<<8)+raw[3])!=array_size:
                 #     print("array_size_error")
                 #     self.process_down = True
                 #     return
 
-                if raw[array_size*8+4]!=0xAB:
-                    print("wave head error")
-                    print(hex(raw[array_size*8+4]))
-                    self.process_down = True
-                    return
+            if raw[array_size*12+4]!=0xAB:
+                print("wave head error")
+                print(hex(raw[array_size*12+4]))
+                self.process_down = True
+                return
             self.waves = [[0 for _ in range(15)] for _ in range(4)]
-            frame_count = array_size*8+4
+            frame_count = array_size*12+4
             data_len = 0
             for i in range(0, 4):
                 frame_count += 1
@@ -1241,6 +1273,25 @@ class GraphWindow(QtWidgets.QWidget):
         self.temperature = _temperature
         self.temperature_text.setText(f"{_temperature}")
 
+    def update_us_point(self):
+        us_list = [self.usdata1,self.usdata2,self.usdata3,self.usdata4]
+        adc_list = [self.adc1,self.adc2,self.adc3,self.adc4]
+        x_data = []
+        y_data = []
+        for usp in self.us_points:
+            self.plot1.removeItem(usp)
+        for usl,adcl in zip(us_list,adc_list):
+            print(len)
+            for pt in usl:
+                x_data.append(self.wave_const[pt])
+                y_data.append(adcl[pt])
+                
+            scatter = pg.ScatterPlotItem(x_data, y_data, pen=None, symbol='o', symbolBrush='r', symbolSize=10)
+            
+            self.us_points.append(scatter)
+            self.plot1.addItem(scatter)
+
+
     def update_plot(self):
         if self.process_down == False:
             return
@@ -1258,6 +1309,9 @@ class GraphWindow(QtWidgets.QWidget):
         self.curve2.setData(np.array(x),np.array(self.adc2))
         self.curve3.setData(np.array(x),np.array(self.adc3))
         self.curve4.setData(np.array(x),np.array(self.adc4))
+
+        # 更新不稳定点
+        self.update_us_point()
 
         # 更新光标
         self.update_crosshair(self.visual_index, self.visual_y)

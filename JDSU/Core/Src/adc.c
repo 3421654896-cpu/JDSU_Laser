@@ -3,7 +3,9 @@
 uint16_t adcSPI = 0;
 uint32_t adcCount = 0;
 uint16_t adcStable = 0;
+uint16_t adcUnstable = 0;
 uint16_t adcQueue[QUEUE_SIZE] = {0};
+uint16_t adcUnstableList[Number] = {0};
 
 void Reset_ADC_Queue(void){
 		for(uint8_t i=0;i<10;i++){
@@ -51,20 +53,21 @@ uint16_t ADC_Write_Read(uint8_t ch){
 		return ADC_SPI_Cmd(frame);
 }
 
-uint16_t ADC_Write_Read_Stable(uint8_t ch){
+uint16_t ADC_Write_Read_Stable(uint8_t ch, uint8_t* stable){
 		uint16_t frame = (0x1 << 12) | (ch << 7);
 		Reset_ADC_Queue();
 	
 		while(adcStable<STABLECOUNT){
 				adcQueue[adcCount%QUEUE_SIZE] = ADC_SPI_Cmd(frame);
 				
-//				if(adcCount==QUEUE_SIZE){
+				if(adcCount==(QUEUE_SIZE-1)){
 //						uint16_t adcSum = 0;
 //						for(uint16_t i=1;i<QUEUE_SIZE;i++){
 //								adcSum+=adcQueue[i];
 //						}
-//						return adcSum/(QUEUE_SIZE-1);
-//				}
+						*stable = 0;
+						return adcQueue[adcCount%QUEUE_SIZE];
+				}
 			
 //				if(adcCount>2 && abs((int)(adcQueue[(adcCount-1)%QUEUE_SIZE])-(int)(adcQueue[(adcCount-2)%QUEUE_SIZE]))<205) adcStable++;
 //				else adcStable=0;
