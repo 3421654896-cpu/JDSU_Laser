@@ -3,6 +3,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f2xx.h"
+#include "datastruct.h"
 #include <stdio.h>
 
 #define ADC_CS_PORT					GPIOA
@@ -18,21 +19,23 @@
 #define ADC_LOOP_FRAME			(0x2 << 12)
 
 #define STABLECOUNT					2
-#define STABLERANGE					45
+#define STABLERANGE					200
 #define WINDOW_SIZE 				50
-#define QUEUE_SIZE 					10000
+#define QUEUE_SIZE 					20000
 
 extern uint16_t adcSPI;
 extern uint32_t adcCount;
 extern uint16_t adcStable;
+extern uint16_t adcUnstable;
 extern uint16_t adcQueue[QUEUE_SIZE];
+extern uint16_t adcUnstableList[Number];
 
 void Reset_ADC_Queue(void);
 void ADC_LOOP_SPI_Init(void);
 void ADC_MANUAL_SPI_Init(void);
 uint16_t ADC_SPI_Cmd(uint16_t cmdF);
 uint16_t ADC_Write_Read(uint8_t ch);
-uint16_t ADC_Write_Read_Stable(uint8_t ch);
+uint16_t ADC_Write_Read_Stable(uint8_t ch, uint8_t* stable);
 void ADC_Loop_Start(void);
 uint16_t ADC_Write_Loop(void);
 
