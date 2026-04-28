@@ -14,7 +14,7 @@ void Reset_ADC_Queue(void){
 }
 
 static void ADC_Select_Chs(){
-		uint16_t Chs = (1<<0) | (1<<1) | (1<<2) | (1<<3);
+		uint16_t Chs = (1<<0) | (1<<1) | (1<<2) | (1<<3) | (1<<6) | (1<<7);
 		ADC_SPI_Cmd(Chs);
 }
 
@@ -34,7 +34,6 @@ void ADC_MANUAL_SPI_Init(void){
 		(void)tmp;
 	
 		ADC_SPI_Cmd(0x8000);
-//		ADC_Write_Read(0);
 }
 
 uint16_t ADC_SPI_Cmd(uint16_t cmdF){
@@ -71,7 +70,6 @@ uint16_t ADC_Write_Read_Stable(uint8_t ch){
 //				else adcStable=0;
 			
 				if(adcCount>=WINDOW_SIZE){
-//						int i = adcCount%QUEUE_SIZE;
 						uint16_t cur = (adcCount-WINDOW_SIZE+1)%QUEUE_SIZE;
 						uint16_t amax = adcQueue[cur];
 						uint16_t amin = adcQueue[cur];

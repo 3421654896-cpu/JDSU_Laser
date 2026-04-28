@@ -48,7 +48,7 @@ array_size = 4000
 tx_size = 13
 # ==========================
 
-ser = serial.Serial(timeout=0.5)
+ser = serial.Serial(timeout=0.2)
 
 ser_open = False
 ser_cond = threading.Condition()
@@ -279,7 +279,7 @@ class peakWorker(QThread):
     def __init__(self):
         super().__init__()
         self.running = True
-        self.perx_size = 13
+        self.perx_size = 20
 
     def run(self):
         pack_size = 4+4000*8+2+60*4+5+4 # 帧长度是变长的，但是接收的时候按定长为标准，接收不定长的帧
@@ -312,7 +312,7 @@ class peakWorker(QThread):
                     break
 
                 temp_frame = buf[idx:idx+self.perx_size]
-                if(len(temp_frame)<self.perx_size):
+                if len(temp_frame)<self.perx_size:
                     break
                 del buf[idx:idx+self.perx_size]
 
@@ -346,7 +346,7 @@ class APWorker(QThread):
     def __init__(self, file_path):
         super().__init__()
         self.file_path = file_path
-        self.aprx_size = 13
+        self.aprx_size = 20
         self.running = True
         self.temperature = 0
         self.flag_queue = Queue()
@@ -474,24 +474,6 @@ class APWorker(QThread):
                             break
                         except Empty:
                             serial_write(current_cmd)
-                        # b = ser.read(self.aprx_size)
-                        # if b:
-                        #     v = int.from_bytes(b, "big")
-                        #     if PRINT_ACK:
-                        #         self.log(f"接收到数据: {v}")
-                        #     if v[0] == 0xFF and v[1] == 0xFF and v[2] == 0x01:
-                        #         if v[3] == 0x00 and v[4] == 0x21:
-                        #             break
-                        #         elif v[3] == 0x01:
-                        #             temp_int_high = v[4]
-                        #             temp_int_low = v[5]
-                        #             temp_dec_high = v[6]
-                        #             temp_dec_low = v[7]
-                        #             self.temperature = (temp_int_high<<8)+temp_int_low+((temp_dec_high<<8)+temp_dec_low)*0.0001
-
-                        # # 没收到或不是0x21 -> 重发
-                        # serial_write(current_cmd)
-                        # time.sleep(ACK_RESEND_SLEEP_S)
 
                     # ACK 成功：计数并“推进到下一行”
                     count += 1
@@ -572,7 +554,7 @@ class MainWindow(QMainWindow):
         ser.baudrate = self.baud
         
         self.stack = QStackedWidget()
-        self.stack.currentChanged.connect(self.on_switch_mode)
+        # self.stack.currentChanged.connect(self.on_switch_mode)
         
         self.page_peak = GraphWindow()
         self.page_ap6150 = ap6150bWindow()
@@ -610,9 +592,9 @@ class MainWindow(QMainWindow):
             action.triggered.connect(self.set_page)
             self.menu_page.addAction(action)
             if i == self.MCU_mode:
-                action.setChecked(True)
                 self.mode_act = action
-
+                action.trigger()
+                
     def update_ports_menu(self):
         menu = self.sender()
 
@@ -630,38 +612,47 @@ class MainWindow(QMainWindow):
                 action.setChecked(True)
                 self.port_act = action
 
-    def on_switch_mode(self, index):
-        self.MCU_mode = index
+    def set_page(self):
+        action = self.sender()
+        if self.MCU_mode == 2:
+            self.page_extra.stop_recv_thread()
+        if not switch_mode_enable:
+            self.mode_act.setChecked(True)
+            action.setChecked(False)
+            QMessageBox.warning(self, "警告", "先停止当前页面工作流再切换模式")
+            return
+
         command_frame = [0]*tx_size
         command_frame[0] = 0xFF
         command_frame[1] = 0xFF
         command_frame[2] = 0x01
         command_frame[3] = 0x02
-        command_frame[8] = self.MCU_mode & 0xFF
+        command_frame[8] = (action.data()) & 0xFF
 
         if not ser.is_open:
             try:
                 ser.open()
-                ser.write(bytes(command_frame))
-                ser.close()
             except Exception as e:
-                QMessageBox.warning(self, "警告", "改工作模式前确保串口端口和波特率选对")
+                self.mode_act.setChecked(True)
+                action.setChecked(False)
                 QMessageBox.critical(self, "crash", f"发生异常:\n{str(e)}")
                 return
-        else:
-            ser.write(bytes(command_frame))
 
-    def set_page(self):
-        action = self.sender()
-        if switch_mode_enable:
-            self.MCU_mode = action.data()
-            self.stack.setCurrentIndex(self.MCU_mode)
-            self.mode_act.setChecked(False)
-            action.setChecked(True)
-            self.mode_act = action
-        else:
+        try:
+            ser.write(bytes(command_frame))
+            ser.close()
+        except Exception as e:
+            self.mode_act.setChecked(True)
             action.setChecked(False)
-            QMessageBox.warning(self, "警告", "先停止当前页面工作流再切换模式")
+            QMessageBox.warning(self, "警告", "改工作模式前确保串口端口和波特率选对")
+            QMessageBox.critical(self, "crash", f"发生异常:\n{str(e)}")
+            return
+
+        self.MCU_mode = action.data()
+        self.stack.setCurrentIndex(self.MCU_mode)
+        self.mode_act.setChecked(False)
+        action.setChecked(True)
+        self.mode_act = action
 
     def set_com_port(self):
         global ser
@@ -688,6 +679,10 @@ class MainWindow(QMainWindow):
         else:
             action.setChecked(False)
             QMessageBox.warning(self, "警告", "先停止当前页面工作流停止再修改波特率")
+
+    def closeEvent(self, a0):
+        self.page_extra.stop_recv_thread()
+        return super().closeEvent(a0)
 
 class ap6150bWindow(QtWidgets.QWidget):
     def __init__(self):
@@ -958,10 +953,10 @@ class GraphWindow(QtWidgets.QWidget):
             self.wave_const = [num[0]+num[1]*0.001 for num in self.yaml]
             self.plot1.setXRange(int(min(self.wave_const)), math.ceil(max(self.wave_const)))
 
+        x_extend = 5
         self.voltage_range = 5
-        # self.plot1.setXRange(0,array_size)
-        self.plot1.setYRange(0,3)
-        self.plot1.getViewBox().setLimits(xMin=self.wave_const[0],xMax=self.wave_const[-1],
+        self.plot1.setYRange(-0.5,2.5)
+        self.plot1.getViewBox().setLimits(xMin=self.wave_const[0]-x_extend,xMax=self.wave_const[-1]+x_extend,
                                           yMin=-self.voltage_range/self.voltage_range,yMax=self.voltage_range)
         self.plot1.showGrid(x=True, y=True)
 
@@ -1145,14 +1140,30 @@ class GraphWindow(QtWidgets.QWidget):
                 return 
             
             global array_size
-            array_size = (raw[2]<<8)+raw[3]
-            
-            # print(array_size)
+            _array_size = (raw[2]<<8)+raw[3]
+            if not _array_size == array_size:
+                array_size = _array_size
+                # print(array_size)
+                self.adc1.clear()
+                self.adc2.clear()
+                self.adc3.clear()
+                self.adc4.clear()
 
-            self.adc1.clear()
-            self.adc2.clear()
-            self.adc3.clear()
-            self.adc4.clear()
+                self.data1.clear()
+                self.data2.clear()
+                self.data3.clear()
+                self.data4.clear()
+
+                self.adc1 = deque(maxlen=array_size)
+                self.adc2 = deque(maxlen=array_size)
+                self.adc3 = deque(maxlen=array_size)
+                self.adc4 = deque(maxlen=array_size)
+
+                self.data1 = deque(maxlen=array_size)
+                self.data2 = deque(maxlen=array_size)
+                self.data3 = deque(maxlen=array_size)
+                self.data4 = deque(maxlen=array_size)
+
             for i in range(4, array_size*8+4, single_size):
                 com_input = raw[i:i+single_size]
 
@@ -1238,7 +1249,6 @@ class GraphWindow(QtWidgets.QWidget):
             return
         self.process_down = False
 
-        # self.plot1.setXRange(0, array_size)
         self.plot1.getViewBox().setLimits(xMin=self.wave_const[0]-5,xMax=self.wave_const[-1]+5,
                                           yMin=-self.voltage_range/self.voltage_range,yMax=self.voltage_range)
         x = self.wave_const
@@ -1302,38 +1312,329 @@ class GraphWindow(QtWidgets.QWidget):
         self.visible_lines[i] = visible
 
 class extraWindow(QtWidgets.QWidget):
+    temp_signal = pyqtSignal(float)
+    rt_signal = pyqtSignal(int,int)
+    error_signal = pyqtSignal(str)
+
     def __init__(self):
         super().__init__()
-        layout = QtWidgets.QGridLayout()
-        self.setLayout(layout)
+        layout = QtWidgets.QVBoxLayout(self)
+        layout.setSpacing(15)
+        layout.setContentsMargins(20,20,20,20)
 
-        self.ctrl_panel = QtWidgets.QWidget()
-        self.ctrl_layout = QtWidgets.QHBoxLayout()
-        self.ctrl_layout.setContentsMargins(5,5,5,5)
-        self.ctrl_layout.setSpacing(10)
-        self.ctrl_panel.setLayout(self.ctrl_layout)
-        self.ctrl_panel.setMaximumHeight(80)
+        head_box = QtWidgets.QGroupBox("通过excel文本导入数据")
+        head_layout = QtWidgets.QHBoxLayout()
 
-        lab_temperature = QtWidgets.QLabel("温度(℃):")
-        self.temperature_text = QtWidgets.QLineEdit("0")
-        self.temperature_text.setReadOnly(True)
-        self.temperature_text.setMinimumWidth(100)
-        self.temperature_text.setMaximumHeight(25)
-        self.temperature = 0
+        self.excel_text = QtWidgets.QLineEdit()
+        self.excel_text.setPlaceholderText("Excel复制的文本:(格式:gain\tsoa\tphase\twavelena\twavelenb)...")
+        self.excel_text.setMinimumHeight(40)
+        self.excel_text.setMinimumWidth(720)
 
-        self.ctrl_layout.addWidget(lab_temperature)
-        self.ctrl_layout.addWidget(self.temperature_text)
-        self.ctrl_layout.addSpacing(20)
-        self.ctrl_layout.addStretch()
+        self.write_btn = QtWidgets.QPushButton("写入")
+        self.write_btn.clicked.connect(self.write_data_MCU)
+        self.write_btn.setMinimumHeight(40)
+        self.write_btn.setMinimumWidth(120)
 
-        layout.addWidget(self.ctrl_panel, 0, 0)
+        head_layout.addWidget(self.excel_text)
+        head_layout.addWidget(self.write_btn)
+
+        head_box.setLayout(head_layout)
+        head_box.setMaximumHeight(150)
+
+        layout.addWidget(head_box)
+
+        body_layout = QtWidgets.QHBoxLayout()
+
+        param_box = QtWidgets.QGroupBox("参数")
+        form_left = QtWidgets.QFormLayout()
+        form_left.setVerticalSpacing(18)
+
+        def create_param(name):
+            edit = QtWidgets.QLineEdit("0")
+            edit.setMinimumWidth(180)
+
+            dac_name = QtWidgets.QLabel("实际DAC写入:")
+
+            dac_text = QtWidgets.QLabel(f"{0}")
+            dac_text.setMinimumWidth(80)
+            dac_text.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
+
+            state = QtWidgets.QLabel("● 未写入")
+            state.setStyleSheet("color:#d97706")
+
+            h = QtWidgets.QHBoxLayout()
+            h.addWidget(edit)
+            h.addWidget(dac_name)
+            h.addWidget(dac_text)
+            h.addWidget(state)
+
+            widget = QtWidgets.QWidget()
+            widget.setLayout(h)
+
+            form_left.addRow(name, widget)
+
+            return edit, state, dac_text
+        
+        (self.gain_text,self.gain_state,self.gain_dac_text),self.gain = create_param("GAIN(mA)"),0
+        (self.soa_text,self.soa_state,self.soa_dac_text),self.soa = create_param("SOA(mA)"),0
+        (self.phase_text,self.phase_state,self.phase_dac_text),self.phase = create_param("PHASE(mA)"),0
+        (self.wavelena_text,self.wavelena_state,self.wavelena_dac_text),self.wavelena = create_param("WAVELENA(mA)"),0
+        (self.wavelenb_text,self.wavelenb_state,self.wavelenb_dac_text),self.wavelenb = create_param("WAVELENB(mA)"),0
+
+        param_box.setLayout(form_left)
+
+        monitor_box = QtWidgets.QGroupBox("监测")
+        form_right = QtWidgets.QFormLayout()
+        form_right.setVerticalSpacing(20)
+
+        def read_only(name):
+            e = QtWidgets.QLineEdit(f"{0:.4f}")
+
+            e.setReadOnly(True)
+            e.setMinimumWidth(180)
+
+            form_right.addRow(name, e)
+
+            return e
+
+        self.temperature_text,self.temperature = read_only("温度(℃)"),0
+
+        def create_monitor(name):
+            e = QtWidgets.QLineEdit("0")
+            e.setReadOnly(True)
+            e.setMinimumWidth(180)
+
+            v_name = QtWidgets.QLabel("ADC电压:")
+
+            v_text = QtWidgets.QLabel(f"{0:>5}V")
+
+            h = QtWidgets.QHBoxLayout()
+            h.addWidget(e)
+            h.addWidget(v_name)
+            h.addWidget(v_text)
+
+            widget = QtWidgets.QWidget()
+            widget.setLayout(h)
+
+            form_right.addRow(name, widget)
+
+            return e, v_text
+        
+        (self.pdr_text,self.pdr_v),self.pdr = create_monitor("PDR(mA)"),0
+        (self.pdt_text,self.pdt_v),self.pdt = create_monitor("PDT(mA)"),0
+        self.ratio_rt_text,self.ratio_rt = read_only("PDR/PDT"),0
+
+        monitor_box.setLayout(form_right)
+
+        body_layout.addWidget(param_box,2)
+        body_layout.addWidget(monitor_box,1)
+
+        layout.addLayout(body_layout)
+
+        self.excel_text.textChanged.connect(self.excel_adc_value)
+
+        self.gain_text.textChanged.connect(self.gain_transfer)
+        self.soa_text.textChanged.connect(self.soa_transfer)
+        self.phase_text.textChanged.connect(self.phase_transfer)
+        self.wavelena_text.textChanged.connect(self.wavelena_transfer)
+        self.wavelenb_text.textChanged.connect(self.wavelenb_transfer)
+
+        self.temp_signal.connect(
+            lambda x:self.temperature_text.setText(f"{x:.4f}")
+        )
+        self.rt_signal.connect(self.rt_transfer)
+        self.error_signal.connect(self.show_error)
+
+        self.res_queue = Queue()
+        self.exrx_size = 20
+        self.running = True
+        self.recv_thread = None
+
+    def showEvent(self, a0):
+        self.serial_open()
+        self.start_recv_thread()
+        return super().showEvent(a0)
+
+    def start_recv_thread(self):
+        if self.recv_thread and self.recv_thread.is_alive():
+            return
+        
+        self.running = True
+        self.recv_thread = threading.Thread(target=self.serial_recv, daemon=True)
+        self.recv_thread.start()
+
+    def stop_recv_thread(self):
+        self.running = False
+
+        if self.recv_thread:
+            self.recv_thread.join(timeout=0.1)
+            self.recv_thread = None
+
+    def serial_recv(self):
+        self.serial_open()
+
+        while self.running:
+            self.serial_open()
+            v = ser.read(self.exrx_size)
+            if not v:
+                continue
+
+            v = list(v)
+            if v[0] == 0xFF and v[1] == 0xFF:
+                if v[3] == 0x00:
+                    self.res_queue.put(v)
+                elif v[3] == 0x01:
+                    temp_int_high = v[4]
+                    temp_int_low = v[5]
+                    temp_dec_high = v[6]
+                    temp_dec_low = v[7]
+                    self.temperature = (temp_int_high<<8) + temp_int_low + \
+                                    ((temp_dec_high<<8)+temp_dec_low)*0.0001
+                    self.temp_signal.emit(self.temperature)
+                elif v[3] == 0x02:
+                    _pdr = (v[4]<<8)+v[5]
+                    _pdt = (v[6]<<8)+v[7]
+
+                    self.rt_signal.emit(_pdr,_pdt)
+
+        self.serial_close()
+
+    def write_data_MCU(self):
+        bWrite = [0] * tx_size
+        bWrite[0] = 0xFF
+        bWrite[1] = 0xFF
+        bWrite[2] = 0x00
+        bWrite[3] = (self.gain >> 8) & 0xFF
+        bWrite[4] = (self.gain >> 0) & 0xFF
+        bWrite[5] = (self.soa >> 8) & 0xFF
+        bWrite[6] = (self.soa >> 0) & 0xFF
+        bWrite[7] = (self.phase >> 8) & 0xFF
+        bWrite[8] = (self.phase >> 0) & 0xFF
+        bWrite[9] = (self.wavelena >> 8) & 0xFF
+        bWrite[10] = (self.wavelena >> 0) & 0xFF
+        bWrite[11] = (self.wavelenb >> 8) & 0xFF
+        bWrite[12] = (self.wavelenb >> 0) & 0xFF
+
+        cmd = bytes(bWrite)
+
+        serial_write(cmd)
+
+        response = 0
+        try:
+            response = self.res_queue.get(timeout=1.0)
+        except Empty:
+            self.error_signal.emit("未写入成功")
+            return
+
+        res_gain = (response[4]<<8)+response[5]
+        res_soa = (response[6]<<8)+response[7]
+        res_phase = (response[8]<<8)+response[9]
+        res_wavelena = (response[10]<<8)+response[11]
+        res_wavelenb = (response[12]<<8)+response[13]
+
+        res_list, self_list, state_list = [res_gain,res_soa,res_phase,res_wavelena,res_wavelenb],\
+                            [self.gain,self.soa,self.phase,self.wavelena,self.wavelenb],\
+                            [self.gain_state, self.soa_state,self.phase_state,self.wavelena_state,self.wavelenb_state]
+
+        for i in range(len(res_list)):
+            if res_list[i]==self_list[i]:
+                state_list[i].setText("● 已写入")
+                state_list[i].setStyleSheet("color:#16a34a;")
+
+    def excel_adc_value(self, str):
+        cell_list = str.rstrip("\n").split("\t")
+        if not len(cell_list) == 5:
+            return
+        self_text_list =[
+            self.gain_text,self.soa_text,self.phase_text,self.wavelena_text,self.wavelenb_text
+        ]
+        for i in range(len(self_text_list)):
+            self_text_list[i].setText(cell_list[i])
+
+    def gain_transfer(self, x):
+        x = float(x)
+        self.gain = int(
+            (1+(x/1000)*18)*100*4096/(2*1.25*110)
+        )
+        self.gain_dac_text.setText(f"{self.gain}")
+        self.reset_write_state()
+    
+    def soa_transfer(self, x):
+        x = float(x)
+        self.soa = int(
+            (1+(x/1000)*18)*100*4096/(2*1.25*110)
+        )
+        self.soa_dac_text.setText(f"{self.soa}")
+        self.reset_write_state()
+    
+    def phase_transfer(self, x):
+        x = float(x)
+        self.phase = int(
+            (1+(x/1000)*365)*100*4096/(2*1.25*160)
+        )
+        self.phase_dac_text.setText(f"{self.phase}")
+        self.reset_write_state()
+    
+    def wavelena_transfer(self, x):
+        x = float(x)
+        self.wavelena = int(
+            (x/1000)*100*50*4096/(2*1.25*53.6)
+        )
+        self.wavelena_dac_text.setText(f"{self.wavelena}")
+        self.reset_write_state()
+    
+    def wavelenb_transfer(self, x):
+        x = float(x)
+        self.wavelenb = int(
+            (x/1000)*100*169*4096/(2*1.25*475)
+        )
+        self.wavelenb_dac_text.setText(f"{self.wavelenb}")
+        self.reset_write_state()
+
+    def rt_transfer(self, r, t):
+        v7 = r*2.5/4095
+        v6 = t*2.5/4095
+        self.pdr = (1.25-v7)/2000
+        self.pdt = (1.25-v6)/2000
+        self.ratio_rt = self.pdr/self.pdt
+
+        self.pdr_v.setText(f"{v7:.2f}V")
+        self.pdt_v.setText(f"{v6:.2f}V")
+        self.pdr_text.setText(f"{self.pdr:.3f}")
+        self.pdt_text.setText(f"{self.pdt:.3f}")
+        self.ratio_rt_text.setText(f"{self.ratio_rt:.3f}")
+
+    def reset_write_state(self):
+        states = [self.gain_state, self.soa_state,self.phase_state,self.wavelena_state,self.wavelenb_state]
+        for s in states:
+            s.setText("● 未写入")
+            s.setStyleSheet("color:#d97706")
+
+    def show_error(self, str):
+        QMessageBox.critical(self, "crash", f"异常:\n{str}")
+
+    def serial_open(self):
+        try:
+            if not ser.is_open:
+                ser.open()
+            ser_open = True
+        except Exception as e:
+            self.error_signal.emit(str(e))
+            return
+        
+    def serial_close(self):
+        try:
+            ser.close()
+            ser_open = False
+        except Exception as e:
+            self.error_signal.emit(str(e))
+
 
 def peak_initial(adc_vec, interval, adc_length, initials_length, threshold):
     initials = [0]*initials_length
     if threshold>0.15:
         return initials
     it = 0
-	# for(uint16_t i=1;i<adc_length-1;i++){
     for i in range(1,adc_length-1):
         if it>=initials_length: break
         start = i-interval if i-interval>=0 else 0

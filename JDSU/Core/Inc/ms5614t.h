@@ -101,6 +101,8 @@ void ClearTxBuff(void);
 void scanWave(void);
 
 void write_ms5614t_extra(void);
+void singleValue(void);
+void checkRT(void);
 
 void delay_us(__IO uint32_t us);
 void delay_ms(__IO uint32_t ms);

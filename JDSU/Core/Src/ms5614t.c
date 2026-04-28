@@ -195,6 +195,7 @@ void write_ms5614t_extra(void){
 		uint8_t Head = 0xFF;
 	
 		checkTemp(workState);
+		checkRT();
 	
 		if(ReceEndFlag==0) return;
 		
@@ -202,9 +203,13 @@ void write_ms5614t_extra(void){
 		
 		if (aRxBuffer[0] == Head && aRxBuffer[1] == Head)
 		{
-				if(aRxBuffer[2] == 0x01){
+				if(aRxBuffer[2] == 0x00){
+						singleValue();
+				}
+				else if(aRxBuffer[2] == 0x01){
 						modify_table_loop();
 				}
+				
 		}
 		if ((aRxBuffer[0] != Head) && (aRxBuffer[0] != 0x00))
 		{
@@ -321,6 +326,46 @@ void checkTemp(uint8_t mode){
 		aTxBuffer[6] = (tempDec>>8) & 0xFF;
 		aTxBuffer[7] = tempDec & 0xFF; 
 	
+		USART_Queue_Send(aTxBuffer, USART_TX_SIZE);
+		ClearTxBuff();
+}
+
+void singleValue(void){
+		uint16_t WriteData = 0;
+		uint8_t txIdx = 2;
+		aTxBuffer[txIdx++] = EXTRA_STATE;
+		aTxBuffer[txIdx++] = 0x00;
+	
+		for(uint8_t i = 0; i < 5; i++)
+		{
+				WriteData = ((aRxBuffer[3 + 2 * i] << 8) + aRxBuffer[4 + 2 * i]);
+				aTxBuffer[txIdx++] = aRxBuffer[3+2*i];
+				aTxBuffer[txIdx++] = aRxBuffer[4+2*i];
+				switch(i){
+					case 0:MS5614T2_SetCode(MS5614T_DAC_A, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
+					case 1:MS5614T2_SetCode(MS5614T_DAC_C, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
+					case 2:MS5614T2_SetCode(MS5614T_DAC_B, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
+					case 3:MS5614T_SetCode(MS5614T_DAC_A, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
+					case 4:MS5614T_SetCode(MS5614T_DAC_C, WriteData, MS5614T_SPEED_FAST, MS5614T_NORMAL);break;
+				}		
+		}
+		USART_Queue_Send(aTxBuffer, USART_TX_SIZE);
+		ClearTxBuff();
+}
+
+void checkRT(void){
+		uint8_t txIdx = 2;
+		aTxBuffer[txIdx++] = EXTRA_STATE;
+		aTxBuffer[txIdx++] = 0x02;
+	
+		adcData = ADC_Write_Read_Stable(6) & 0x0FFF;
+		aTxBuffer[txIdx++] = (adcData >> 8) & 0xFF;
+		aTxBuffer[txIdx++] = (adcData) & 0xFF;
+		
+		adcData = ADC_Write_Read_Stable(7) & 0x0FFF;
+		aTxBuffer[txIdx++] = (adcData >> 8) & 0xFF;
+		aTxBuffer[txIdx++] = (adcData) & 0xFF;
+		
 		USART_Queue_Send(aTxBuffer, USART_TX_SIZE);
 		ClearTxBuff();
 }
