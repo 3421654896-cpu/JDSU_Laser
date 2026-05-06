@@ -525,7 +525,7 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("可调谐激光器")
-        self.resize(1000, 800)
+        self.resize(1400, 800)
 
         menubar = self.menuBar()
 
@@ -1545,8 +1545,8 @@ class extraWindow(QtWidgets.QWidget):
                                     ((temp_dec_high<<8)+temp_dec_low)*0.0001
                     self.temp_signal.emit(self.temperature)
                 elif v[3] == 0x02:
-                    _pdr = (v[4]<<8)+v[5]
-                    _pdt = (v[6]<<8)+v[7]
+                    _pdt = (v[4]<<8)+v[5]# 先采的ch6是pdt
+                    _pdr = (v[6]<<8)+v[7]# 后采的ch7是pdr
 
                     self.rt_signal.emit(_pdr,_pdt)
 
