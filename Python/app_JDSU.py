@@ -420,7 +420,8 @@ class APWorker(QThread):
 
                 head_data = ["timestamp_iso",
                         "peak1_wavelength_nm", "peak1_power_mW",
-                        "peak2_wavelength_nm", "peak2_power_mW", "temperature"]
+                        "peak2_wavelength_nm", "peak2_power_mW", "temperature",
+                        "pdr", "pdt", "ratio_rt"]
                 gap_len = len(head_data)+1
 
                 self.log("开始记录(ACK 不成功则一直重发同一行，不推进 Excel)。Ctrl+C 结束。")
@@ -481,6 +482,16 @@ class APWorker(QThread):
                     current_cmd = None
                     current_info = None
 
+                    # 读 PDT和PDR
+                    pdt = (flag[5]<<8)+flag[6]
+                    pdr = (flag[7]<<8)+flag[8]
+
+                    pdt = pdt*2.5/4096
+                    pdr = pdr*2.5/4096
+
+                    pdt = (1.25-pdt)/2000
+                    pdr = (1.25-pdr)/2000
+
                     # 读 AQ（失败短重试）
                     ts = datetime.now().isoformat(timespec="milliseconds")
                     wav1_nm = pow1_mw = wav2_nm = pow2_mw = float("nan")
@@ -492,7 +503,7 @@ class APWorker(QThread):
                             time.sleep(0.01)
 
                     # 写（波长保留3位，功率mW保留6位）
-                    cur_row = [ts, trunc3(wav1_nm), trunc6(pow1_mw), trunc3(wav2_nm), trunc6(pow2_mw), trunc4(self.temperature)]
+                    cur_row = [ts, trunc3(wav1_nm), trunc6(pow1_mw), trunc3(wav2_nm), trunc6(pow2_mw), trunc4(self.temperature), trunc4(pdr), trunc4(pdt), trunc3(pdr/pdt)]
                     for i, value in enumerate(cur_row):
                         ws_out.cell(row=count+1, column=i+1+loop_time*gap_len, value=value)
 
