@@ -471,7 +471,7 @@ class APWorker(QThread):
                     # 等 ACK（不成功就一直重发，不推进）
                     while True:
                         try:
-                            flag = self.flag_queue.get(timeout=1.0)
+                            flag = self.flag_queue.get(timeout=10.0)
                             break
                         except Empty:
                             serial_write(current_cmd)
@@ -489,8 +489,8 @@ class APWorker(QThread):
                     pdt = pdt*2.5/4096
                     pdr = pdr*2.5/4096
 
-                    pdt = (1.25-pdt)/2000
-                    pdr = (1.25-pdr)/2000
+                    pdt = (1.25-pdt)/2
+                    pdr = (1.25-pdr)/2
 
                     # 读 AQ（失败短重试）
                     ts = datetime.now().isoformat(timespec="milliseconds")

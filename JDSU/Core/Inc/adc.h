@@ -21,7 +21,7 @@
 #define STABLECOUNT					2
 #define STABLERANGE					9
 #define WINDOW_SIZE 				100
-#define QUEUE_SIZE 					20000
+#define QUEUE_SIZE 					10000
 
 extern uint16_t adcSPI;
 extern uint32_t adcCount;
