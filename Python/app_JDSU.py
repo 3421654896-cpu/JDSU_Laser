@@ -897,10 +897,10 @@ class GraphWindow(QtWidgets.QWidget):
         self.data3 = deque(maxlen=array_size)
         self.data4 = deque(maxlen=array_size)
 
-        self.usdata1 = deque(maxlen=array_size)
-        self.usdata2 = deque(maxlen=array_size)
-        self.usdata3 = deque(maxlen=array_size)
-        self.usdata4 = deque(maxlen=array_size)
+        self.usdata1 = []
+        self.usdata2 = []
+        self.usdata3 = []
+        self.usdata4 = []
 
         self.waves = [[0 for _ in range(15)] for _ in range(4)]
 
@@ -1172,11 +1172,6 @@ class GraphWindow(QtWidgets.QWidget):
                 self.data3.clear()
                 self.data4.clear()
 
-                self.usdata1.clear()
-                self.usdata2.clear()
-                self.usdata3.clear()
-                self.usdata4.clear()
-
                 self.adc1 = deque(maxlen=array_size)
                 self.adc2 = deque(maxlen=array_size)
                 self.adc3 = deque(maxlen=array_size)
@@ -1187,10 +1182,10 @@ class GraphWindow(QtWidgets.QWidget):
                 self.data3 = deque(maxlen=array_size)
                 self.data4 = deque(maxlen=array_size)
 
-                self.usdata1 = list()
-                self.usdata2 = list()
-                self.usdata3 = list()
-                self.usdata4 = list()
+            self.usdata1.clear()
+            self.usdata2.clear()
+            self.usdata3.clear()
+            self.usdata4.clear()
 
             com_index = 0
             for i in range(4, array_size*12+4, single_size):
@@ -1291,6 +1286,7 @@ class GraphWindow(QtWidgets.QWidget):
         y_data = []
         for usp in self.us_points:
             self.plot1.removeItem(usp)
+        self.us_points.clear()
         for usl,adcl in zip(us_list,adc_list):
             for pt in usl:
                 x_data.append(self.wave_const[pt])
