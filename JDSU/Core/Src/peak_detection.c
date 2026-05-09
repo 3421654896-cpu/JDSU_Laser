@@ -20,22 +20,8 @@ int decimal_part = 0;
 uint8_t Find_Peaks(uint16_t *adc_vec, float *peaks_vec, uint16_t adc_length){
 	uint16_t initials[PEAKS_COUNT]={0};
 	memset(peaks_vec, 0, sizeof(float)*PEAKS_COUNT);
-	
-	int ma = adc_vec[0], mi = adc_vec[0];
-	for(int i=0;i<adc_length;i++){
-		if(adc_vec[i]>ma) ma = adc_vec[i];
-		if(adc_vec[i]<mi) mi = adc_vec[i];
-	}
-	
-	int mean = 0;
-	int gap = ma-mi;
-//	float *adc_norvec = (float*)calloc(3000, sizeof(float));
-	for(int i=0;i<adc_length;i++){
-		adc_norvec[i] = (adc_vec[i]-mi);
-		mean+=adc_norvec[i];
-	}
-//	mean = mean / (float)adc_length;
-	Find_Initial(adc_norvec, initials, adc_length, mean, gap);
+
+	Find_Initial(adc_norvec, initials, adc_length);
 	
 	uint8_t i=0;
 	for(;i<PEAKS_COUNT;i++){
@@ -49,21 +35,25 @@ uint8_t Find_Peaks(uint16_t *adc_vec, float *peaks_vec, uint16_t adc_length){
 			sumxy+=adc_vec[j]*(Wave_DATA[j][0]+Wave_DATA[j][1]*0.001);
 			sumy+=adc_vec[j];
 		}
-//		peaks_vec[i] = sumxy/sumy;//position
-//		float peak_indexf = sumxy/(float)sumy;
-		//peak_indexf = 156.45;
-//		int peak_low = (int)peak_indexf;
-//		float ratio = peak_indexf - peak_low;
-//		float wave_low = Wave_DATA[peak_low][0]+Wave_DATA[peak_low][1]*0.001;
-//		float wave_high = Wave_DATA[peak_low+1][0]+Wave_DATA[peak_low+1][1]*0.001;
-//		peaks_vec[i] = wave_low*(1-ratio)+wave_high*ratio;
-			peaks_vec[i] = sumxy/(float)sumy;
+		peaks_vec[i] = sumxy/(float)sumy;
 	}
 	return i;
 }
 
-void Find_Initial(int *adc_norvec, uint16_t *initials, uint16_t adc_length, int threshold, int gap){
-	if(100*threshold>10*adc_length*gap) return;
+void Find_Initial(int *adc_vec, uint16_t *initials, uint16_t adc_length){
+	int ma = adc_vec[0], mi = adc_vec[0];
+	for(int i=0;i<adc_length;i++){
+		if(adc_vec[i]>ma) ma = adc_vec[i];
+		if(adc_vec[i]<mi) mi = adc_vec[i];
+	}
+	int mean = 0;
+	int gap = ma-mi;
+	for(int i=0;i<adc_length;i++){
+		adc_norvec[i] = (adc_vec[i]-mi);
+		mean+=adc_norvec[i];
+	}
+	
+	if(100*mean>10*adc_length*gap) return;
 	uint16_t it = 0;
 	for(uint16_t i=1;i<adc_length-1;i++){
 		if(it>=PEAKS_COUNT) break;
@@ -78,6 +68,9 @@ void Find_Initial(int *adc_norvec, uint16_t *initials, uint16_t adc_length, int 
 			if(adc_norvec[j]>back) back = adc_norvec[j];
 		}
 		if((adc_norvec[i]>front||adc_norvec[i]==front)&&(adc_norvec[i]>back||adc_norvec[i]==back)&&adc_norvec[i]>410){
+			if(10*(adc_norvec[i]-adc_norvec[i-2])>gap*5 || 10*(adc_norvec[i]-adc_norvec[i-2])>gap*5){
+				continue;
+			}
 			initials[it] = i;
 			i+=INTERVAL;
 			it++;

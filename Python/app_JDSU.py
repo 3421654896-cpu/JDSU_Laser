@@ -28,6 +28,8 @@ from collections import deque
 from queue import Queue
 from queue import Empty
 
+from scipy.signal import medfilt, butter, filtfilt
+
 #测试
 # ====== 参数（按需改）======
 ADDR = "GPIB0::7::INSTR"
@@ -887,20 +889,24 @@ class GraphWindow(QtWidgets.QWidget):
 
         layout.addWidget(self.plot1, 1, 0)
 
-        self.adc1 = deque(maxlen=array_size)
-        self.adc2 = deque(maxlen=array_size)
-        self.adc3 = deque(maxlen=array_size)
-        self.adc4 = deque(maxlen=array_size)
+        self.adc = [deque(maxlen=array_size)]*4
+        self.data = [deque(maxlen=array_size)]*4
+        self.usdata = [list()]*4
 
-        self.data1 = deque(maxlen=array_size)
-        self.data2 = deque(maxlen=array_size)
-        self.data3 = deque(maxlen=array_size)
-        self.data4 = deque(maxlen=array_size)
+        # self.adc1 = deque(maxlen=array_size)
+        # self.adc2 = deque(maxlen=array_size)
+        # self.adc3 = deque(maxlen=array_size)
+        # self.adc4 = deque(maxlen=array_size)
 
-        self.usdata1 = []
-        self.usdata2 = []
-        self.usdata3 = []
-        self.usdata4 = []
+        # self.data1 = deque(maxlen=array_size)
+        # self.data2 = deque(maxlen=array_size)
+        # self.data3 = deque(maxlen=array_size)
+        # self.data4 = deque(maxlen=array_size)
+
+        # self.usdata1 = []
+        # self.usdata2 = []
+        # self.usdata3 = []
+        # self.usdata4 = []
 
         self.waves = [[0 for _ in range(15)] for _ in range(4)]
 
@@ -994,6 +1000,9 @@ class GraphWindow(QtWidgets.QWidget):
             slot=self.mouseMoved
         )
 
+        self.initials_length = 15
+        self.interval = 25
+
     def mouseMoved(self, evt):
         pos = evt[0]
         if self.plot1.sceneBoundingRect().contains(pos):
@@ -1004,7 +1013,7 @@ class GraphWindow(QtWidgets.QWidget):
 
             # 找最近的x索引
             index = np.abs(np.array(self.wave_const)-x).argmin()
-            if index>=array_size or index<0 or len(self.adc1)==0:
+            if index>=array_size or index<0 or len(self.adc[0])==0:
                     return
             
             self.visual_index = index
@@ -1014,14 +1023,14 @@ class GraphWindow(QtWidgets.QWidget):
     def update_crosshair(self, index, y):
         if index >= array_size or index < 0 \
         or y > self.voltage_range or y < -self.voltage_range \
-        or len(self.adc1) == 0:
+        or len(self.adc[0]) == 0:
             return
     
         adc = np.array([
-            self.adc1[index],
-            self.adc2[index],
-            self.adc3[index],
-            self.adc4[index]
+            self.adc[0][index],
+            self.adc[1][index],
+            self.adc[2][index],
+            self.adc[3][index]
         ])
 
         indey = np.abs(adc-y).argmin()
@@ -1099,8 +1108,8 @@ class GraphWindow(QtWidgets.QWidget):
 
     def on_clear_chart(self):
         curves = [self.curve1, self.curve2, self.curve3, self.curve4]
-        datas = [self.data1, self.data2, self.data3, self.data4]
-        adcs = [self.adc1, self.adc2, self.adc3, self.adc4]
+        datas = self.data
+        adcs = self.data
         for idx in range(4):
             curves[idx].setData([])
             datas[idx].clear()
@@ -1162,30 +1171,11 @@ class GraphWindow(QtWidgets.QWidget):
             if not _array_size == array_size:
                 array_size = _array_size
                 # print(array_size)
-                self.adc1.clear()
-                self.adc2.clear()
-                self.adc3.clear()
-                self.adc4.clear()
+                self.adc = [deque(maxlen=array_size)]*4
 
-                self.data1.clear()
-                self.data2.clear()
-                self.data3.clear()
-                self.data4.clear()
+                self.data = [deque(maxlen=array_size)]*4
 
-                self.adc1 = deque(maxlen=array_size)
-                self.adc2 = deque(maxlen=array_size)
-                self.adc3 = deque(maxlen=array_size)
-                self.adc4 = deque(maxlen=array_size)
-
-                self.data1 = deque(maxlen=array_size)
-                self.data2 = deque(maxlen=array_size)
-                self.data3 = deque(maxlen=array_size)
-                self.data4 = deque(maxlen=array_size)
-
-            self.usdata1.clear()
-            self.usdata2.clear()
-            self.usdata3.clear()
-            self.usdata4.clear()
+            self.usdata = [list()]*4
 
             com_index = 0
             for i in range(4, array_size*12+4, single_size):
@@ -1205,24 +1195,24 @@ class GraphWindow(QtWidgets.QWidget):
                 v3 = ch3*2.5/4095
                 v4 = ch4*2.5/4095
 
-                self.adc1.append(v1)
-                self.adc2.append(v2)
-                self.adc3.append(v3)
-                self.adc4.append(v4)
+                self.adc[0].append(v1)
+                self.adc[1].append(v2)
+                self.adc[2].append(v3)
+                self.adc[3].append(v4)
 
-                self.data1.append(ch1)
-                self.data2.append(ch2)
-                self.data3.append(ch3)
-                self.data4.append(ch4)
+                self.data[0].append(ch1)
+                self.data[1].append(ch2)
+                self.data[2].append(ch3)
+                self.data[3].append(ch4)
 
                 if not st1 ==1:
-                    self.usdata1.append(com_index)
+                    self.usdata[0].append(com_index)
                 if not st2 ==1:
-                    self.usdata2.append(com_index)
+                    self.usdata[1].append(com_index)
                 if not st3 ==1:
-                    self.usdata3.append(com_index)
+                    self.usdata[2].append(com_index)
                 if not st4 ==1:
-                    self.usdata4.append(com_index)
+                    self.usdata[3].append(com_index)
 
                 com_index+=1
                 # if ((raw[array_size*8+2]<<8)+raw[array_size*8+3])!=array_size:
@@ -1280,8 +1270,8 @@ class GraphWindow(QtWidgets.QWidget):
         self.temperature_text.setText(f"{_temperature}")
 
     def update_us_point(self):
-        us_list = [self.usdata1,self.usdata2,self.usdata3,self.usdata4]
-        adc_list = [self.adc1,self.adc2,self.adc3,self.adc4]
+        us_list = self.usdata
+        adc_list = self.adc
         x_data = []
         y_data = []
         for usp in self.us_points:
@@ -1297,11 +1287,10 @@ class GraphWindow(QtWidgets.QWidget):
             self.us_points.append(scatter)
             self.plot1.addItem(scatter)
 
-
     def update_plot(self):
         if self.process_down == False:
             return
-        if not len(self.wave_const) == len(self.adc1):
+        if not len(self.wave_const) == len(self.adc[0]):
             # print("size error")
             return
         self.process_down = False
@@ -1311,10 +1300,16 @@ class GraphWindow(QtWidgets.QWidget):
         x = self.wave_const
 
         # 更新曲线
-        self.curve1.setData(np.array(x),np.array(self.adc1))
-        self.curve2.setData(np.array(x),np.array(self.adc2))
-        self.curve3.setData(np.array(x),np.array(self.adc3))
-        self.curve4.setData(np.array(x),np.array(self.adc4))
+        filts = [self.adc_filter(_adcs) for _adcs in self.adc]
+        self.curve1.setData(np.array(x),np.array(filts[0]))
+        self.curve2.setData(np.array(x),np.array(filts[1]))
+        self.curve3.setData(np.array(x),np.array(filts[2]))
+        self.curve4.setData(np.array(x),np.array(filts[3]))
+
+        # self.curve1.setData(np.array(x),np.array(self.adc[0]))
+        # self.curve2.setData(np.array(x),np.array(self.adc[1]))
+        # self.curve3.setData(np.array(x),np.array(self.adc[2]))
+        # self.curve4.setData(np.array(x),np.array(self.adc[3]))
 
         # 更新不稳定点
         self.update_us_point()
@@ -1339,11 +1334,7 @@ class GraphWindow(QtWidgets.QWidget):
         _data = datas[i]
         if len(_data) == 0:
             return
-        ma = max(_data)
-        mi = min(_data)
-        for j,x in enumerate(_data):
-            _data[j] = (x-mi)/(ma-mi)
-        # peaks = peak_main(_data, statistics.mean(_data))
+        peaks = self.find_peaks(_data, i)
         # print(statistics.mean(_data))
 
         for l in self.peaks_lines[i]:
@@ -1370,6 +1361,64 @@ class GraphWindow(QtWidgets.QWidget):
     def toggle_line(self, i, state):
         visible = (state == QtCore.Qt.Checked)
         self.visible_lines[i] = visible
+
+    def find_initial(self, data_vec, initials, adc_length, adc_index):
+        ma = max(data_vec)
+        mi = min(data_vec)
+        gap = ma-mi
+        data_norvec = list(np.array(data_vec)-mi)
+        mean = sum(data_norvec)
+
+        if 100*mean>10*adc_length*gap:
+            return initials
+        it = 0
+        for i in range(1,adc_length-1):
+            if it>=self.initials_length: break
+            start = i-self.interval if i-self.interval>=0 else 0
+            end = i+self.interval if i+self.interval<adc_length else adc_length
+
+            front = list(data_norvec)[start:i]
+            back = list(data_norvec)[i+1:end]
+            if data_norvec[i]>=max(front) and data_norvec[i]>=max(back) and data_norvec[i]>410: 
+                if 10*(data_norvec[i]-data_norvec[i-2])>gap*5 or 10*(data_norvec[i]-data_norvec[i-2])>gap*5:
+                   self.adc[adc_index][i] = 0
+                   continue
+                initials[it] = i
+                i+=self.interval
+                it+=1
+        print(initials)
+        return initials
+
+    def find_peaks(self, data_vec, adc_index):
+        initials = [0]*self.initials_length
+        peaks_vec = [0]*self.initials_length
+        adc_length = array_size
+
+        initials = self.find_initial(data_vec, initials, adc_length, adc_index)
+        
+        for i in range(self.initials_length):
+            if initials[i]==0:
+                break
+            start = initials[i]-self.interval if initials[i]-self.interval>=0 else 0
+            end = initials[i]+self.interval if initials[i]+self.interval<adc_length else adc_length
+            sumy=0
+            sumxy=0
+            for j in range(start, end):
+                sumxy+=data_vec[j]*self.wave_const[j]
+                sumy+=data_vec[j]
+            peaks_vec[i] = sumxy/sumy
+
+        print(peaks_vec)
+        return peaks_vec
+    
+    def adc_filter(self, adc_vec):
+        y = medfilt(adc_vec, kernel_size=3)
+        # fs = 1000
+        # cutoff = 100
+
+        # b,a = butter(N=4,Wn=cutoff/(fs/2),btype='low')
+        # y = filtfilt(b,a,adc_vec)
+        return y
 
 class extraWindow(QtWidgets.QWidget):
     temp_signal = pyqtSignal(float)
@@ -1688,50 +1737,6 @@ class extraWindow(QtWidgets.QWidget):
             ser_open = False
         except Exception as e:
             self.error_signal.emit(str(e))
-
-
-def peak_initial(adc_vec, interval, adc_length, initials_length, threshold):
-    initials = [0]*initials_length
-    if threshold>0.15:
-        return initials
-    it = 0
-    for i in range(1,adc_length-1):
-        if it>=initials_length: break
-        start = i-interval if i-interval>=0 else 0
-        end = i+interval if i+interval<adc_length else adc_length
-        front = list(adc_vec)[start:i]
-        back = list(adc_vec)[i+1:end]
-        if adc_vec[i]>=max(front) and adc_vec[i]>=max(back) and adc_vec[i]>0.6: 
-            initials[it] = i
-            i += interval
-            it+=1
-    # print(initials)
-    return initials
-
-def peak_main(adc_vec, threshold):
-    interval = 25
-    adc_length = array_size
-    initials_length = 15
-	
-    initials = peak_initial(adc_vec, interval, adc_length, initials_length, threshold)
-    peaks_vec = [-1]*initials_length
-
-    # for(uint8_t i=0;i<10;i++){
-    for i in range(initials_length):
-        if initials[i]==0:
-            break
-        start = initials[i]-interval if initials[i]-interval>=0 else 0
-        end = initials[i]+interval if initials[i]+interval<adc_length else adc_length
-        sumy=0
-        sumxy=0
-        # for(int j=start;j<end;j++){
-        for j in range(start, end):
-            sumxy+=adc_vec[j]*j
-            sumy+=adc_vec[j]
-        peaks_vec[i] = sumxy/sumy
-
-    # print(peaks_vec)
-    return peaks_vec
 
 if __name__=="__main__":
     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
