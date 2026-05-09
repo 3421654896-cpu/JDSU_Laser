@@ -18,16 +18,16 @@
 #define ADC_ENTER_FRAME			(0x2 << 12) | (0x1 << 11)
 #define ADC_LOOP_FRAME			(0x2 << 12)
 
-#define STABLECOUNT					2
-#define STABLERANGE					9
-#define WINDOW_SIZE 				120
-#define QUEUE_SIZE 					10000
+#define STABLECOUNT					1
+#define STABLERANGE					18
+#define WINDOW_SIZE 				25
+#define QUEUE_SIZE 				  200
 
 extern uint16_t adcSPI;
 extern uint32_t adcCount;
 extern uint16_t adcStable;
 extern uint16_t adcUnstable;
-extern uint16_t adcQueue[QUEUE_SIZE];
+extern uint16_t adcQueue[WINDOW_SIZE];
 extern uint16_t adcUnstableList[Number];
 
 void Reset_ADC_Queue(void);
