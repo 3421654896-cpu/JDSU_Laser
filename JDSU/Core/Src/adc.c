@@ -4,7 +4,7 @@ uint16_t adcSPI = 0;
 uint32_t adcCount = 0;
 uint16_t adcStable = 0;
 uint16_t adcUnstable = 0;
-uint16_t adcQueue[QUEUE_SIZE] = {0};
+uint16_t adcQueue[WINDOW_SIZE] = {0};
 uint16_t adcUnstableList[Number] = {0};
 
 void Reset_ADC_Queue(void){
@@ -58,7 +58,7 @@ uint16_t ADC_Write_Read_Stable(uint8_t ch, uint8_t* stable){
 		Reset_ADC_Queue();
 	
 		while(adcStable<STABLECOUNT){
-				adcQueue[adcCount%QUEUE_SIZE] = ADC_SPI_Cmd(frame);
+				adcQueue[adcCount%WINDOW_SIZE] = ADC_SPI_Cmd(frame);
 				
 				if(adcCount==(QUEUE_SIZE-1)){
 //						uint16_t adcSum = 0;
@@ -66,18 +66,21 @@ uint16_t ADC_Write_Read_Stable(uint8_t ch, uint8_t* stable){
 //								adcSum+=adcQueue[i];
 //						}
 						*stable = 0;
-						return adcQueue[adcCount%QUEUE_SIZE];
+//						return adcQueue[adcCount%QUEUE_SIZE];
+						return adcQueue[adcCount%WINDOW_SIZE];
 				}
 			
 //				if(adcCount>2 && abs((int)(adcQueue[(adcCount-1)%QUEUE_SIZE])-(int)(adcQueue[(adcCount-2)%QUEUE_SIZE]))<205) adcStable++;
 //				else adcStable=0;
 			
-				if(adcCount>=WINDOW_SIZE){
-						uint16_t cur = (adcCount-WINDOW_SIZE+1)%QUEUE_SIZE;
+				if(adcCount>=WINDOW_SIZE && adcCount%WINDOW_SIZE==0){
+//						uint16_t cur = (adcCount-WINDOW_SIZE+1)%QUEUE_SIZE;
+						uint16_t cur = 0;
 						uint16_t amax = adcQueue[cur];
 						uint16_t amin = adcQueue[cur];
 						for(uint16_t j=1;j<WINDOW_SIZE;j++){
-								cur = (cur+1)%QUEUE_SIZE;
+//								cur = (cur+1)%QUEUE_SIZE;
+								cur = j;
 								if(adcQueue[cur]>amax) amax = adcQueue[cur];
 								if(adcQueue[cur]<amin) amin = adcQueue[cur];
 						}
@@ -86,7 +89,7 @@ uint16_t ADC_Write_Read_Stable(uint8_t ch, uint8_t* stable){
 				}
 				adcCount++;
 		}
-		return adcQueue[(adcCount-1)%QUEUE_SIZE];
+		return adcQueue[(adcCount-1)%WINDOW_SIZE];
 }
 
 void ADC_Loop_Start(void){
