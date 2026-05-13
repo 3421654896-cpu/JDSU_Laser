@@ -122,7 +122,7 @@ int main(void)
 	Set_Soft_PWM_Duty(50);
 	HAL_DMA_Start(&hdma_tim2_up_ch3, (uint32_t)pwm_buffer, (uint32_t)&(GPIOC->BSRR), 100);
 	__HAL_TIM_ENABLE_DMA(&htim2, TIM_DMA_UPDATE);
-	__HAL_TIM_ENABLE(&htim2);
+	HAL_TIM_Base_Start(&htim2);
 	
 	HAL_GPIO_WritePin(CHOISE_0_A_PORT, CHOISE_0_A_PIN, (GPIO_PinState)CHOISE_0_A);
 	HAL_GPIO_WritePin(CHOISE_0_B_PORT, CHOISE_0_B_PIN, (GPIO_PinState)CHOISE_0_B);
@@ -345,7 +345,7 @@ static void MX_TIM2_Init(void)
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim2.Init.Period = 99;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
   {
     Error_Handler();
