@@ -21,7 +21,7 @@ uint8_t Find_Peaks(uint16_t *adc_vec, float *peaks_vec, uint16_t adc_length){
 	uint16_t initials[PEAKS_COUNT]={0};
 	memset(peaks_vec, 0, sizeof(float)*PEAKS_COUNT);
 
-	Find_Initial(adc_norvec, initials, adc_length);
+	Find_Initial(adc_vec, initials, adc_length);
 	
 	uint8_t i=0;
 	for(;i<PEAKS_COUNT;i++){
@@ -40,7 +40,7 @@ uint8_t Find_Peaks(uint16_t *adc_vec, float *peaks_vec, uint16_t adc_length){
 	return i;
 }
 
-void Find_Initial(int *adc_vec, uint16_t *initials, uint16_t adc_length){
+void Find_Initial(uint16_t *adc_vec, uint16_t *initials, uint16_t adc_length){
 	int ma = adc_vec[0], mi = adc_vec[0];
 	for(int i=0;i<adc_length;i++){
 		if(adc_vec[i]>ma) ma = adc_vec[i];
@@ -67,8 +67,9 @@ void Find_Initial(int *adc_vec, uint16_t *initials, uint16_t adc_length){
 		for(int j=i+1;j<end;j++){
 			if(adc_norvec[j]>back) back = adc_norvec[j];
 		}
-		if((adc_norvec[i]>front||adc_norvec[i]==front)&&(adc_norvec[i]>back||adc_norvec[i]==back)&&adc_norvec[i]>410){
-			if(10*(adc_norvec[i]-adc_norvec[i-2])>gap*5 || 10*(adc_norvec[i]-adc_norvec[i-2])>gap*5){
+		if((adc_norvec[i]>front||adc_norvec[i]==front)&&(adc_norvec[i]>back||adc_norvec[i]==back)&&adc_norvec[i]>PEAK_THRESHOLD){
+			if(10*(adc_norvec[i]-adc_norvec[i-1])>gap*5 || 10*(adc_norvec[i]-adc_norvec[i-1])>gap*5){
+//				i+=INTERVAL;
 				continue;
 			}
 			initials[it] = i;
