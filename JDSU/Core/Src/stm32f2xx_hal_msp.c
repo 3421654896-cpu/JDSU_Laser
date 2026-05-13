@@ -261,7 +261,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
     hdma_tim2_up_ch3.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
     hdma_tim2_up_ch3.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
     hdma_tim2_up_ch3.Init.Mode = DMA_CIRCULAR;
-    hdma_tim2_up_ch3.Init.Priority = DMA_PRIORITY_MEDIUM;
+    hdma_tim2_up_ch3.Init.Priority = DMA_PRIORITY_HIGH;
     hdma_tim2_up_ch3.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
     if (HAL_DMA_Init(&hdma_tim2_up_ch3) != HAL_OK)
     {
