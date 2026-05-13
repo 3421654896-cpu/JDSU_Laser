@@ -834,6 +834,7 @@ class GraphWindow(QtWidgets.QWidget):
         self.peaks_lines = [[] for _ in range(4)]
         self.visible_lines = [False for _ in range(4)]
         self.us_points = []
+        self.impress_points = []
 
         layout = QtWidgets.QGridLayout()
         self.setLayout(layout)
@@ -889,24 +890,10 @@ class GraphWindow(QtWidgets.QWidget):
 
         layout.addWidget(self.plot1, 1, 0)
 
-        self.adc = [deque(maxlen=array_size)]*4
-        self.data = [deque(maxlen=array_size)]*4
-        self.usdata = [list()]*4
-
-        # self.adc1 = deque(maxlen=array_size)
-        # self.adc2 = deque(maxlen=array_size)
-        # self.adc3 = deque(maxlen=array_size)
-        # self.adc4 = deque(maxlen=array_size)
-
-        # self.data1 = deque(maxlen=array_size)
-        # self.data2 = deque(maxlen=array_size)
-        # self.data3 = deque(maxlen=array_size)
-        # self.data4 = deque(maxlen=array_size)
-
-        # self.usdata1 = []
-        # self.usdata2 = []
-        # self.usdata3 = []
-        # self.usdata4 = []
+        self.adc = [deque(maxlen=array_size) for _ in range(4)]
+        self.data = [deque(maxlen=array_size) for _ in range(4)]
+        self.filts = [np.array(list()) for _ in range(4)]
+        self.usdata = [list() for _ in range(4)]
 
         self.waves = [[0 for _ in range(15)] for _ in range(4)]
 
@@ -1001,7 +988,8 @@ class GraphWindow(QtWidgets.QWidget):
         )
 
         self.initials_length = 15
-        self.interval = 25
+        self.peak_interval = 30
+        self.peak_threshold = 164
 
     def mouseMoved(self, evt):
         pos = evt[0]
@@ -1014,7 +1002,7 @@ class GraphWindow(QtWidgets.QWidget):
             # 找最近的x索引
             index = np.abs(np.array(self.wave_const)-x).argmin()
             if index>=array_size or index<0 or len(self.adc[0])==0:
-                    return
+                return
             
             self.visual_index = index
             self.visual_y = y
@@ -1027,10 +1015,10 @@ class GraphWindow(QtWidgets.QWidget):
             return
     
         adc = np.array([
-            self.adc[0][index],
-            self.adc[1][index],
-            self.adc[2][index],
-            self.adc[3][index]
+            self.filts[0][index],
+            self.filts[1][index],
+            self.filts[2][index],
+            self.filts[3][index]
         ])
 
         indey = np.abs(adc-y).argmin()
@@ -1171,11 +1159,11 @@ class GraphWindow(QtWidgets.QWidget):
             if not _array_size == array_size:
                 array_size = _array_size
                 # print(array_size)
-                self.adc = [deque(maxlen=array_size)]*4
 
-                self.data = [deque(maxlen=array_size)]*4
+                self.adc = [deque(maxlen=array_size) for _ in range(4)]
+                self.data = [deque(maxlen=array_size) for _ in range(4)]
 
-            self.usdata = [list()]*4
+            self.usdata = [list() for _ in range(4)]
 
             com_index = 0
             for i in range(4, array_size*12+4, single_size):
@@ -1215,6 +1203,7 @@ class GraphWindow(QtWidgets.QWidget):
                     self.usdata[3].append(com_index)
 
                 com_index+=1
+                # print(self.adc)
                 # if ((raw[array_size*8+2]<<8)+raw[array_size*8+3])!=array_size:
                 # if ((raw[2]<<8)+raw[3])!=array_size:
                 #     print("array_size_error")
@@ -1271,18 +1260,18 @@ class GraphWindow(QtWidgets.QWidget):
 
     def update_us_point(self):
         us_list = self.usdata
-        adc_list = self.adc
+        filt_list = self.filts
         x_data = []
         y_data = []
         for usp in self.us_points:
             self.plot1.removeItem(usp)
         self.us_points.clear()
-        for usl,adcl in zip(us_list,adc_list):
+        for usl,adcl in zip(us_list,filt_list):
             for pt in usl:
                 x_data.append(self.wave_const[pt])
                 y_data.append(adcl[pt])
                 
-            scatter = pg.ScatterPlotItem(x_data, y_data, pen=None, symbol='o', symbolBrush='r', symbolSize=10)
+            scatter = pg.ScatterPlotItem(x_data, y_data, pen=pg.mkPen(255,0,0), symbol='o', symbolBrush=pg.mkBrush(255,0,0), symbolSize=10)
             
             self.us_points.append(scatter)
             self.plot1.addItem(scatter)
@@ -1299,17 +1288,24 @@ class GraphWindow(QtWidgets.QWidget):
                                           yMin=-self.voltage_range/self.voltage_range,yMax=self.voltage_range)
         x = self.wave_const
 
-        # 更新曲线
-        filts = [self.adc_filter(_adcs) for _adcs in self.adc]
-        self.curve1.setData(np.array(x),np.array(filts[0]))
-        self.curve2.setData(np.array(x),np.array(filts[1]))
-        self.curve3.setData(np.array(x),np.array(filts[2]))
-        self.curve4.setData(np.array(x),np.array(filts[3]))
+        for i in range(4):
+            self.calculate_peaks(i)
 
-        # self.curve1.setData(np.array(x),np.array(self.adc[0]))
-        # self.curve2.setData(np.array(x),np.array(self.adc[1]))
-        # self.curve3.setData(np.array(x),np.array(self.adc[2]))
-        # self.curve4.setData(np.array(x),np.array(self.adc[3]))
+        # 更新被抑制的点
+        for imp in self.impress_points:
+            self.plot1.removeItem(imp)
+
+        # 更新曲线
+        self.filts = [self.adc_filter(_adcs) for _adcs in self.adc]
+        self.curve1.setData(np.array(x),np.array(self.filts[0]))
+        self.curve2.setData(np.array(x),np.array(self.filts[1]))
+        self.curve3.setData(np.array(x),np.array(self.filts[2]))
+        self.curve4.setData(np.array(x),np.array(self.filts[3]))
+
+        # self.curve1.setData(np.array(x),np.asarray(self.adc[0]))
+        # self.curve2.setData(np.array(x),np.asarray(self.adc[1]))
+        # self.curve3.setData(np.array(x),np.asarray(self.adc[2]))
+        # self.curve4.setData(np.array(x),np.asarray(self.adc[3]))
 
         # 更新不稳定点
         self.update_us_point()
@@ -1329,14 +1325,16 @@ class GraphWindow(QtWidgets.QWidget):
 
         self.process_down = True
 
-    def cal_peaks_line(self, i):
-        datas = [self.data1, self.data2, self.data3, self.data4]
-        _data = datas[i]
+    def calculate_peaks(self, i):
+        _data = self.data[i]
         if len(_data) == 0:
             return
         peaks = self.find_peaks(_data, i)
-        # print(statistics.mean(_data))
+        # print(peaks)
 
+    def cal_peaks_line(self, i):
+        if len(self.data[i]) == 0:
+            return
         for l in self.peaks_lines[i]:
             l.setVisible(False)
 
@@ -1368,25 +1366,30 @@ class GraphWindow(QtWidgets.QWidget):
         gap = ma-mi
         data_norvec = list(np.array(data_vec)-mi)
         mean = sum(data_norvec)
-
+        # print(f"{adc_index}:", mean)
+        
         if 100*mean>10*adc_length*gap:
             return initials
         it = 0
-        for i in range(1,adc_length-1):
+        for i in range(1,adc_length-2):
             if it>=self.initials_length: break
-            start = i-self.interval if i-self.interval>=0 else 0
-            end = i+self.interval if i+self.interval<adc_length else adc_length
+            start = i-self.peak_interval if i-self.peak_interval>=0 else 0
+            end = i+self.peak_interval if i+self.peak_interval<adc_length else adc_length
 
+            # print(data_norvec)
             front = list(data_norvec)[start:i]
             back = list(data_norvec)[i+1:end]
-            if data_norvec[i]>=max(front) and data_norvec[i]>=max(back) and data_norvec[i]>410: 
-                if 10*(data_norvec[i]-data_norvec[i-2])>gap*5 or 10*(data_norvec[i]-data_norvec[i-2])>gap*5:
+            # print(front)
+            # print(back)
+            if data_norvec[i]>=max(front) and data_norvec[i]>=max(back) and data_norvec[i]>self.peak_threshold:
+                if 10*(data_norvec[i]-data_norvec[i-1])>gap*5 or 10*(data_norvec[i]-data_norvec[i-1])>gap*5:
                    self.adc[adc_index][i] = 0
                    continue
+                # print(data_norvec[i])
                 initials[it] = i
-                i+=self.interval
+                i+=self.peak_interval
                 it+=1
-        print(initials)
+        # print(initials)
         return initials
 
     def find_peaks(self, data_vec, adc_index):
@@ -1399,8 +1402,8 @@ class GraphWindow(QtWidgets.QWidget):
         for i in range(self.initials_length):
             if initials[i]==0:
                 break
-            start = initials[i]-self.interval if initials[i]-self.interval>=0 else 0
-            end = initials[i]+self.interval if initials[i]+self.interval<adc_length else adc_length
+            start = initials[i]-self.peak_interval if initials[i]-self.peak_interval>=0 else 0
+            end = initials[i]+self.peak_interval if initials[i]+self.peak_interval<adc_length else adc_length
             sumy=0
             sumxy=0
             for j in range(start, end):
@@ -1408,17 +1411,33 @@ class GraphWindow(QtWidgets.QWidget):
                 sumy+=data_vec[j]
             peaks_vec[i] = sumxy/sumy
 
-        print(peaks_vec)
+        # print(peaks_vec)
         return peaks_vec
     
     def adc_filter(self, adc_vec):
         y = medfilt(adc_vec, kernel_size=3)
+
         # fs = 1000
         # cutoff = 100
-
         # b,a = butter(N=4,Wn=cutoff/(fs/2),btype='low')
-        # y = filtfilt(b,a,adc_vec)
+        # y = filtfilt(b,a,y)
+
+        self.filter_visual(adc_vec, y)
         return y
+    
+    def filter_visual(self, adc_vec, fil_vec):
+        x_data = []
+        y_data = []
+        for i,(fi,adc) in enumerate(zip(fil_vec, adc_vec)):
+            if abs(fi-adc)<0.1:
+                continue
+            x_data.append(self.wave_const[i])
+            y_data.append(adc)
+
+            scatter = pg.ScatterPlotItem(x_data, y_data, pen=pg.mkPen(255,255,0), symbol='o', symbolBrush=pg.mkBrush(255,255,0), symbolSize=10)
+                
+            self.impress_points.append(scatter)
+            self.plot1.addItem(scatter)
 
 class extraWindow(QtWidgets.QWidget):
     temp_signal = pyqtSignal(float)
