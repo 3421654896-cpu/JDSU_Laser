@@ -77,6 +77,20 @@ typedef enum
 #define LED_TABLE_LOW()						HAL_GPIO_WritePin(LED_TABLE_PORT, LED_TABLE_PIN, GPIO_PIN_RESET)
 #define LED_TABLE_HIGH()					HAL_GPIO_WritePin(LED_TABLE_PORT, LED_TABLE_PIN, GPIO_PIN_SET)
 
+#define CHOISE_0_A_PORT 					GPIOA
+#define CHOISE_0_A_PIN 					  GPIO_PIN_3
+#define CHOISE_0_B_PORT						GPIOB
+#define CHOISE_0_B_PIN 					  GPIO_PIN_2
+#define CHOISE_1_A_PORT 					GPIOC
+#define CHOISE_1_A_PIN 					  GPIO_PIN_5
+#define CHOISE_1_B_PORT						GPIOB
+#define CHOISE_1_B_PIN 					  GPIO_PIN_0
+
+#define CHOISE_0_A								1
+#define CHOISE_0_B								1
+#define CHOISE_1_A								1
+#define CHOISE_1_B								1
+
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
