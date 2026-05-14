@@ -12,8 +12,10 @@
 #define CONVERT_T							0x44
 #define READ_SCRATCHPAD				0xBE
 
+#define ARR_1									100
+
 extern uint16_t temperature;
-extern uint32_t pwm_buffer[100];
+extern uint32_t pwm_buffer[ARR_1];
 
 void DQ_IN(void);
 void DQ_OUT(void);

@@ -1,7 +1,7 @@
 #include "main.h"
 
 uint16_t temperature = 0;
-uint32_t pwm_buffer[100] = {0};
+uint32_t pwm_buffer[ARR_1] = {0};
 
 void DQ_IN(void){
 		GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -125,11 +125,12 @@ float M1820Z_GetTmp(void){
 
 void Set_Soft_PWM_Duty(uint8_t duty)
 {
+		uint16_t ratio = ARR_1/100;
     if(duty > 100) duty = 100;
     
-    for(int i = 0; i < 100; i++)
+    for(int i = 0; i < ARR_1; i++)
     {
-        if(i < duty)
+        if(i < duty*ratio)
         {
             pwm_buffer[i] = (1 << 2);
         }
