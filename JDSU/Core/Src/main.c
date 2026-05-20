@@ -122,7 +122,7 @@ int main(void)
 //	GPIOC->BSRR = GPIO_PIN_2;
 //	GPIOC->BSRR = GPIO_PIN_2 << 16;
 	
-	Set_Soft_PWM_Duty(80);
+	Set_Soft_PWM_Duty(0);
 	__HAL_TIM_ENABLE_DMA(&htim1, TIM_DMA_UPDATE);
 	HAL_DMA_Start(&hdma_tim1_up, (uint32_t)pwm_buffer, (uint32_t)&(GPIOC->BSRR), ARR_1);
 	HAL_TIM_Base_Start(&htim1);

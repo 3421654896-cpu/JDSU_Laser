@@ -29,18 +29,23 @@ from queue import Queue
 from queue import Empty
 
 from scipy.signal import medfilt, butter, filtfilt
+from pyvisa.constants import InterfaceType
 
 #测试
 # ====== 参数（按需改）======
 ADDR = "GPIB0::7::INSTR"
 
+TARGET_VENDOR = "YOKOGAWA"
+TARGET_MODEL = "AQ6150"
+TARGET_SN = "91P102177"
+
 PRINT_EXCEL_EVERY = 1      # 每隔N行打印一次Excel数据（1=每行都打印）
 PRINT_ACK = True           # 打印接收到的ACK
 
 VISA_TIMEOUT_MS = 3000
-VISA_RETRY = 2
+VISA_RETRY = 10
 
-FLUSH_EVERY_N = 10000
+FLUSH_EVERY_N = 1000
 
 ACK_VALUE = 0x21
 ACK_RESEND_SLEEP_S = 0.001  # 每次重发后短暂停一下，避免占满CPU
@@ -375,6 +380,45 @@ class APWorker(QThread):
                                     ((temp_dec_high<<8)+temp_dec_low)*0.0001
                     self.temp_signal.emit(self.temperature)
 
+    def connect_aq6150(self, rm):
+        # 只看资源信息，不真正打开设备
+        infos = rm.list_resources_info()
+
+        # 只保留 GPIB INSTR，完全跳过 ASRL/USB/TCPIP
+        gpib_resources = [
+            name for name, info in infos.items()
+            if info.interface_type == InterfaceType.gpib
+            and info.resource_class == "INSTR"
+        ]
+
+        for res in gpib_resources:
+            inst = None
+            try:
+                inst = rm.open_resource(res)
+                inst.timeout = VISA_TIMEOUT_MS
+                inst.read_termination = "\n"
+                inst.write_termination = "\n"
+
+                idn = inst.query("*IDN?").strip()
+                parts = [x.strip() for x in idn.split(",")]
+
+                if len(parts) >= 3:
+                    vendor, model, serial = parts[:3]
+                    if vendor == TARGET_VENDOR and model == TARGET_MODEL and serial == TARGET_SN:
+                        self.log(f"找到 AQ6150: {res} -> {idn}")
+                        return inst
+
+                inst.close()
+
+            except Exception:
+                if inst is not None:
+                    try:
+                        inst.close()
+                    except:
+                        pass
+
+        self.log("未找到目标 AQ6150", "ERROR")
+
     def run(self):
         try:
             recv_thread = threading.Thread(target=self.serial_recv_loop, daemon=True)
@@ -392,16 +436,17 @@ class APWorker(QThread):
             iter_excel = ws_in.iter_rows(min_row=2, values_only=True)
 
             rm = pyvisa.ResourceManager()
-            inst = rm.open_resource(ADDR)
-            inst.timeout = VISA_TIMEOUT_MS
-            inst.read_termination = "\n"
-            inst.write_termination = "\n"
+            inst = self.connect_aq6150(rm)
+            # inst = rm.open_resource(ADDR)
+            # inst.timeout = VISA_TIMEOUT_MS
+            # inst.read_termination = "\n"
+            # inst.write_termination = "\n"
 
             try:
-                try:
-                    self.log("Connected:", inst.query("*IDN?").strip())
-                except Exception:
-                    self.log("提示：*IDN? 不响应也没关系。")
+                # try:
+                #     self.log("Connected:"+str(inst.query("*IDN?").strip()))
+                # except Exception:
+                #     self.log("提示：*IDN? 不响应也没关系。")
 
                 # 设置单位仍然用 dBm（我们在软件里转 mW）
                 try_write(inst, ":INIT:CONT OFF")
@@ -471,9 +516,9 @@ class APWorker(QThread):
                     serial_write(current_cmd)
 
                     # 等 ACK（不成功就一直重发，不推进）
-                    while True:
+                    while self.running:
                         try:
-                            flag = self.flag_queue.get(timeout=10.0)
+                            flag = self.flag_queue.get(timeout=3.0)
                             break
                         except Empty:
                             serial_write(current_cmd)
@@ -502,6 +547,7 @@ class APWorker(QThread):
                             wav1_nm, pow1_mw, wav2_nm, pow2_mw = read_two_peaks_stable(inst)
                             break
                         except Exception:
+                            inst = self.connect_aq6150(rm)
                             time.sleep(0.01)
 
                     # 写（波长保留3位，功率mW保留6位）

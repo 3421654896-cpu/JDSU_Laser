@@ -86,7 +86,7 @@ typedef enum
 #define CHOISE_1_B_PORT						GPIOB
 #define CHOISE_1_B_PIN 					  GPIO_PIN_0
 
-#define CHOISE_0_A								1
+#define CHOISE_0_A								0
 #define CHOISE_0_B								1
 #define CHOISE_1_A								1
 #define CHOISE_1_B								1
