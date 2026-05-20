@@ -309,7 +309,7 @@ void scanWave(void){
 		}
 		
 		uint8_t txIdx = 2;
-		uint8_t sa = 0;
+		uint8_t sa = 1;
 		aTxBuffer[txIdx++] = MANUAL_STATE;// the mode of this tx
 		aTxBuffer[txIdx++] = 0x00;// 0x00 refer scan wave return
 		aTxBuffer[txIdx++] = 0x21;// return flag
@@ -317,10 +317,13 @@ void scanWave(void){
 		adcData = ADC_Write_Read_Stable(6, &sa) & 0x0FFF;
 		aTxBuffer[txIdx++] = (adcData >> 8) & 0xFF;
 		aTxBuffer[txIdx++] = (adcData) & 0xFF;
+		aTxBuffer[txIdx++] = sa;
 		
+		sa = 1;
 		adcData = ADC_Write_Read_Stable(7, &sa) & 0x0FFF;
 		aTxBuffer[txIdx++] = (adcData >> 8) & 0xFF;
 		aTxBuffer[txIdx++] = (adcData) & 0xFF;
+		aTxBuffer[txIdx++] = sa;
 		
 		USART_Queue_Send(aTxBuffer, USART_TX_SIZE);
 		ClearRxBuff();

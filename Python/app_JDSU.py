@@ -437,17 +437,8 @@ class APWorker(QThread):
 
             rm = pyvisa.ResourceManager()
             inst = self.connect_aq6150(rm)
-            # inst = rm.open_resource(ADDR)
-            # inst.timeout = VISA_TIMEOUT_MS
-            # inst.read_termination = "\n"
-            # inst.write_termination = "\n"
 
             try:
-                # try:
-                #     self.log("Connected:"+str(inst.query("*IDN?").strip()))
-                # except Exception:
-                #     self.log("提示：*IDN? 不响应也没关系。")
-
                 # 设置单位仍然用 dBm（我们在软件里转 mW）
                 try_write(inst, ":INIT:CONT OFF")
                 try_write(inst, ":TRIG:SOUR BUS")
@@ -468,7 +459,7 @@ class APWorker(QThread):
                 head_data = ["timestamp_iso",
                         "peak1_wavelength_nm", "peak1_power_mW",
                         "peak2_wavelength_nm", "peak2_power_mW", "temperature",
-                        "pdr", "pdt", "ratio_rt"]
+                        "pdr", "pdt", "ratio_rt", "r_sat_sa"]
                 gap_len = len(head_data)+1
 
                 self.log("开始记录(ACK 不成功则一直重发同一行，不推进 Excel)。Ctrl+C 结束。")
@@ -531,7 +522,9 @@ class APWorker(QThread):
 
                     # 读 PDT和PDR
                     pdt = (flag[5]<<8)+flag[6]
-                    pdr = (flag[7]<<8)+flag[8]
+                    pdr = (flag[8]<<8)+flag[9]
+
+                    pdt_sa,pdr_sa = flag[7],flag[10]
 
                     pdt = pdt*2.5/4096
                     pdr = pdr*2.5/4096
@@ -548,10 +541,10 @@ class APWorker(QThread):
                             break
                         except Exception:
                             inst = self.connect_aq6150(rm)
-                            time.sleep(0.01)
+                            time.sleep(1)
 
                     # 写（波长保留3位，功率mW保留6位）
-                    cur_row = [ts, trunc3(wav1_nm), trunc6(pow1_mw), trunc3(wav2_nm), trunc6(pow2_mw), trunc4(self.temperature), trunc4(pdr), trunc4(pdt), trunc3(pdr/pdt)]
+                    cur_row = [ts, trunc3(wav1_nm), trunc6(pow1_mw), trunc3(wav2_nm), trunc6(pow2_mw), trunc4(self.temperature), trunc4(pdr), trunc4(pdt), trunc3(pdr/pdt), f"{pdr_sa}{pdt_sa}"]
                     for i, value in enumerate(cur_row):
                         ws_out.cell(row=count+1, column=i+1+loop_time*gap_len, value=value)
 
@@ -860,7 +853,6 @@ class ap6150bWindow(QtWidgets.QWidget):
             
             switch_mode_enable = True
 
-            # self.worker.quit()
             self.worker.wait()
 
             self.com_btn.setText("开始")
