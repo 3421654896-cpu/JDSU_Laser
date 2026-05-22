@@ -28,6 +28,15 @@ typedef enum
     MS5614T_POWERDOWN = 1
 } MS5614T_Power_t;
 
+typedef enum
+{
+		IDAC1 = 0x11,
+		IDAC4 = 0x14,
+		IDAC5 = 0x15,
+		IDAC6 = 0x16,
+		IDAC7 = 0x17
+} PI11210_Channeld_t;
+
 /* ===================== DAC1(SPI3)?? ===================== */
 #define DAC1_CS_PORT      GPIOB
 #define DAC1_CS_PIN       GPIO_PIN_12
@@ -38,13 +47,13 @@ typedef enum
 #define DAC1_PD_PORT      GPIOA
 #define DAC1_PD_PIN       GPIO_PIN_8
 
-#define DAC1_CS_LOW()    HAL_GPIO_WritePin(DAC1_CS_PORT, DAC1_CS_PIN, GPIO_PIN_RESET)
-#define DAC1_CS_HIGH()   HAL_GPIO_WritePin(DAC1_CS_PORT, DAC1_CS_PIN, GPIO_PIN_SET)
-#define DAC1_FS_LOW()    HAL_GPIO_WritePin(DAC1_FS_PORT, DAC1_FS_PIN, GPIO_PIN_RESET)
-#define DAC1_FS_HIGH()   HAL_GPIO_WritePin(DAC1_FS_PORT, DAC1_FS_PIN, GPIO_PIN_SET)
-#define DAC1_LDAC_LOW()  HAL_GPIO_WritePin(DAC1_LDAC_PORT, DAC1_LDAC_PIN, GPIO_PIN_RESET)
-#define DAC1_PD_LOW()    HAL_GPIO_WritePin(DAC1_PD_PORT, DAC1_PD_PIN, GPIO_PIN_RESET)
-#define DAC1_PD_HIGH()   HAL_GPIO_WritePin(DAC1_PD_PORT, DAC1_PD_PIN, GPIO_PIN_SET)
+#define DAC1_CS_LOW()    	HAL_GPIO_WritePin(DAC1_CS_PORT, DAC1_CS_PIN, GPIO_PIN_RESET)
+#define DAC1_CS_HIGH()   	HAL_GPIO_WritePin(DAC1_CS_PORT, DAC1_CS_PIN, GPIO_PIN_SET)
+#define DAC1_FS_LOW()    	HAL_GPIO_WritePin(DAC1_FS_PORT, DAC1_FS_PIN, GPIO_PIN_RESET)
+#define DAC1_FS_HIGH()   	HAL_GPIO_WritePin(DAC1_FS_PORT, DAC1_FS_PIN, GPIO_PIN_SET)
+#define DAC1_LDAC_LOW()  	HAL_GPIO_WritePin(DAC1_LDAC_PORT, DAC1_LDAC_PIN, GPIO_PIN_RESET)
+#define DAC1_PD_LOW()    	HAL_GPIO_WritePin(DAC1_PD_PORT, DAC1_PD_PIN, GPIO_PIN_RESET)
+#define DAC1_PD_HIGH()   	HAL_GPIO_WritePin(DAC1_PD_PORT, DAC1_PD_PIN, GPIO_PIN_SET)
 
 /* ===================== DAC2(SPI2)?? ===================== */
 #define DAC2_CS_PORT      GPIOA
@@ -56,19 +65,23 @@ typedef enum
 #define DAC2_PD_PORT      GPIOB
 #define DAC2_PD_PIN       GPIO_PIN_3
 
-#define DAC2_CS_LOW()    HAL_GPIO_WritePin(DAC2_CS_PORT, DAC2_CS_PIN, GPIO_PIN_RESET)
-#define DAC2_CS_HIGH()   HAL_GPIO_WritePin(DAC2_CS_PORT, DAC2_CS_PIN, GPIO_PIN_SET)
-#define DAC2_FS_LOW()    HAL_GPIO_WritePin(DAC2_FS_PORT, DAC2_FS_PIN, GPIO_PIN_RESET)
-#define DAC2_FS_HIGH()   HAL_GPIO_WritePin(DAC2_FS_PORT, DAC2_FS_PIN, GPIO_PIN_SET)
-#define DAC2_LDAC_LOW()  HAL_GPIO_WritePin(DAC2_LDAC_PORT, DAC2_LDAC_PIN, GPIO_PIN_RESET)
-#define DAC2_PD_LOW()    HAL_GPIO_WritePin(DAC2_PD_PORT, DAC2_PD_PIN, GPIO_PIN_RESET)
-#define DAC2_PD_HIGH()   HAL_GPIO_WritePin(DAC2_PD_PORT, DAC2_PD_PIN, GPIO_PIN_SET)
+#define DAC2_CS_LOW()    	HAL_GPIO_WritePin(DAC2_CS_PORT, DAC2_CS_PIN, GPIO_PIN_RESET)
+#define DAC2_CS_HIGH()   	HAL_GPIO_WritePin(DAC2_CS_PORT, DAC2_CS_PIN, GPIO_PIN_SET)
+#define DAC2_FS_LOW()    	HAL_GPIO_WritePin(DAC2_FS_PORT, DAC2_FS_PIN, GPIO_PIN_RESET)
+#define DAC2_FS_HIGH()   	HAL_GPIO_WritePin(DAC2_FS_PORT, DAC2_FS_PIN, GPIO_PIN_SET)
+#define DAC2_LDAC_LOW()  	HAL_GPIO_WritePin(DAC2_LDAC_PORT, DAC2_LDAC_PIN, GPIO_PIN_RESET)
+#define DAC2_PD_LOW()    	HAL_GPIO_WritePin(DAC2_PD_PORT, DAC2_PD_PIN, GPIO_PIN_RESET)
+#define DAC2_PD_HIGH()   	HAL_GPIO_WritePin(DAC2_PD_PORT, DAC2_PD_PIN, GPIO_PIN_SET)
+
+#define IDAC_7BIT_ADDR 		0x58
 
 #define GAIN 3357
 #define SOA 3357
 
 extern uint16_t frame;
 extern uint16_t adcData;
+
+extern uint8_t codeBuf[2];
 extern uint16_t IDACData[5];
 extern uint16_t uADCOriginvalues[4];
 
@@ -77,14 +90,14 @@ extern uint16_t tempInt;
 extern uint16_t tempDec;
 
 /* ?1? DAC */
-void MS5614T_Init(void);
 void MS5614T_SetCode(MS5614T_Channel_t channel, uint16_t code,
                      MS5614T_Speed_t speed, MS5614T_Power_t power);
 
 /* ?2? DAC */
-void MS5614T2_Init(void);
 void MS5614T2_SetCode(MS5614T_Channel_t channel, uint16_t code,
                       MS5614T_Speed_t speed, MS5614T_Power_t power);
+
+void PI11210_SetCode(PI11210_Channeld_t channel, uint16_t code);
 
 void modify_table_loop(void);
 void checkTemp(uint8_t mode);
@@ -99,9 +112,13 @@ void sendTxBuffer(int dac_size, int p1, int p2, int p3, int p4);
 void write_ms5614t_manual(void);
 void ClearTxBuff(void);
 void scanWave(void);
+void scanWave_U(void);
+void scanWave_I(void);
 
 void write_ms5614t_extra(void);
 void singleValue(void);
+void singleValue_U(void);
+void singleValue_I(void);
 void checkRT(void);
 
 void delay_us(__IO uint32_t us);

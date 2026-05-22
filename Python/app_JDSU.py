@@ -16,7 +16,7 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget,QLineEdit,QPushButton,
     QVBoxLayout, QLabel, QStackedWidget, QAction, QMessageBox,
-    QFileDialog, QPlainTextEdit
+    QFileDialog, QPlainTextEdit, QRadioButton, QButtonGroup
 )
 from PyQt5.QtCore import (
     QThread, pyqtSignal
@@ -52,7 +52,7 @@ ACK_RESEND_SLEEP_S = 0.001  # 每次重发后短暂停一下，避免占满CPU
 
 array_size = 4000
 
-tx_size = 13
+tx_size = 20
 # ==========================
 
 ser = serial.Serial(timeout=0.2)
@@ -64,6 +64,7 @@ ap_open = False
 ap_cond = threading.Condition()
 
 switch_mode_enable = True
+dac_type = 0
 
 rx_queue = deque(maxlen=4000)
 
@@ -83,39 +84,6 @@ def try_write(inst, cmd):
         return True
     except Exception:
         return False
-
-def excel_operate(iter_excel):
-    """
-    返回：(cmd_bytes, info_str)
-    """
-    try:
-        row = next(iter_excel)
-        readGain = int(row[6])
-        readSOA = int(row[7])
-        readPhase = int(row[8])
-        readwaveA = int(row[9])
-        readwaveB = int(row[10])
-
-        bWrite = [0] * tx_size
-        bWrite[0] = 0xFF
-        bWrite[1] = 0xFF
-        bWrite[2] = 0x00
-        bWrite[3] = (readGain >> 8) & 0xFF
-        bWrite[4] = (readGain >> 0) & 0xFF
-        bWrite[5] = (readSOA >> 8) & 0xFF
-        bWrite[6] = (readSOA >> 0) & 0xFF
-        bWrite[7] = (readPhase >> 8) & 0xFF
-        bWrite[8] = (readPhase >> 0) & 0xFF
-        bWrite[9] = (readwaveA >> 8) & 0xFF
-        bWrite[10] = (readwaveA >> 0) & 0xFF
-        bWrite[11] = (readwaveB >> 8) & 0xFF
-        bWrite[12] = (readwaveB >> 0) & 0xFF
-
-        cmd = bytes(bWrite)
-        info = f"Gain={readGain}, SOA={readSOA}, phase={readPhase}, waveA={readwaveA}, waveB={readwaveB}"
-        return cmd, info
-    except Exception:
-        return None, None
 
 def parse_arr(reply: str):
     if reply is None:
@@ -361,6 +329,40 @@ class APWorker(QThread):
     def log(self, msg, level="info"):
         self.log_signal.emit(msg, level)
 
+    def excel_operate(self, iter_excel):
+        """
+        返回：(cmd_bytes, info_str)
+        """
+        try:
+            row = next(iter_excel)
+            readGain = int(row[6])
+            readSOA = int(row[7])
+            readPhase = int(row[8])
+            readwaveA = int(row[9])
+            readwaveB = int(row[10])
+
+            bWrite = [0] * tx_size
+            bWrite[0] = 0xFF
+            bWrite[1] = 0xFF
+            bWrite[2] = 0x00
+            bWrite[3] = dac_type
+            bWrite[4] = (readGain >> 8) & 0xFF
+            bWrite[5] = (readGain >> 0) & 0xFF
+            bWrite[6] = (readSOA >> 8) & 0xFF
+            bWrite[7] = (readSOA >> 0) & 0xFF
+            bWrite[8] = (readPhase >> 8) & 0xFF
+            bWrite[9] = (readPhase >> 0) & 0xFF
+            bWrite[10] = (readwaveA >> 8) & 0xFF
+            bWrite[11] = (readwaveA >> 0) & 0xFF
+            bWrite[12] = (readwaveB >> 8) & 0xFF
+            bWrite[13] = (readwaveB >> 0) & 0xFF
+
+            cmd = bytes(bWrite)
+            info = f"Gain={readGain}, SOA={readSOA}, phase={readPhase}, waveA={readwaveA}, waveB={readwaveB}"
+            return cmd, info
+        except Exception:
+            return None, None
+
     def serial_recv_loop(self):
         while self.running:
             b = list(ser.read(self.aprx_size))
@@ -485,7 +487,7 @@ class APWorker(QThread):
                     
                     # 只有当当前没有待发送行时，才取 Excel 下一行
                     if current_cmd is None:
-                        cmd, info = excel_operate(iter_excel)
+                        cmd, info = self.excel_operate(iter_excel)
                         if cmd is None:
                             last_current = True
                             continue
@@ -584,6 +586,7 @@ class MainWindow(QMainWindow):
         self.menu_port = menubar.addMenu("端口")
         self.menu_baud = menubar.addMenu("波特率")
         self.menu_page = menubar.addMenu("工作模式")
+        self.menu_dac = menubar.addMenu("DAC选择")
 
         self.baud_rates = [9600, 115200, 2000000, 3000000, 4000000, 6000000]
         self.baud = 2000000
@@ -600,6 +603,8 @@ class MainWindow(QMainWindow):
 
         self.MCU_mode = 0
         self.mode_act = None
+
+        self.dac_act = None
 
         global ser
         ser.port = self.port
@@ -646,6 +651,19 @@ class MainWindow(QMainWindow):
             if i == self.MCU_mode:
                 self.mode_act = action
                 action.trigger()
+
+        # DAC选择
+        global dac_type
+        dac_targets = ["U_DAC", "I_DAC"]
+        for i, dac_target in enumerate(dac_targets):
+            action = QAction(dac_target,self)
+            action.setCheckable(True)
+            action.setData(i)
+            action.triggered.connect(self.set_dac)
+            self.menu_dac.addAction(action)
+            if i == dac_type:
+                self.dac_act = action
+                action.trigger()
                 
     def update_ports_menu(self):
         menu = self.sender()
@@ -664,33 +682,57 @@ class MainWindow(QMainWindow):
                 action.setChecked(True)
                 self.port_act = action
 
+    def set_dac(self):
+        action = self.sender()
+        if not switch_mode_enable:
+            self.dac_act.setChecked(True)
+            action.setChecked(False)
+            QMessageBox.warning(self, "警告", "先停止当前页面工作流再切换DAC")
+            return
+
+        command_frame = bytearray(tx_size)
+        command_frame[0] = 0xFF
+        command_frame[1] = 0xFF
+        command_frame[2] = 0x01
+        command_frame[3] = 0x03
+        command_frame[8] = (action.data()) & 0xFF
+
+        try:
+            if not ser.is_open:
+                ser.open()
+            ser.write(bytes(command_frame))
+            ser.close()
+        except Exception as e:
+            self.dac_act.setChecked(True)
+            action.setChecked(False)
+            QMessageBox.warning(self, "警告", "改DAC类型前确保串口端口和波特率选对")
+            QMessageBox.critical(self, "crash", f"发生异常:\n{str(e)}")
+            return
+
+        global dac_type
+        dac_type = action.data()
+        self.dac_act.setChecked(False)
+        action.setChecked(True)
+        self.dac_act = action
+        
     def set_page(self):
         action = self.sender()
-        if self.MCU_mode == 2:
-            self.page_extra.stop_recv_thread()
         if not switch_mode_enable:
             self.mode_act.setChecked(True)
             action.setChecked(False)
             QMessageBox.warning(self, "警告", "先停止当前页面工作流再切换模式")
             return
 
-        command_frame = [0]*tx_size
+        command_frame = bytearray(tx_size)
         command_frame[0] = 0xFF
         command_frame[1] = 0xFF
         command_frame[2] = 0x01
         command_frame[3] = 0x02
         command_frame[8] = (action.data()) & 0xFF
 
-        if not ser.is_open:
-            try:
-                ser.open()
-            except Exception as e:
-                self.mode_act.setChecked(True)
-                action.setChecked(False)
-                QMessageBox.critical(self, "crash", f"发生异常:\n{str(e)}")
-                return
-
         try:
+            if not ser.is_open:
+                ser.open()
             ser.write(bytes(command_frame))
             ser.close()
         except Exception as e:
@@ -705,6 +747,8 @@ class MainWindow(QMainWindow):
         self.mode_act.setChecked(False)
         action.setChecked(True)
         self.mode_act = action
+        if self.MCU_mode == 2:
+            self.page_extra.monitor_btn.click()
 
     def set_com_port(self):
         global ser
@@ -735,134 +779,6 @@ class MainWindow(QMainWindow):
     def closeEvent(self, a0):
         self.page_extra.stop_recv_thread()
         return super().closeEvent(a0)
-
-class ap6150bWindow(QtWidgets.QWidget):
-    def __init__(self):
-        super().__init__()
-        layout = QtWidgets.QGridLayout()
-        self.setLayout(layout)
-
-        self.ctrl_panel = QtWidgets.QWidget()
-        self.ctrl_layout = QtWidgets.QHBoxLayout()
-        self.ctrl_layout.setContentsMargins(5,5,5,5)
-        self.ctrl_layout.setSpacing(10)
-        self.ctrl_panel.setLayout(self.ctrl_layout)
-        self.ctrl_panel.setMaximumHeight(80)
-
-        self.fileText_edit = QLineEdit()
-        self.fileText_edit.setPlaceholderText("选择波长数据文件")
-        self.fileText_edit.setMinimumWidth(100)
-        self.fileText_edit.setMaximumHeight(25)
-        self.file_button = QPushButton("...")
-        self.file_path = ""
-
-        lab_temperature = QtWidgets.QLabel("温度(℃):")
-        self.temperature_text = QtWidgets.QLineEdit("0")
-        self.temperature_text.setReadOnly(True)
-        self.temperature_text.setMinimumWidth(100)
-        self.temperature_text.setMaximumHeight(25)
-        self.temperature = 0
-
-        self.com_btn = QtWidgets.QPushButton("开始")
-        self.com_btn.setMinimumWidth(100)
-
-        self.clear_btn = QtWidgets.QPushButton("清空日志")
-        self.clear_btn.setMinimumWidth(100)
-
-        self.file_button.clicked.connect(self.select_file)
-        self.com_btn.clicked.connect(self.ap_thread)
-        self.clear_btn.clicked.connect(self.on_clear)
-
-        self.ctrl_layout.addWidget(self.fileText_edit)
-        self.ctrl_layout.addWidget(self.file_button)
-        self.ctrl_layout.addSpacing(20)
-        self.ctrl_layout.addStretch()
-
-        self.ctrl_layout.addWidget(lab_temperature)
-        self.ctrl_layout.addWidget(self.temperature_text)
-        self.ctrl_layout.addSpacing(20)
-        self.ctrl_layout.addStretch()
-
-        self.ctrl_layout.addWidget(self.com_btn)
-        self.ctrl_layout.addSpacing(20)
-        self.ctrl_layout.addStretch()
-
-        self.ctrl_layout.addWidget(self.clear_btn)
-
-        layout.addWidget(self.ctrl_panel, 0, 0)
-
-        self.printf_area = LogWidget()
-        layout.addWidget(self.printf_area)
-
-        self.worker =  APWorker(self.file_path)
-        self.worker.log_signal.connect(self.printf_area.log)
-        self.worker.temp_signal.connect(self.update_temp)
-
-    def select_file(self):
-        self.file_path, _ = QFileDialog.getOpenFileName(
-            self,
-            "选择Excel文件",
-            get_desktop_path(),
-            "ALL Files (*);;Text Files (*.xlsx)"
-        )
-        self.fileText_edit.setText(self.file_path)
-
-    def ap_thread(self):
-        global ser
-        global ap_open
-        global switch_mode_enable
-
-        do_open = False
-        do_close = False
-
-        if ap_open == False:
-            do_open = True
-            ap_open = True 
-            # ap_cond.notify_all()
-        else: 
-            do_close = True
-            ap_open = False
-
-        if do_open:
-            try:
-                ser.open()
-            except Exception as e:
-                print("Serial Error:",str(e))
-                with ap_cond:
-                    ap_open = False
-                return
-
-            switch_mode_enable = False
-
-            self.worker = APWorker(self.file_path)
-            self.worker.log_signal.connect(self.printf_area.log)
-            self.worker.temp_signal.connect(self.update_temp)
-            self.worker.start()
-
-            self.com_btn.setText("关闭")
-        elif do_close:
-            self.worker.running = False
-
-            try:
-                ser.close()
-            except Exception as e:
-                print("Serial Error:",str(e))
-                with ap_cond:
-                    ap_open = True
-                return
-            
-            switch_mode_enable = True
-
-            self.worker.wait()
-
-            self.com_btn.setText("开始")
-
-    def on_clear(self):
-        self.printf_area.clear()
-
-    def update_temp(self, _temperature):
-        self.temperature = _temperature
-        self.temperature_text.setText(f"{_temperature}")
 
 class GraphWindow(QtWidgets.QWidget):
     def __init__(self):
@@ -1241,12 +1157,6 @@ class GraphWindow(QtWidgets.QWidget):
                     self.usdata[3].append(com_index)
 
                 com_index+=1
-                # print(self.adc)
-                # if ((raw[array_size*8+2]<<8)+raw[array_size*8+3])!=array_size:
-                # if ((raw[2]<<8)+raw[3])!=array_size:
-                #     print("array_size_error")
-                #     self.process_down = True
-                #     return
 
             if raw[array_size*12+4]!=0xAB:
                 print("wave head error")
@@ -1339,11 +1249,6 @@ class GraphWindow(QtWidgets.QWidget):
         self.curve2.setData(np.array(x),np.array(self.filts[1]))
         self.curve3.setData(np.array(x),np.array(self.filts[2]))
         self.curve4.setData(np.array(x),np.array(self.filts[3]))
-
-        # self.curve1.setData(np.array(x),np.asarray(self.adc[0]))
-        # self.curve2.setData(np.array(x),np.asarray(self.adc[1]))
-        # self.curve3.setData(np.array(x),np.asarray(self.adc[2]))
-        # self.curve4.setData(np.array(x),np.asarray(self.adc[3]))
 
         # 更新不稳定点
         self.update_us_point()
@@ -1477,6 +1382,133 @@ class GraphWindow(QtWidgets.QWidget):
             self.impress_points.append(scatter)
             self.plot1.addItem(scatter)
 
+class ap6150bWindow(QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
+        layout = QtWidgets.QGridLayout()
+        self.setLayout(layout)
+
+        self.ctrl_panel = QtWidgets.QWidget()
+        self.ctrl_layout = QtWidgets.QHBoxLayout()
+        self.ctrl_layout.setContentsMargins(5,5,5,5)
+        self.ctrl_layout.setSpacing(10)
+        self.ctrl_panel.setLayout(self.ctrl_layout)
+        self.ctrl_panel.setMaximumHeight(80)
+
+        self.fileText_edit = QLineEdit()
+        self.fileText_edit.setPlaceholderText("选择波长数据文件")
+        self.fileText_edit.setMinimumWidth(300)
+        self.fileText_edit.setMaximumHeight(25)
+        self.file_button = QPushButton("...")
+        self.file_path = ""
+
+        lab_temperature = QtWidgets.QLabel("温度(℃):")
+        self.temperature_text = QtWidgets.QLineEdit("0")
+        self.temperature_text.setReadOnly(True)
+        self.temperature_text.setMinimumWidth(100)
+        self.temperature_text.setMaximumHeight(25)
+        self.temperature = 0
+
+        self.com_btn = QtWidgets.QPushButton("开始")
+        self.com_btn.setMinimumWidth(100)
+
+        self.clear_btn = QtWidgets.QPushButton("清空日志")
+        self.clear_btn.setMinimumWidth(100)
+
+        self.file_button.clicked.connect(self.select_file)
+        self.com_btn.clicked.connect(self.ap_thread)
+        self.clear_btn.clicked.connect(self.on_clear)
+
+        self.ctrl_layout.addWidget(self.fileText_edit)
+        self.ctrl_layout.addWidget(self.file_button)
+        self.ctrl_layout.addSpacing(20)
+        self.ctrl_layout.addStretch()
+
+        self.ctrl_layout.addWidget(lab_temperature)
+        self.ctrl_layout.addWidget(self.temperature_text)
+        self.ctrl_layout.addSpacing(20)
+        self.ctrl_layout.addStretch()
+
+        self.ctrl_layout.addWidget(self.com_btn)
+        self.ctrl_layout.addSpacing(20)
+        self.ctrl_layout.addStretch()
+
+        self.ctrl_layout.addWidget(self.clear_btn)
+
+        layout.addWidget(self.ctrl_panel, 0, 0)
+
+        self.printf_area = LogWidget()
+        layout.addWidget(self.printf_area)
+
+        self.worker =  APWorker(self.file_path)
+        self.worker.log_signal.connect(self.printf_area.log)
+        self.worker.temp_signal.connect(self.update_temp)
+
+    def select_file(self):
+        self.file_path, _ = QFileDialog.getOpenFileName(
+            self,
+            "选择Excel文件",
+            get_desktop_path(),
+            "ALL Files (*);;Text Files (*.xlsx)"
+        )
+        self.fileText_edit.setText(self.file_path)
+
+    def ap_thread(self):
+        global ser
+        global ap_open
+        global switch_mode_enable
+
+        do_open = False
+        do_close = False
+
+        if ap_open == False:
+            do_open = True
+            ap_open = True
+        else: 
+            do_close = True
+            ap_open = False
+
+        if do_open:
+            try:
+                ser.open()
+            except Exception as e:
+                print("Serial Error:",str(e))
+                with ap_cond:
+                    ap_open = False
+                return
+
+            switch_mode_enable = False
+
+            self.worker = APWorker(self.file_path)
+            self.worker.log_signal.connect(self.printf_area.log)
+            self.worker.temp_signal.connect(self.update_temp)
+            self.worker.start()
+
+            self.com_btn.setText("关闭")
+        elif do_close:
+            self.worker.running = False
+
+            try:
+                ser.close()
+            except Exception as e:
+                print("Serial Error:",str(e))
+                with ap_cond:
+                    ap_open = True
+                return
+            
+            switch_mode_enable = True
+
+            self.worker.wait()
+
+            self.com_btn.setText("开始")
+
+    def on_clear(self):
+        self.printf_area.clear()
+
+    def update_temp(self, _temperature):
+        self.temperature = _temperature
+        self.temperature_text.setText(f"{_temperature}")
+
 class extraWindow(QtWidgets.QWidget):
     temp_signal = pyqtSignal(float)
     rt_signal = pyqtSignal(int,int)
@@ -1487,6 +1519,8 @@ class extraWindow(QtWidgets.QWidget):
         layout = QtWidgets.QVBoxLayout(self)
         layout.setSpacing(15)
         layout.setContentsMargins(20,20,20,20)
+
+        top_layout = QtWidgets.QHBoxLayout()
 
         head_box = QtWidgets.QGroupBox("通过excel文本导入数据")
         head_layout = QtWidgets.QHBoxLayout()
@@ -1507,7 +1541,23 @@ class extraWindow(QtWidgets.QWidget):
         head_box.setLayout(head_layout)
         head_box.setMaximumHeight(150)
 
-        layout.addWidget(head_box)
+        button_box = QtWidgets.QGroupBox("工作流控制")
+        button_layout = QtWidgets.QHBoxLayout()
+
+        self.monitor_btn = QtWidgets.QPushButton("开始")
+        self.monitor_btn.clicked.connect(self.on_work)
+        self.write_btn.setMinimumHeight(40)
+        self.write_btn.setMinimumWidth(120)
+
+        button_layout.addWidget(self.monitor_btn)
+
+        button_box.setLayout(button_layout)
+        button_box.setMaximumHeight(150)
+
+        top_layout.addWidget(head_box, 2)
+        top_layout.addWidget(button_box, 1)
+
+        layout.addLayout(top_layout)
 
         body_layout = QtWidgets.QHBoxLayout()
 
@@ -1616,10 +1666,10 @@ class extraWindow(QtWidgets.QWidget):
         self.running = True
         self.recv_thread = None
 
-    def showEvent(self, a0):
-        self.serial_open()
-        self.start_recv_thread()
-        return super().showEvent(a0)
+    # def showEvent(self, a0):
+    #     self.serial_open()
+    #     self.start_recv_thread()
+    #     return super().showEvent(a0)
 
     def start_recv_thread(self):
         if self.recv_thread and self.recv_thread.is_alive():
@@ -1629,12 +1679,62 @@ class extraWindow(QtWidgets.QWidget):
         self.recv_thread = threading.Thread(target=self.serial_recv, daemon=True)
         self.recv_thread.start()
 
+        self.gain_text.textChanged.emit(self.gain_text.text())
+        self.soa_text.textChanged.emit(self.soa_text.text())
+        self.phase_text.textChanged.emit(self.phase_text.text())
+        self.wavelena_text.textChanged.emit(self.wavelena_text.text())
+        self.wavelenb_text.textChanged.emit(self.wavelenb_text.text())
+
     def stop_recv_thread(self):
         self.running = False
 
         if self.recv_thread:
             self.recv_thread.join(timeout=0.1)
             self.recv_thread = None
+
+    def on_work(self):
+        global ser
+        global ap_open
+        global switch_mode_enable
+
+        do_open = False
+        do_close = False
+
+        if ap_open == False:
+            do_open = True
+            ap_open = True
+        else: 
+            do_close = True
+            ap_open = False
+
+        if do_open:
+            try:
+                ser.open()
+            except Exception as e:
+                print("Serial Error:",str(e))
+                with ap_cond:
+                    ap_open = False
+                return
+
+            switch_mode_enable = False
+
+            self.start_recv_thread()
+
+            self.monitor_btn.setText("停止")
+        elif do_close:
+            self.stop_recv_thread()
+
+            try:
+                ser.close()
+            except Exception as e:
+                print("Serial Error:",str(e))
+                with ap_cond:
+                    ap_open = True
+                return
+            
+            switch_mode_enable = True
+
+            self.monitor_btn.setText("开始")
 
     def serial_recv(self):
         self.serial_open()
@@ -1670,16 +1770,17 @@ class extraWindow(QtWidgets.QWidget):
         bWrite[0] = 0xFF
         bWrite[1] = 0xFF
         bWrite[2] = 0x00
-        bWrite[3] = (self.gain >> 8) & 0xFF
-        bWrite[4] = (self.gain >> 0) & 0xFF
-        bWrite[5] = (self.soa >> 8) & 0xFF
-        bWrite[6] = (self.soa >> 0) & 0xFF
-        bWrite[7] = (self.phase >> 8) & 0xFF
-        bWrite[8] = (self.phase >> 0) & 0xFF
-        bWrite[9] = (self.wavelena >> 8) & 0xFF
-        bWrite[10] = (self.wavelena >> 0) & 0xFF
-        bWrite[11] = (self.wavelenb >> 8) & 0xFF
-        bWrite[12] = (self.wavelenb >> 0) & 0xFF
+        bWrite[3] = dac_type
+        bWrite[4] = (self.gain >> 8) & 0xFF
+        bWrite[5] = (self.gain >> 0) & 0xFF
+        bWrite[6] = (self.soa >> 8) & 0xFF
+        bWrite[7] = (self.soa >> 0) & 0xFF
+        bWrite[8] = (self.phase >> 8) & 0xFF
+        bWrite[9] = (self.phase >> 0) & 0xFF
+        bWrite[10] = (self.wavelena >> 8) & 0xFF
+        bWrite[11] = (self.wavelena >> 0) & 0xFF
+        bWrite[12] = (self.wavelenb >> 8) & 0xFF
+        bWrite[13] = (self.wavelenb >> 0) & 0xFF
 
         cmd = bytes(bWrite)
 
@@ -1719,41 +1820,75 @@ class extraWindow(QtWidgets.QWidget):
 
     def gain_transfer(self, x):
         x = float(x)
+
         self.gain = int(
-            (1+(x/1000)*18)*100*4096/(2*1.25*160)
+            (1+(x/1000)*18)*100*4096/(2*1.25*160) # U_DAC公式
+        ) \
+        if dac_type==0 else \
+        int(
+            x/150*65536 # I_DAC公式
         )
+
         self.gain_dac_text.setText(f"{self.gain}")
         self.reset_write_state()
     
     def soa_transfer(self, x):
         x = float(x)
-        self.soa = int(
-            (1+(x/1000)*18)*100*4096/(2*1.25*160)
+
+        self.soa = \
+        int(
+            (1+(x/1000)*18)*100*4096/(2*1.25*160) # U_DAC公式
+        ) \
+        if dac_type==0 else \
+        int(
+            x/150*65536 # I_DAC公式
         )
+
         self.soa_dac_text.setText(f"{self.soa}")
         self.reset_write_state()
     
     def phase_transfer(self, x):
         x = float(x)
-        self.phase = int(
-            (1+(x/1000)*365)*100*4096/(2*1.25*365)
+
+        self.phase = \
+        int(
+            (1+(x/1000)*365)*100*4096/(2*1.25*365) # U_DAC公式
+        ) \
+        if dac_type==0 else \
+        int(
+            x/20*65536 # I_DAC公式
         )
+
         self.phase_dac_text.setText(f"{self.phase}")
         self.reset_write_state()
     
     def wavelena_transfer(self, x):
         x = float(x)
-        self.wavelena = int(
-            (x/1000)*100*50*4096/(2*1.25*53.6)
+
+        self.wavelena = \
+        int(
+            (x/1000)*100*50*4096/(2*1.25*53.6) # U_DAC公式
+        ) \
+        if dac_type==0 else \
+        int(
+            x/80*65536 # I_DAC公式
         )
+
         self.wavelena_dac_text.setText(f"{self.wavelena}")
         self.reset_write_state()
     
     def wavelenb_transfer(self, x):
         x = float(x)
-        self.wavelenb = int(
-            (x/1000)*100*169*4096/(2*1.25*475)
+
+        self.wavelenb = \
+        int(
+            (x/1000)*100*169*4096/(2*1.25*475) # U_DAC公式
+        ) \
+        if dac_type==0 else \
+        int(
+            x/80*65536 # I_DAC公式
         )
+
         self.wavelenb_dac_text.setText(f"{self.wavelenb}")
         self.reset_write_state()
 

@@ -103,6 +103,8 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 
 /* USER CODE BEGIN Private defines */
+extern I2C_HandleTypeDef hi2c1;
+
 extern SPI_HandleTypeDef hspi1;
 extern SPI_HandleTypeDef hspi2;
 extern SPI_HandleTypeDef hspi3;
@@ -119,6 +121,7 @@ extern uint8_t aTxBuffer[USART_TX_SIZE];
 
 extern uint32_t wave_time;
 extern uint8_t workState;
+extern uint8_t dacTarget;
 
 /* USER CODE END Private defines */
 
