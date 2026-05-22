@@ -15,6 +15,8 @@ float tempData = 0;
 uint16_t tempInt = 0;
 uint16_t tempDec = 0;
 
+HAL_StatusTypeDef dacRet = {0};
+
 void delay_us(__IO uint32_t us){
 		uint32_t i;
 		SysTick_Config(SystemCoreClock/1000000);
@@ -108,11 +110,12 @@ void MS5614T2_SetCode(MS5614T_Channel_t ch, uint16_t code, MS5614T_Speed_t spd, 
     DAC2_CS_HIGH();
 }
 
-void PI11210_SetCode(PI11210_Channeld_t channel, uint16_t code)
+HAL_StatusTypeDef  PI11210_SetCode(PI11210_Channeld_t channel, uint16_t code)
 {
 		codeBuf[0] = (code>>8) & 0xFF;
 		codeBuf[1] = code & 0xFF;
-		HAL_I2C_Mem_Write(&hi2c1, (uint16_t)(IDAC_7BIT_ADDR<<1), (uint16_t)channel, I2C_MEMADD_SIZE_8BIT, codeBuf, 2, 100);
+		dacRet = HAL_I2C_Mem_Write(&hi2c1, (uint16_t)(IDAC_7BIT_ADDR<<1), (uint16_t)channel, I2C_MEMADD_SIZE_8BIT, codeBuf, 2, 10000);
+		return dacRet;
 }
 
 void write_ms5614t_table(void){

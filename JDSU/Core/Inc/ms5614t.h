@@ -89,6 +89,8 @@ extern float tempData;
 extern uint16_t tempInt;
 extern uint16_t tempDec;
 
+extern HAL_StatusTypeDef dacRet;
+
 /* ?1? DAC */
 void MS5614T_SetCode(MS5614T_Channel_t channel, uint16_t code,
                      MS5614T_Speed_t speed, MS5614T_Power_t power);
@@ -97,7 +99,7 @@ void MS5614T_SetCode(MS5614T_Channel_t channel, uint16_t code,
 void MS5614T2_SetCode(MS5614T_Channel_t channel, uint16_t code,
                       MS5614T_Speed_t speed, MS5614T_Power_t power);
 
-void PI11210_SetCode(PI11210_Channeld_t channel, uint16_t code);
+HAL_StatusTypeDef  PI11210_SetCode(PI11210_Channeld_t channel, uint16_t code);
 
 void modify_table_loop(void);
 void checkTemp(uint8_t mode);

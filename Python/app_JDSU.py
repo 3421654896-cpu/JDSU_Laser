@@ -1569,7 +1569,7 @@ class extraWindow(QtWidgets.QWidget):
             edit = QtWidgets.QLineEdit("0")
             edit.setMinimumWidth(180)
 
-            dac_name = QtWidgets.QLabel("实际DAC写入:")
+            dac_name = QtWidgets.QLabel("实际DAC写入(十进制):")
 
             dac_text = QtWidgets.QLabel(f"{0}")
             dac_text.setMinimumWidth(80)
