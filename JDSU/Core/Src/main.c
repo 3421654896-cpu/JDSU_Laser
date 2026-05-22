@@ -124,9 +124,6 @@ int main(void)
 	aTxBuffer[1] = 0xFF;
 	HAL_UART_Receive_DMA(&huart1, uartFrame, USART_RX_SIZE);
 	
-//	GPIOC->BSRR = GPIO_PIN_2;
-//	GPIOC->BSRR = GPIO_PIN_2 << 16;
-	
 	Set_Soft_PWM_Duty(0);
 	__HAL_TIM_ENABLE_DMA(&htim1, TIM_DMA_UPDATE);
 	HAL_DMA_Start(&hdma_tim1_up, (uint32_t)pwm_buffer, (uint32_t)&(GPIOC->BSRR), ARR_1);
@@ -136,6 +133,21 @@ int main(void)
 	HAL_GPIO_WritePin(CHOISE_0_B_PORT, CHOISE_0_B_PIN, (GPIO_PinState)CHOISE_0_B);
 	HAL_GPIO_WritePin(CHOISE_1_A_PORT, CHOISE_1_A_PIN, (GPIO_PinState)CHOISE_1_A);
 	HAL_GPIO_WritePin(CHOISE_1_B_PORT, CHOISE_1_B_PIN, (GPIO_PinState)CHOISE_1_B);
+	
+	if(HAL_I2C_IsDeviceReady(
+			&hi2c1,
+			IDAC_7BIT_ADDR << 1,
+			3,
+			100
+	) == HAL_OK)
+	{
+			test = 0x20;
+	}
+	else
+	{
+			test = 0x30;
+	}
+	printf("test:%d\n", test);
 
   /* USER CODE END 2 */
 
