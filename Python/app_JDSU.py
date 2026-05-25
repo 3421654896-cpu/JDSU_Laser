@@ -1819,7 +1819,10 @@ class extraWindow(QtWidgets.QWidget):
             self_text_list[i].setText(cell_list[i])
 
     def gain_transfer(self, x):
-        x = float(x)
+        try:
+            x = float(x)
+        except Exception:
+            return
 
         self.gain = int(
             (1+(x/1000)*18)*100*4096/(2*1.25*160) # U_DAC公式
@@ -1833,7 +1836,10 @@ class extraWindow(QtWidgets.QWidget):
         self.reset_write_state()
     
     def soa_transfer(self, x):
-        x = float(x)
+        try:
+            x = float(x)
+        except Exception:
+            return
 
         self.soa = \
         int(
@@ -1848,7 +1854,10 @@ class extraWindow(QtWidgets.QWidget):
         self.reset_write_state()
     
     def phase_transfer(self, x):
-        x = float(x)
+        try:
+            x = float(x)
+        except Exception:
+            return
 
         self.phase = \
         int(
@@ -1863,7 +1872,10 @@ class extraWindow(QtWidgets.QWidget):
         self.reset_write_state()
     
     def wavelena_transfer(self, x):
-        x = float(x)
+        try:
+            x = float(x)
+        except Exception:
+            return
 
         self.wavelena = \
         int(
@@ -1878,7 +1890,10 @@ class extraWindow(QtWidgets.QWidget):
         self.reset_write_state()
     
     def wavelenb_transfer(self, x):
-        x = float(x)
+        try:
+            x = float(x)
+        except Exception:
+            return
 
         self.wavelenb = \
         int(

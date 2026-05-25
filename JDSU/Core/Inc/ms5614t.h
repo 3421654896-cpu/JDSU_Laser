@@ -82,6 +82,7 @@ extern uint16_t frame;
 extern uint16_t adcData;
 
 extern uint8_t codeBuf[2];
+extern uint8_t readBuf[2];
 extern uint16_t IDACData[5];
 extern uint16_t uADCOriginvalues[4];
 
@@ -90,6 +91,7 @@ extern uint16_t tempInt;
 extern uint16_t tempDec;
 
 extern HAL_StatusTypeDef dacRet;
+extern HAL_StatusTypeDef dacrRet;
 
 /* ?1? DAC */
 void MS5614T_SetCode(MS5614T_Channel_t channel, uint16_t code,
