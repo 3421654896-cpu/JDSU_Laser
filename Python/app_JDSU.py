@@ -1737,10 +1737,10 @@ class extraWindow(QtWidgets.QWidget):
             self.monitor_btn.setText("开始")
 
     def serial_recv(self):
-        self.serial_open()
+        # self.serial_open()
 
         while self.running:
-            self.serial_open()
+            # self.serial_open()
             v = ser.read(self.exrx_size)
             if not v:
                 continue
