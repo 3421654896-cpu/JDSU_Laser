@@ -8,6 +8,7 @@ uint16_t adcData = 0;
 uint32_t wave_time = 1;
 
 uint8_t codeBuf[2] = {0};
+uint8_t readBuf[2] = {0};
 uint16_t IDACData[5] = {0};
 uint16_t uADCOriginvalues[4] = {0};
 
@@ -15,7 +16,8 @@ float tempData = 0;
 uint16_t tempInt = 0;
 uint16_t tempDec = 0;
 
-HAL_StatusTypeDef dacRet = {0};
+HAL_StatusTypeDef dacRet = HAL_TIMEOUT;
+HAL_StatusTypeDef dacrRet = HAL_TIMEOUT;
 
 void delay_us(__IO uint32_t us){
 		uint32_t i;
@@ -114,7 +116,9 @@ HAL_StatusTypeDef  PI11210_SetCode(PI11210_Channeld_t channel, uint16_t code)
 {
 		codeBuf[0] = (code>>8) & 0xFF;
 		codeBuf[1] = code & 0xFF;
-		dacRet = HAL_I2C_Mem_Write(&hi2c1, (uint16_t)(IDAC_7BIT_ADDR<<1), (uint16_t)channel, I2C_MEMADD_SIZE_8BIT, codeBuf, 2, 10000);
+		dacRet = HAL_I2C_Mem_Write(&hi2c1, (uint16_t)(IDAC_7BIT_ADDR<<1), (uint16_t)channel, I2C_MEMADD_SIZE_8BIT, codeBuf, 2, 1000);
+		delay_ms(10);
+		dacrRet = HAL_I2C_Mem_Read(&hi2c1, (uint16_t)(IDAC_7BIT_ADDR<<1), (uint16_t)channel, I2C_MEMADD_SIZE_8BIT, readBuf, 2, 1000);
 		return dacRet;
 }
 

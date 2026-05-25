@@ -89,7 +89,7 @@ typedef enum
 #define CHOISE_0_A								0
 #define CHOISE_0_B								1
 #define CHOISE_1_A								1
-#define CHOISE_1_B								1
+#define CHOISE_1_B								0
 
 /* USER CODE END EM */
 
