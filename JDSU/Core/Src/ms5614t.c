@@ -118,7 +118,6 @@ HAL_StatusTypeDef  PI11210_SetCode(PI11210_Channeld_t channel, uint16_t code)
 		codeBuf[1] = code & 0xFF;
 		dacRet = HAL_I2C_Mem_Write(&hi2c1, (uint16_t)(IDAC_7BIT_ADDR<<1), (uint16_t)(channel<<1), I2C_MEMADD_SIZE_8BIT, codeBuf, 2, 1000);
 //		delay_ms(10);
-		dacrRet = HAL_I2C_Mem_Read(&hi2c1, (uint16_t)(IDAC_7BIT_ADDR<<1), (uint16_t)(channel<<1), I2C_MEMADD_SIZE_8BIT, readBuf, 2, 1000);
 		return dacRet;
 }
 

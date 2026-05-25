@@ -91,7 +91,6 @@ extern uint16_t tempInt;
 extern uint16_t tempDec;
 
 extern HAL_StatusTypeDef dacRet;
-extern HAL_StatusTypeDef dacrRet;
 
 /* ?1? DAC */
 void MS5614T_SetCode(MS5614T_Channel_t channel, uint16_t code,
