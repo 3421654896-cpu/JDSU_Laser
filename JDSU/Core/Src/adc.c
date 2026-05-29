@@ -50,22 +50,26 @@ uint16_t ADC_SPI_Cmd(uint16_t cmdF){
 
 uint16_t ADC_Write_Read(uint8_t ch){
 		uint16_t frame = (0x1 << 12) | (ch << 7);
+		ADC_SPI_Cmd(frame);
 		return ADC_SPI_Cmd(frame);
 }
 
-uint16_t ADC_Write_Read_Stable(uint8_t ch, uint8_t* stable){
+uint16_t ADC_Write_Read_Stable(uint8_t ch, uint8_t* unstable, uint8_t multi){
 		uint16_t frame = (0x1 << 12) | (ch << 7);
 		Reset_ADC_Queue();
 	
-		while(adcStable<STABLECOUNT){
+		uint32_t multiStCount = multi*STABLECOUNT;
+		uint32_t multiQueSize = multi*QUEUE_SIZE;
+	
+		while(adcStable<multiStCount){
 				adcQueue[adcCount%WINDOW_SIZE] = ADC_SPI_Cmd(frame);
 				
-				if(adcCount==(QUEUE_SIZE-1)){
+				if(adcCount==(multiQueSize-1)){
 //						uint16_t adcSum = 0;
 //						for(uint16_t i=1;i<QUEUE_SIZE;i++){
 //								adcSum+=adcQueue[i];
 //						}
-						*stable = 0;
+						*unstable = 1;
 //						return adcQueue[adcCount%QUEUE_SIZE];
 						return adcQueue[adcCount%WINDOW_SIZE];
 				}

@@ -84,6 +84,7 @@ extern uint16_t adcData;
 extern uint8_t codeBuf[2];
 extern uint8_t readBuf[2];
 extern uint16_t IDACData[5];
+extern uint16_t prevDAC[5];
 extern uint16_t uADCOriginvalues[4];
 
 extern float tempData;
@@ -108,9 +109,10 @@ void ClearRxBuff(void);
 
 void write_ms5614t_table(void);
 void sampleVoltage(void);
-void sampleVoltageStable(uint16_t i);
+uint8_t sampleVoltageStable(uint16_t i);
 void sampleTemperature(void);
 void sendTxBuffer(int dac_size, int p1, int p2, int p3, int p4);
+void getFilterDiff(void);
 
 void write_ms5614t_manual(void);
 void ClearTxBuff(void);

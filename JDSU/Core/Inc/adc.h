@@ -35,7 +35,7 @@ void ADC_LOOP_SPI_Init(void);
 void ADC_MANUAL_SPI_Init(void);
 uint16_t ADC_SPI_Cmd(uint16_t cmdF);
 uint16_t ADC_Write_Read(uint8_t ch);
-uint16_t ADC_Write_Read_Stable(uint8_t ch, uint8_t* stable);
+uint16_t ADC_Write_Read_Stable(uint8_t ch, uint8_t* unstable, uint8_t multi);
 void ADC_Loop_Start(void);
 uint16_t ADC_Write_Loop(void);
 

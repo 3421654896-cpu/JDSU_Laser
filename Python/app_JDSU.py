@@ -28,7 +28,7 @@ from collections import deque
 from queue import Queue
 from queue import Empty
 
-from scipy.signal import medfilt, butter, filtfilt
+from scipy.signal import medfilt, savgol_filter
 from pyvisa.constants import InterfaceType
 
 #测试
@@ -52,7 +52,9 @@ ACK_RESEND_SLEEP_S = 0.001  # 每次重发后短暂停一下，避免占满CPU
 
 array_size = 4000
 
-tx_size = 20
+tx_size = 808  # 固定控制命令长度（所有控制/差异点帧统一为 808 字节）
+# 包格式（差异点/控制统一长度）：0xFF 0xFF 0x01 0x04 | len0 | len1 | len2 | len3 | idx0_hi idx0_lo ...
+# 每通道最多 100 个差异点，索引用 2 字节编码。
 # ==========================
 
 ser = serial.Serial(timeout=0.2)
@@ -341,7 +343,7 @@ class APWorker(QThread):
             readwaveA = int(row[9])
             readwaveB = int(row[10])
 
-            bWrite = [0] * tx_size
+            bWrite = bytearray(tx_size)
             bWrite[0] = 0xFF
             bWrite[1] = 0xFF
             bWrite[2] = 0x00
@@ -601,7 +603,7 @@ class MainWindow(QMainWindow):
                         listp[0].device if listp else None)
         self.port_act = None
 
-        self.MCU_mode = 0
+        self.MCU_mode = 2
         self.mode_act = None
 
         self.dac_act = None
@@ -624,6 +626,8 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.stack)
 
         self.init_menu()
+        self.update_dac_labels()
+        self.stack.setCurrentIndex(self.MCU_mode)
 
     def init_menu(self):
         # 端口
@@ -665,6 +669,11 @@ class MainWindow(QMainWindow):
                 self.dac_act = action
                 action.trigger()
                 
+    def update_dac_labels(self):
+        self.page_peak.set_dac_label(dac_type)
+        self.page_ap6150.set_dac_label(dac_type)
+        self.page_extra.set_dac_label(dac_type)
+
     def update_ports_menu(self):
         menu = self.sender()
 
@@ -714,6 +723,7 @@ class MainWindow(QMainWindow):
         self.dac_act.setChecked(False)
         action.setChecked(True)
         self.dac_act = action
+        self.update_dac_labels()
         
     def set_page(self):
         action = self.sender()
@@ -805,7 +815,13 @@ class GraphWindow(QtWidgets.QWidget):
         self.interval_text.setMinimumWidth(100)
         self.interval_text.setMaximumHeight(25)
 
+        self.dac_label = QtWidgets.QLabel("DAC: U_DAC")
+        self.dac_label.setMinimumWidth(100)
+        self.dac_label.setMaximumHeight(25)
+        self.dac_label.setAlignment(QtCore.Qt.AlignCenter)
+
         lab_temperature = QtWidgets.QLabel("温度(℃):")
+        
         self.temperature_text = QtWidgets.QLineEdit("0")
         self.temperature_text.setReadOnly(True)
         self.temperature_text.setMinimumWidth(100)
@@ -814,6 +830,12 @@ class GraphWindow(QtWidgets.QWidget):
 
         self.com_btn = QtWidgets.QPushButton("打开")
         self.com_btn.setMinimumWidth(100)
+
+        self.diff_threshold_label = QtWidgets.QLabel("滤波差异阈值:")
+        self.diff_threshold_text = QtWidgets.QLineEdit("0.1")
+        self.diff_threshold_text.setMinimumWidth(100)
+        self.diff_threshold_text.setMaximumHeight(25)
+        self.diff_threshold_text.textChanged.connect(self.on_threshold_changed)
 
         self.clear_btn = QtWidgets.QPushButton("清空数据")
         self.clear_btn.setMinimumWidth(100)
@@ -827,8 +849,17 @@ class GraphWindow(QtWidgets.QWidget):
         self.ctrl_layout.addSpacing(20)
         self.ctrl_layout.addStretch()
 
+        self.ctrl_layout.addWidget(self.dac_label)
+        self.ctrl_layout.addSpacing(20)
+        self.ctrl_layout.addStretch()
+
         self.ctrl_layout.addWidget(lab_temperature)
         self.ctrl_layout.addWidget(self.temperature_text)
+        self.ctrl_layout.addSpacing(20)
+        self.ctrl_layout.addStretch()
+        
+        self.ctrl_layout.addWidget(self.diff_threshold_label)
+        self.ctrl_layout.addWidget(self.diff_threshold_text)
         self.ctrl_layout.addSpacing(20)
         self.ctrl_layout.addStretch()
 
@@ -900,6 +931,11 @@ class GraphWindow(QtWidgets.QWidget):
         layout.addWidget(self.num_panel, 2, 0, 1, 2)
 
         self.interval = int(self.interval_text.text())
+        self.filter_diff_threshold = float(self.diff_threshold_text.text())
+        self.filter_diff_indices = [[] for _ in range(4)]
+        # self.diff_send_interval = 50
+        # self.update_count = 0
+        self.max_diff_points = 100  # 每个通道最多 100 个差异点
 
         self.worker = peakWorker()
         self.worker.temp_signal.connect(self.update_temp)
@@ -910,6 +946,8 @@ class GraphWindow(QtWidgets.QWidget):
         
         self.update_timer = QtCore.QTimer()    
         self.update_timer.timeout.connect(self.update_plot)
+
+        self.set_dac_label(dac_type)
 
         with open("./wave_const.yaml", 'r', encoding="utf-8") as file:
             yaml_data = yaml.safe_load(file)
@@ -1067,7 +1105,7 @@ class GraphWindow(QtWidgets.QWidget):
 
     def on_interval_changed(self):
         self.interval = int(self.interval_text.text())
-        command_frame = [0]*tx_size
+        command_frame = bytearray(tx_size)
         command_frame[0] = 0xFF
         command_frame[1] = 0xFF
         command_frame[2] = 0x01
@@ -1091,6 +1129,50 @@ class GraphWindow(QtWidgets.QWidget):
                 return
         else:
             ser.write(bytes(command_frame))
+
+    def on_threshold_changed(self):
+        try:
+            self.filter_diff_threshold = float(self.diff_threshold_text.text())
+        except Exception:
+            pass
+
+    def find_filter_diff_indices(self, adc_vec, fil_vec):
+        if len(adc_vec) == 0 or len(fil_vec) == 0:
+            return []
+        diff = np.abs(np.array(adc_vec) - fil_vec)
+        indices = np.nonzero(diff > self.filter_diff_threshold)[0]
+        return indices.tolist()[:self.max_diff_points]
+
+    def send_filter_diff_indices(self):
+        if not ser.is_open:
+            return
+
+        channel_points = [ids[:self.max_diff_points] for ids in self.filter_diff_indices]
+        if not any(channel_points):
+            return
+
+        command_frame = bytearray(tx_size)
+        command_frame[0] = 0xFF
+        command_frame[1] = 0xFF
+        command_frame[2] = 0x01
+        command_frame[3] = 0x04
+
+        # 按通道打包：len0 [idx_hi idx_lo]*len0, len1 [idx_hi idx_lo]*len1, ... len3 [idx_hi idx_lo]*len3
+        pos = 4
+        for idx_list in channel_points:
+            command_frame[pos] = len(idx_list) & 0xFF
+            pos += 1
+            for idx in idx_list:
+                if pos + 1 >= tx_size:
+                    break
+                command_frame[pos] = (idx >> 8) & 0xFF
+                command_frame[pos + 1] = idx & 0xFF
+                pos += 2
+
+        try:
+            ser.write(bytes(command_frame))
+        except Exception as e:
+            print("Serial send diff indices error:", e)
 
     def process_frame(self):
         try:
@@ -1124,13 +1206,13 @@ class GraphWindow(QtWidgets.QWidget):
                 com_input = raw[i:i+single_size]
 
                 ch1 = (com_input[0]<<8)+com_input[1]
-                st1 = com_input[2]
+                ust1 = com_input[2]
                 ch2 = (com_input[3]<<8)+com_input[4]
-                st2 = com_input[5]
+                ust2 = com_input[5]
                 ch3 = (com_input[6]<<8)+com_input[7]
-                st3 = com_input[8]
+                ust3 = com_input[8]
                 ch4 = (com_input[9]<<8)+com_input[10]
-                st4 = com_input[11]
+                ust4 = com_input[11]
 
                 v1 = ch1*2.5/4095
                 v2 = ch2*2.5/4095
@@ -1147,13 +1229,13 @@ class GraphWindow(QtWidgets.QWidget):
                 self.data[2].append(ch3)
                 self.data[3].append(ch4)
 
-                if not st1 ==1:
+                if ust1 ==1:
                     self.usdata[0].append(com_index)
-                if not st2 ==1:
+                if ust2 ==1:
                     self.usdata[1].append(com_index)
-                if not st3 ==1:
+                if ust3 ==1:
                     self.usdata[2].append(com_index)
-                if not st4 ==1:
+                if ust4 ==1:
                     self.usdata[3].append(com_index)
 
                 com_index+=1
@@ -1206,6 +1288,10 @@ class GraphWindow(QtWidgets.QWidget):
         self.temperature = _temperature
         self.temperature_text.setText(f"{_temperature}")
 
+    def set_dac_label(self, dac_type):
+        label = "U_DAC" if dac_type == 0 else "I_DAC"
+        self.dac_label.setText(f"DAC: {label}")
+
     def update_us_point(self):
         us_list = self.usdata
         filt_list = self.filts
@@ -1245,6 +1331,10 @@ class GraphWindow(QtWidgets.QWidget):
 
         # 更新曲线
         self.filts = [self.adc_filter(_adcs) for _adcs in self.adc]
+        self.filter_diff_indices = [self.find_filter_diff_indices(_adcs, filt)
+                                    for _adcs, filt in zip(self.adc, self.filts)]
+        self.send_filter_diff_indices()
+
         self.curve1.setData(np.array(x),np.array(self.filts[0]))
         self.curve2.setData(np.array(x),np.array(self.filts[1]))
         self.curve3.setData(np.array(x),np.array(self.filts[2]))
@@ -1358,21 +1448,29 @@ class GraphWindow(QtWidgets.QWidget):
         return peaks_vec
     
     def adc_filter(self, adc_vec):
-        y = medfilt(adc_vec, kernel_size=3)
+        # =========================
+        # 1. 中值滤波
+        # =========================
+        y = medfilt(adc_vec, kernel_size=7)
 
-        # fs = 1000
-        # cutoff = 100
-        # b,a = butter(N=4,Wn=cutoff/(fs/2),btype='low')
-        # y = filtfilt(b,a,y)
+        # =========================
+        # 2. SG滤波（保峰）
+        # =========================
+        y = savgol_filter(
+            y,
+            window_length=15,
+            polyorder=2
+        )
 
         self.filter_visual(adc_vec, y)
+
         return y
     
     def filter_visual(self, adc_vec, fil_vec):
         x_data = []
         y_data = []
         for i,(fi,adc) in enumerate(zip(fil_vec, adc_vec)):
-            if abs(fi-adc)<0.1:
+            if abs(fi-adc) < self.filter_diff_threshold:
                 continue
             x_data.append(self.wave_const[i])
             y_data.append(adc)
@@ -1402,6 +1500,11 @@ class ap6150bWindow(QtWidgets.QWidget):
         self.file_button = QPushButton("...")
         self.file_path = ""
 
+        self.dac_label = QtWidgets.QLabel("DAC: U_DAC")
+        self.dac_label.setMinimumWidth(100)
+        self.dac_label.setMaximumHeight(25)
+        self.dac_label.setAlignment(QtCore.Qt.AlignCenter)
+
         lab_temperature = QtWidgets.QLabel("温度(℃):")
         self.temperature_text = QtWidgets.QLineEdit("0")
         self.temperature_text.setReadOnly(True)
@@ -1424,7 +1527,12 @@ class ap6150bWindow(QtWidgets.QWidget):
         self.ctrl_layout.addSpacing(20)
         self.ctrl_layout.addStretch()
 
+        self.ctrl_layout.addWidget(self.dac_label)
+        self.ctrl_layout.addSpacing(20)
+        self.ctrl_layout.addStretch()
+
         self.ctrl_layout.addWidget(lab_temperature)
+        
         self.ctrl_layout.addWidget(self.temperature_text)
         self.ctrl_layout.addSpacing(20)
         self.ctrl_layout.addStretch()
@@ -1443,6 +1551,8 @@ class ap6150bWindow(QtWidgets.QWidget):
         self.worker =  APWorker(self.file_path)
         self.worker.log_signal.connect(self.printf_area.log)
         self.worker.temp_signal.connect(self.update_temp)
+
+        self.set_dac_label(dac_type)
 
     def select_file(self):
         self.file_path, _ = QFileDialog.getOpenFileName(
@@ -1509,6 +1619,10 @@ class ap6150bWindow(QtWidgets.QWidget):
         self.temperature = _temperature
         self.temperature_text.setText(f"{_temperature}")
 
+    def set_dac_label(self, dac_type):
+        label = "U_DAC" if dac_type == 0 else "I_DAC"
+        self.dac_label.setText(f"DAC: {label}")
+
 class extraWindow(QtWidgets.QWidget):
     temp_signal = pyqtSignal(float)
     rt_signal = pyqtSignal(int,int)
@@ -1542,13 +1656,18 @@ class extraWindow(QtWidgets.QWidget):
         head_box.setMaximumHeight(150)
 
         button_box = QtWidgets.QGroupBox("工作流控制")
-        button_layout = QtWidgets.QHBoxLayout()
+        button_layout = QtWidgets.QVBoxLayout()
+
+        self.dac_label = QtWidgets.QLabel("DAC: U_DAC")
+        self.dac_label.setAlignment(QtCore.Qt.AlignHCenter)
+        self.dac_label.setMinimumHeight(25)
 
         self.monitor_btn = QtWidgets.QPushButton("开始")
         self.monitor_btn.clicked.connect(self.on_work)
         self.write_btn.setMinimumHeight(40)
         self.write_btn.setMinimumWidth(120)
 
+        button_layout.addWidget(self.dac_label)
         button_layout.addWidget(self.monitor_btn)
 
         button_box.setLayout(button_layout)
@@ -1666,6 +1785,10 @@ class extraWindow(QtWidgets.QWidget):
         self.running = True
         self.recv_thread = None
 
+    def set_dac_label(self, dac_type):
+        label = "U_DAC" if dac_type == 0 else "I_DAC"
+        self.dac_label.setText(f"DAC: {label}")
+
     # def showEvent(self, a0):
     #     self.serial_open()
     #     self.start_recv_thread()
@@ -1766,7 +1889,7 @@ class extraWindow(QtWidgets.QWidget):
         self.serial_close()
 
     def write_data_MCU(self):
-        bWrite = [0] * tx_size
+        bWrite = bytearray(tx_size)
         bWrite[0] = 0xFF
         bWrite[1] = 0xFF
         bWrite[2] = 0x00

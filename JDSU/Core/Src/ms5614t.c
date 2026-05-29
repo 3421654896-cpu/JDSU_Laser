@@ -2,6 +2,7 @@
 #include "main.h"
 
 #define DAC_DELAY 3
+#define TRANSITION_STEPS 6
 
 uint16_t frame = 0;
 uint16_t adcData = 0;
@@ -10,7 +11,9 @@ uint32_t wave_time = 1;
 uint8_t codeBuf[2] = {0};
 uint8_t readBuf[2] = {0};
 uint16_t IDACData[5] = {0};
+uint16_t prevDAC[5] = {0};
 uint16_t uADCOriginvalues[4] = {0};
+uint8_t unstableFlags[Number][4] = {0};
 
 float tempData = 0;
 uint16_t tempInt = 0;
@@ -162,25 +165,39 @@ void write_ms5614t_table(void){
 						break;
 				}
 			
-				if(dacTarget == 0)
+				for(uint8_t step = 1; step <= TRANSITION_STEPS; step++)
 				{
-						MS5614T2_SetCode(MS5614T_DAC_A, IDACData[0], MS5614T_SPEED_FAST, MS5614T_NORMAL);
-						MS5614T2_SetCode(MS5614T_DAC_C, IDACData[1], MS5614T_SPEED_FAST, MS5614T_NORMAL);
-						MS5614T2_SetCode(MS5614T_DAC_B, IDACData[2], MS5614T_SPEED_FAST, MS5614T_NORMAL);
-						MS5614T_SetCode(MS5614T_DAC_A, IDACData[3], MS5614T_SPEED_FAST, MS5614T_NORMAL);
-						MS5614T_SetCode(MS5614T_DAC_C, IDACData[4], MS5614T_SPEED_FAST, MS5614T_NORMAL);
+						uint16_t interpDAC[5];
+
+						for(j = 0; j < 5; j++)
+						{
+								interpDAC[j] = prevDAC[j] +(((int32_t)IDACData[j] - (int32_t)prevDAC[j])*step) / TRANSITION_STEPS;
+						}
+
+						// ========================================
+						// DAC??
+						// ========================================
+						if(dacTarget == 0)
+						{
+								MS5614T2_SetCode(MS5614T_DAC_A,interpDAC[0],MS5614T_SPEED_FAST,MS5614T_NORMAL);
+								MS5614T2_SetCode(MS5614T_DAC_C,interpDAC[1],MS5614T_SPEED_FAST,MS5614T_NORMAL);
+								MS5614T2_SetCode(MS5614T_DAC_B,interpDAC[2],MS5614T_SPEED_FAST,MS5614T_NORMAL);
+								MS5614T_SetCode(MS5614T_DAC_A,interpDAC[3],MS5614T_SPEED_FAST,MS5614T_NORMAL);
+								MS5614T_SetCode(MS5614T_DAC_C,interpDAC[4],MS5614T_SPEED_FAST,MS5614T_NORMAL);
+						}
+						else if(dacTarget == 1)
+						{
+								PI11210_SetCode(IDAC5, interpDAC[0]); // GAIN
+								PI11210_SetCode(IDAC6, interpDAC[1]); // SOA
+								PI11210_SetCode(IDAC1, interpDAC[2]); // PHASE
+								PI11210_SetCode(IDAC4, interpDAC[3]); // WAVEA
+								PI11210_SetCode(IDAC7, interpDAC[4]); // WAVEB
+						}
+						delay_us(2);
 				}
-				else if(dacTarget == 1)
-				{
-						PI11210_SetCode(IDAC5, IDACData[0]);//GAIN
-						PI11210_SetCode(IDAC6, IDACData[1]);//SOA
-						PI11210_SetCode(IDAC1, IDACData[2]);//PHASE
-						PI11210_SetCode(IDAC4, IDACData[3]);//WAVEA
-						PI11210_SetCode(IDAC7, IDACData[4]);//WAVEB
-				}
+							
+				sampleVoltageStable(i);// todo:increase sample time via unstableFlag
 				
-						
-				sampleVoltageStable(i);
 //				M1820Z_GetTmp();
 				
 				adc1[i] = uADCOriginvalues[0];
@@ -235,7 +252,6 @@ void write_ms5614t_extra(void){
 				else if(aRxBuffer[2] == 0x01){
 						modify_table_loop();
 				}
-				
 		}
 		if ((aRxBuffer[0] != Head) && (aRxBuffer[0] != 0x00))
 		{
@@ -257,33 +273,77 @@ void modify_table_loop(void){
 		else if(aRxBuffer[3] == 0x03){
 				dacTarget = aRxBuffer[8];
 		}
+		else if(aRxBuffer[3] == 0x04){
+				getFilterDiff();
+		}
 		ClearRxBuff();
 		ReceEndFlag = 0;
+}
+
+void getFilterDiff(void){
+		uint16_t getDiffIdx = 4;
+	
+		uint8_t dlow = 0, dhigh = 0;
+	
+		uint8_t diffs1 = aRxBuffer[getDiffIdx++];
+		for(uint8_t i=0;i<diffs1;i++){
+				dhigh = aRxBuffer[getDiffIdx++];
+				dlow = aRxBuffer[getDiffIdx++];
+				unstableFlags[(dhigh<<8)+dlow][0] += 1;
+		}
+		
+		uint8_t diffs2 = aRxBuffer[getDiffIdx++];
+		for(uint8_t i=0;i<diffs2;i++){
+				dhigh = aRxBuffer[getDiffIdx++];
+				dlow = aRxBuffer[getDiffIdx++];
+				unstableFlags[(dhigh<<8)+dlow][1] += 1;
+		}
+		
+		uint8_t diffs3 = aRxBuffer[getDiffIdx++];
+		for(uint8_t i=0;i<diffs3;i++){
+				dhigh = aRxBuffer[getDiffIdx++];
+				dlow = aRxBuffer[getDiffIdx++];
+				unstableFlags[(dhigh<<8)+dlow][2] += 1;
+		}
+		
+		uint8_t diffs4 = aRxBuffer[getDiffIdx++];
+		for(uint8_t i=0;i<diffs4;i++){
+				dhigh = aRxBuffer[getDiffIdx++];
+				dlow = aRxBuffer[getDiffIdx++];
+				unstableFlags[(dhigh<<8)+dlow][3] += 1;
+		}
 }
 
 void sampleVoltage(void){
 		delay_us(wave_time);
 		for(uint8_t adc_idx=0;adc_idx<4;adc_idx++){
-				adcData = ADC_Write_Loop() & 0x0FFF;
-//				adcData = ADC_Write_Read(adc_idx+1) & 0x0FFF;
+				adcData = ADC_Write_Read(adc_idx) & 0x0FFF;
 				uADCOriginvalues[adc_idx] = adcData;
 				txBuffer[txCount++] = (adcData >> 8) & 0xFF;
 				txBuffer[txCount++] = adcData & 0xFF;
+				txBuffer[txCount++] = 0;
 		}
 }
 
-void sampleVoltageStable(uint16_t i){
+uint8_t sampleVoltageStable(uint16_t i){
 		delay_us(wave_time);
 		uint8_t adc_idx=0;
-		uint8_t stable_flag = 1;
+		uint8_t unstable_flag = 0;
 		for(;adc_idx<4;adc_idx++){
-				stable_flag = 1;
-				adcData = ADC_Write_Read_Stable(adc_idx, &stable_flag) & 0x0FFF;
+				unstable_flag = 0;
+			
+				if(unstableFlags[i][adc_idx]) adcData = ADC_Write_Read_Stable(adc_idx, &unstable_flag, unstableFlags[i][adc_idx]) & 0x0FFF;
+				else adcData = ADC_Write_Read(adc_idx) & 0x0FFF;
+			
 				uADCOriginvalues[adc_idx] = adcData;
+			
 				txBuffer[txCount++] = (adcData >> 8) & 0xFF;
 				txBuffer[txCount++] = adcData & 0xFF;
-				txBuffer[txCount++] = stable_flag;
+				txBuffer[txCount++] = unstable_flag;
+			
+				unstableFlags[i][adc_idx] += unstable_flag;
 		}
+		return unstable_flag;
 }
 
 void sampleTemperature(void){
@@ -316,7 +376,7 @@ void ClearTxBuff(){
 }
 
 void ClearRxBuff(void){
-		for (uint8_t i = 0; i < USART_RX_SIZE; i++)
+		for (uint16_t i = 0; i < USART_RX_SIZE; i++)
 	  {
 				aRxBuffer[i] = 0;
 		}
@@ -367,13 +427,13 @@ void scanWave_U(void){
 		aTxBuffer[txIdx++] = 0x00;// 0x00 refer scan wave return
 		aTxBuffer[txIdx++] = 0x21;// return flag
 		
-		adcData = ADC_Write_Read_Stable(6, &sa) & 0x0FFF;
+		adcData = ADC_Write_Read_Stable(6, &sa, 1) & 0x0FFF;
 		aTxBuffer[txIdx++] = (adcData >> 8) & 0xFF;
 		aTxBuffer[txIdx++] = (adcData) & 0xFF;
 		aTxBuffer[txIdx++] = sa;
 		
 		sa = 1;
-		adcData = ADC_Write_Read_Stable(7, &sa) & 0x0FFF;
+		adcData = ADC_Write_Read_Stable(7, &sa, 1) & 0x0FFF;
 		aTxBuffer[txIdx++] = (adcData >> 8) & 0xFF;
 		aTxBuffer[txIdx++] = (adcData) & 0xFF;
 		aTxBuffer[txIdx++] = sa;
@@ -403,13 +463,13 @@ void scanWave_I(void){
 		aTxBuffer[txIdx++] = 0x00;// 0x00 refer scan wave return
 		aTxBuffer[txIdx++] = 0x21;// return flag
 		
-		adcData = ADC_Write_Read_Stable(6, &sa) & 0x0FFF;
+		adcData = ADC_Write_Read_Stable(6, &sa, 1) & 0x0FFF;
 		aTxBuffer[txIdx++] = (adcData >> 8) & 0xFF;
 		aTxBuffer[txIdx++] = (adcData) & 0xFF;
 		aTxBuffer[txIdx++] = sa;
 		
 		sa = 1;
-		adcData = ADC_Write_Read_Stable(7, &sa) & 0x0FFF;
+		adcData = ADC_Write_Read_Stable(7, &sa, 1) & 0x0FFF;
 		aTxBuffer[txIdx++] = (adcData >> 8) & 0xFF;
 		aTxBuffer[txIdx++] = (adcData) & 0xFF;
 		aTxBuffer[txIdx++] = sa;
@@ -488,11 +548,11 @@ void checkRT(void){
 		aTxBuffer[txIdx++] = EXTRA_STATE;
 		aTxBuffer[txIdx++] = 0x02;
 	
-		adcData = ADC_Write_Read_Stable(6, &sa) & 0x0FFF;
+		adcData = ADC_Write_Read_Stable(6, &sa, 1) & 0x0FFF;
 		aTxBuffer[txIdx++] = (adcData >> 8) & 0xFF;
 		aTxBuffer[txIdx++] = (adcData) & 0xFF;
 		
-		adcData = ADC_Write_Read_Stable(7, &sa) & 0x0FFF;
+		adcData = ADC_Write_Read_Stable(7, &sa, 1) & 0x0FFF;
 		aTxBuffer[txIdx++] = (adcData >> 8) & 0xFF;
 		aTxBuffer[txIdx++] = (adcData) & 0xFF;
 		
