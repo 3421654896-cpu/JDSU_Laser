@@ -555,6 +555,22 @@ void checkRT(void){
 		adcData = ADC_Write_Read_Stable(7, &sa, 1) & 0x0FFF;
 		aTxBuffer[txIdx++] = (adcData >> 8) & 0xFF;
 		aTxBuffer[txIdx++] = (adcData) & 0xFF;
+	
+		adcData = ADC_Write_Read_Stable(0, &sa, 1) & 0x0FFF;
+		aTxBuffer[txIdx++] = (adcData >> 8) & 0xFF;
+		aTxBuffer[txIdx++] = (adcData) & 0xFF;
+		
+		adcData = ADC_Write_Read_Stable(1, &sa, 1) & 0x0FFF;
+		aTxBuffer[txIdx++] = (adcData >> 8) & 0xFF;
+		aTxBuffer[txIdx++] = (adcData) & 0xFF;
+	
+		adcData = ADC_Write_Read_Stable(2, &sa, 1) & 0x0FFF;
+		aTxBuffer[txIdx++] = (adcData >> 8) & 0xFF;
+		aTxBuffer[txIdx++] = (adcData) & 0xFF;
+		
+		adcData = ADC_Write_Read_Stable(3, &sa, 1) & 0x0FFF;
+		aTxBuffer[txIdx++] = (adcData >> 8) & 0xFF;
+		aTxBuffer[txIdx++] = (adcData) & 0xFF;
 		
 		USART_Queue_Send(aTxBuffer, USART_TX_SIZE);
 		ClearTxBuff();

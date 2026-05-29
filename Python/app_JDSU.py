@@ -1626,6 +1626,7 @@ class ap6150bWindow(QtWidgets.QWidget):
 class extraWindow(QtWidgets.QWidget):
     temp_signal = pyqtSignal(float)
     rt_signal = pyqtSignal(int,int)
+    volite_signal = pyqtSignal(int,int, int, int)
     error_signal = pyqtSignal(str)
 
     def __init__(self):
@@ -1758,6 +1759,10 @@ class extraWindow(QtWidgets.QWidget):
         (self.pdr_text,self.pdr_v),self.pdr = create_monitor("PDR(mA)"),0
         (self.pdt_text,self.pdt_v),self.pdt = create_monitor("PDT(mA)"),0
         self.ratio_rt_text,self.ratio_rt = read_only("PDR/PDT"),0
+        self.ch1_text,self.v1 = read_only("CH1"),0
+        self.ch2_text,self.v2 = read_only("CH2"),0
+        self.ch3_text,self.v3 = read_only("CH3"),0
+        self.ch4_text,self.v4 = read_only("CH4"),0
 
         monitor_box.setLayout(form_right)
 
@@ -1778,6 +1783,7 @@ class extraWindow(QtWidgets.QWidget):
             lambda x:self.temperature_text.setText(f"{x:.4f}")
         )
         self.rt_signal.connect(self.rt_transfer)
+        self.volite_signal.connect(self.volite_transfer)
         self.error_signal.connect(self.show_error)
 
         self.res_queue = Queue()
@@ -1884,7 +1890,13 @@ class extraWindow(QtWidgets.QWidget):
                     _pdt = (v[4]<<8)+v[5]# 先采的ch6是pdt
                     _pdr = (v[6]<<8)+v[7]# 后采的ch7是pdr
 
+                    ch1 = (v[8]<<8)+v[9]
+                    ch2 = (v[10]<<8)+v[11]
+                    ch3 = (v[12]<<8)+v[13]
+                    ch4 = (v[14]<<8)+v[15]
+
                     self.rt_signal.emit(_pdr,_pdt)
+                    self.volite_signal.emit(ch1,ch2,ch3,ch4)
 
         self.serial_close()
 
@@ -2042,6 +2054,17 @@ class extraWindow(QtWidgets.QWidget):
         self.pdr_text.setText(f"{self.pdr:.4f}")
         self.pdt_text.setText(f"{self.pdt:.4f}")
         self.ratio_rt_text.setText(f"{self.ratio_rt:.3f}")
+
+    def volite_transfer(self, ch1, ch2, ch3, ch4):
+        self.v1 = ch1*2.5/4095
+        self.v2 = ch2*2.5/4095
+        self.v3 = ch3*2.5/4095
+        self.v4 = ch4*2.5/4095
+
+        self.ch1_text.setText(f"{self.v1:.4f}V")
+        self.ch2_text.setText(f"{self.v2:.4f}V")
+        self.ch3_text.setText(f"{self.v3:.4f}V")
+        self.ch4_text.setText(f"{self.v4:.4f}V")
 
     def reset_write_state(self):
         states = [self.gain_state, self.soa_state,self.phase_state,self.wavelena_state,self.wavelenb_state]
