@@ -51,6 +51,9 @@ uint16_t ADC_SPI_Cmd(uint16_t cmdF){
 uint16_t ADC_Write_Read(uint8_t ch){
 		uint16_t frame = (0x1 << 12) | (ch << 7);
 		ADC_SPI_Cmd(frame);
+		delay_us(1);
+		ADC_SPI_Cmd(frame);
+		delay_us(1);
 		return ADC_SPI_Cmd(frame);
 }
 
