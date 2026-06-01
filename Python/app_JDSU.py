@@ -603,7 +603,7 @@ class MainWindow(QMainWindow):
                         listp[0].device if listp else None)
         self.port_act = None
 
-        self.MCU_mode = 2
+        self.MCU_mode = 0
         self.mode_act = None
 
         self.dac_act = None
@@ -844,6 +844,11 @@ class GraphWindow(QtWidgets.QWidget):
         self.interval_text.textChanged.connect(self.on_interval_changed)
         self.clear_btn.clicked.connect(self.on_clear_chart)
 
+        # 点显示切换（显示/不显示 filter_visual 与 update_us_point 绘制的点）
+        self.points_toggle = QtWidgets.QRadioButton("显示点")
+        self.points_toggle.setChecked(True)
+        self.points_toggle.toggled.connect(self.on_toggle_points)
+
         self.ctrl_layout.addWidget(lab_interval)
         self.ctrl_layout.addWidget(self.interval_text)
         self.ctrl_layout.addSpacing(20)
@@ -861,6 +866,10 @@ class GraphWindow(QtWidgets.QWidget):
         self.ctrl_layout.addWidget(self.diff_threshold_label)
         self.ctrl_layout.addWidget(self.diff_threshold_text)
         self.ctrl_layout.addSpacing(20)
+        self.ctrl_layout.addStretch()
+        
+        self.ctrl_layout.addWidget(self.points_toggle)
+        self.ctrl_layout.addSpacing(10)
         self.ctrl_layout.addStretch()
 
         self.ctrl_layout.addWidget(self.com_btn)
@@ -982,6 +991,9 @@ class GraphWindow(QtWidgets.QWidget):
         self.initials_length = 15
         self.peak_interval = 30
         self.peak_threshold = 164
+
+        # 控制是否显示点（filter_visual 和 update_us_point）
+        self.show_points = True
 
     def mouseMoved(self, evt):
         pos = evt[0]
@@ -1297,18 +1309,28 @@ class GraphWindow(QtWidgets.QWidget):
         filt_list = self.filts
         x_data = []
         y_data = []
+        # 先移除已有不稳定点
         for usp in self.us_points:
-            self.plot1.removeItem(usp)
+            try:
+                self.plot1.removeItem(usp)
+            except Exception:
+                pass
         self.us_points.clear()
+
+        if not self.show_points:
+            return
+
         for usl,adcl in zip(us_list,filt_list):
+            x_data = []
+            y_data = []
             for pt in usl:
                 x_data.append(self.wave_const[pt])
                 y_data.append(adcl[pt])
-                
-            scatter = pg.ScatterPlotItem(x_data, y_data, pen=pg.mkPen(255,0,0), symbol='o', symbolBrush=pg.mkBrush(255,0,0), symbolSize=10)
-            
-            self.us_points.append(scatter)
-            self.plot1.addItem(scatter)
+
+            if x_data and y_data:
+                scatter = pg.ScatterPlotItem(x_data, y_data, pen=pg.mkPen(255,0,0), symbol='o', symbolBrush=pg.mkBrush(255,0,0), symbolSize=10)
+                self.us_points.append(scatter)
+                self.plot1.addItem(scatter)
 
     def update_plot(self):
         if self.process_down == False:
@@ -1322,9 +1344,6 @@ class GraphWindow(QtWidgets.QWidget):
                                           yMin=-self.voltage_range/self.voltage_range,yMax=self.voltage_range)
         x = self.wave_const
 
-        for i in range(4):
-            self.calculate_peaks(i)
-
         # 更新被抑制的点
         for imp in self.impress_points:
             self.plot1.removeItem(imp)
@@ -1334,6 +1353,10 @@ class GraphWindow(QtWidgets.QWidget):
         self.filter_diff_indices = [self.find_filter_diff_indices(_adcs, filt)
                                     for _adcs, filt in zip(self.adc, self.filts)]
         self.send_filter_diff_indices()
+
+        # 用python算的峰值
+        for i in range(4):
+            self.waves[i] = self.calculate_peaks(self.filts[i], i)
 
         self.curve1.setData(np.array(x),np.array(self.filts[0]))
         self.curve2.setData(np.array(x),np.array(self.filts[1]))
@@ -1358,8 +1381,7 @@ class GraphWindow(QtWidgets.QWidget):
 
         self.process_down = True
 
-    def calculate_peaks(self, i):
-        _data = self.data[i]
+    def calculate_peaks(self, _data, i):
         if len(_data) == 0:
             return
         peaks = self.find_peaks(_data, i)
@@ -1469,6 +1491,10 @@ class GraphWindow(QtWidgets.QWidget):
     def filter_visual(self, adc_vec, fil_vec):
         x_data = []
         y_data = []
+        # 若不显示点则直接跳过绘制
+        if not self.show_points:
+            return
+
         for i,(fi,adc) in enumerate(zip(fil_vec, adc_vec)):
             if abs(fi-adc) < self.filter_diff_threshold:
                 continue
@@ -1476,9 +1502,29 @@ class GraphWindow(QtWidgets.QWidget):
             y_data.append(adc)
 
             scatter = pg.ScatterPlotItem(x_data, y_data, pen=pg.mkPen(255,255,0), symbol='o', symbolBrush=pg.mkBrush(255,255,0), symbolSize=10)
-                
             self.impress_points.append(scatter)
             self.plot1.addItem(scatter)
+
+    def on_toggle_points(self, checked):
+        # 切换显示点（checked=True 显示）
+        self.show_points = checked
+        if not checked:
+            # 移除所有现有点
+            for imp in self.impress_points:
+                try:
+                    self.plot1.removeItem(imp)
+                except Exception:
+                    pass
+            self.impress_points.clear()
+            for usp in self.us_points:
+                try:
+                    self.plot1.removeItem(usp)
+                except Exception:
+                    pass
+            self.us_points.clear()
+        else:
+            # 重新绘制点（利用现有更新机制）
+            self.update_plot()
 
 class ap6150bWindow(QtWidgets.QWidget):
     def __init__(self):
