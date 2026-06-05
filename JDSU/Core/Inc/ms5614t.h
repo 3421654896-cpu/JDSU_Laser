@@ -109,7 +109,7 @@ void ClearRxBuff(void);
 
 void write_ms5614t_table(void);
 void sampleVoltage(void);
-uint8_t sampleVoltageStable(uint16_t i);
+void sampleVoltageStable(uint16_t i);
 void sampleTemperature(void);
 void sendTxBuffer(int dac_size, int p1, int p2, int p3, int p4);
 void getFilterDiff(void);

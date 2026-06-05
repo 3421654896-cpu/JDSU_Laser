@@ -871,6 +871,7 @@ class GraphWindow(QtWidgets.QWidget):
         self.ctrl_layout.addSpacing(20)
         self.ctrl_layout.addStretch()
         
+        
         self.ctrl_layout.addWidget(self.points_toggle)
         self.ctrl_layout.addSpacing(10)
         self.ctrl_layout.addStretch()
@@ -948,6 +949,7 @@ class GraphWindow(QtWidgets.QWidget):
         # self.diff_send_interval = 50
         # self.update_count = 0
         self.max_diff_points = 100  # 每个通道最多 100 个差异点
+        self.diff_indices_log_path = Path(__file__).resolve().parent / "filter_diff_indices.log"
 
         self.worker = peakWorker()
         self.worker.temp_signal.connect(self.update_temp)
@@ -1186,8 +1188,23 @@ class GraphWindow(QtWidgets.QWidget):
 
         try:
             ser.write(bytes(command_frame))
+            self.log_filter_diff_indices(channel_points)
         except Exception as e:
             print("Serial send diff indices error:", e)
+
+    def log_filter_diff_indices(self, channel_points):
+        try:
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            with self.diff_indices_log_path.open("a", encoding="utf-8") as f:
+                f.write(f"{timestamp} threshold={self.filter_diff_threshold}\n")
+                for ch, idx_list in enumerate(channel_points):
+                    if not idx_list:
+                        continue
+                    index_str = ",".join(str(idx) for idx in idx_list)
+                    f.write(f"CH{ch}: {index_str}\n")
+                f.write("\n")
+        except Exception as e:
+            print("Log write error:", e)
 
     def process_frame(self):
         try:

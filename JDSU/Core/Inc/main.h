@@ -115,7 +115,7 @@ extern DMA_HandleTypeDef hdma_usart1_tx;
 extern const uint16_t Wave_DAC[Number][5];
 extern const uint16_t Wave_DATA[Number][2];
 extern const uint16_t Pwr_DATA[Number][2];
-extern uint8_t unstableFlags[Number][4];
+extern int8_t unstableFlags[Number][4];
 
 extern uint8_t txBuffer[PACK_SIZE];
 extern uint8_t aTxBuffer[USART_TX_SIZE];

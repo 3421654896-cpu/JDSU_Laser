@@ -13,7 +13,7 @@ uint8_t readBuf[2] = {0};
 uint16_t IDACData[5] = {0};
 uint16_t prevDAC[5] = {0};
 uint16_t uADCOriginvalues[4] = {0};
-uint8_t unstableFlags[Number][4] = {0};
+int8_t unstableFlags[Number][4] = {0};
 
 float tempData = 0;
 uint16_t tempInt = 0;
@@ -327,14 +327,14 @@ void sampleVoltage(void){
 		}
 }
 
-uint8_t sampleVoltageStable(uint16_t i){
+void sampleVoltageStable(uint16_t i){
 		delay_us(wave_time);
 		uint8_t adc_idx=0;
 		uint8_t unstable_flag = 0;
 		for(;adc_idx<4;adc_idx++){
 				unstable_flag = 0;
 			
-				if(unstableFlags[i][adc_idx]) adcData = ADC_Write_Read_Stable(adc_idx, &unstable_flag, unstableFlags[i][adc_idx]) & 0x0FFF;
+				if(unstableFlags[i][adc_idx] >= 0) adcData = ADC_Write_Read_Stable(adc_idx, &unstable_flag, unstableFlags[i][adc_idx]+1) & 0x0FFF;
 				else adcData = ADC_Write_Read(adc_idx) & 0x0FFF;
 //				adcData = ADC_Write_Read(adc_idx) & 0x0FFF;
 			
@@ -344,9 +344,13 @@ uint8_t sampleVoltageStable(uint16_t i){
 				txBuffer[txCount++] = adcData & 0xFF;
 				txBuffer[txCount++] = unstable_flag;
 			
-				unstableFlags[i][adc_idx] += unstable_flag;
+				if(unstable_flag){
+					if(unstableFlags[i][adc_idx]<127)unstableFlags[i][adc_idx] += 1;
+				}
+				else{
+					if(unstableFlags[i][adc_idx]>-1)unstableFlags[i][adc_idx] -= 1;
+				}
 		}
-		return unstable_flag;
 }
 
 void sampleTemperature(void){
