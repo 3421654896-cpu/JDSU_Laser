@@ -1200,8 +1200,9 @@ class GraphWindow(QtWidgets.QWidget):
                 for ch, idx_list in enumerate(channel_points):
                     if not idx_list:
                         continue
-                    index_str = ",".join(str(idx) for idx in idx_list)
-                    f.write(f"CH{ch}: {index_str}\n")
+                    index_str = ",".join(str(self.wave_const[idx]) for idx in idx_list)
+                    write_log = f"CH{ch}: {index_str}\n"
+                    f.write(write_log)
                 f.write("\n")
         except Exception as e:
             print("Log write error:", e)
