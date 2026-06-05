@@ -165,37 +165,39 @@ void write_ms5614t_table(void){
 						break;
 				}
 			
-				for(uint8_t step = 1; step <= TRANSITION_STEPS; step++)
-				{
-						uint16_t interpDAC[5];
+//				for(uint8_t step = 1; step <= TRANSITION_STEPS; step++)
+//				{
+//						uint16_t interpDAC[5];
 
-						for(j = 0; j < 5; j++)
-						{
-								interpDAC[j] = prevDAC[j] +(((int32_t)IDACData[j] - (int32_t)prevDAC[j])*step) / TRANSITION_STEPS;
-						}
+//						for(j = 0; j < 5; j++)
+//						{
+//								if(step == TRANSITION_STEPS) interpDAC[j] = IDACData[j];
+//								else interpDAC[j] = prevDAC[j] +(((int32_t)IDACData[j] - (int32_t)prevDAC[j])*step) / TRANSITION_STEPS;
+//								
+//						}
 
 						// ========================================
 						// DAC??
 						// ========================================
 						if(dacTarget == 0)
 						{
-								MS5614T2_SetCode(MS5614T_DAC_A,interpDAC[0],MS5614T_SPEED_FAST,MS5614T_NORMAL);
-								MS5614T2_SetCode(MS5614T_DAC_C,interpDAC[1],MS5614T_SPEED_FAST,MS5614T_NORMAL);
-								MS5614T2_SetCode(MS5614T_DAC_B,interpDAC[2],MS5614T_SPEED_FAST,MS5614T_NORMAL);
-								MS5614T_SetCode(MS5614T_DAC_A,interpDAC[3],MS5614T_SPEED_FAST,MS5614T_NORMAL);
-								MS5614T_SetCode(MS5614T_DAC_C,interpDAC[4],MS5614T_SPEED_FAST,MS5614T_NORMAL);
+								MS5614T2_SetCode(MS5614T_DAC_A,IDACData[0],MS5614T_SPEED_FAST,MS5614T_NORMAL);
+								MS5614T2_SetCode(MS5614T_DAC_C,IDACData[1],MS5614T_SPEED_FAST,MS5614T_NORMAL);
+								MS5614T2_SetCode(MS5614T_DAC_B,IDACData[2],MS5614T_SPEED_FAST,MS5614T_NORMAL);
+								MS5614T_SetCode(MS5614T_DAC_A,IDACData[3],MS5614T_SPEED_FAST,MS5614T_NORMAL);
+								MS5614T_SetCode(MS5614T_DAC_C,IDACData[4],MS5614T_SPEED_FAST,MS5614T_NORMAL);
 						}
 						else if(dacTarget == 1)
 						{
-								PI11210_SetCode(IDAC5, interpDAC[0]); // GAIN
-								PI11210_SetCode(IDAC6, interpDAC[1]); // SOA
-								PI11210_SetCode(IDAC1, interpDAC[2]); // PHASE
-								PI11210_SetCode(IDAC4, interpDAC[3]); // WAVEA
-								PI11210_SetCode(IDAC7, interpDAC[4]); // WAVEB
+								PI11210_SetCode(IDAC5, IDACData[0]); // GAIN
+								PI11210_SetCode(IDAC6, IDACData[1]); // SOA
+								PI11210_SetCode(IDAC1, IDACData[2]); // PHASE
+								PI11210_SetCode(IDAC4, IDACData[3]); // WAVEA
+								PI11210_SetCode(IDAC7, IDACData[4]); // WAVEB
 						}
-						delay_us(2);
-				}
-							
+//						delay_us(2);
+//				}
+//				delay_us(10);	
 				sampleVoltageStable(i);// todo:increase sample time via unstableFlag
 				
 //				M1820Z_GetTmp();
@@ -334,6 +336,7 @@ uint8_t sampleVoltageStable(uint16_t i){
 			
 				if(unstableFlags[i][adc_idx]) adcData = ADC_Write_Read_Stable(adc_idx, &unstable_flag, unstableFlags[i][adc_idx]) & 0x0FFF;
 				else adcData = ADC_Write_Read(adc_idx) & 0x0FFF;
+//				adcData = ADC_Write_Read(adc_idx) & 0x0FFF;
 			
 				uADCOriginvalues[adc_idx] = adcData;
 			

@@ -35,9 +35,12 @@ from pyvisa.constants import InterfaceType
 # ====== 参数（按需改）======
 ADDR = "GPIB0::7::INSTR"
 
+# 新的AQ6150: YOKOGAWA,AQ6150,91P102177
+# 旧的AQ6150b: YOKOGAWA,AQ6150B,9027C2596
+
 TARGET_VENDOR = "YOKOGAWA"
-TARGET_MODEL = "AQ6150"
-TARGET_SN = "91P102177"
+TARGET_MODEL = "AQ6150B"
+TARGET_SN = "9027C2596"
 
 PRINT_EXCEL_EVERY = 1      # 每隔N行打印一次Excel数据（1=每行都打印）
 PRINT_ACK = True           # 打印接收到的ACK
@@ -603,7 +606,7 @@ class MainWindow(QMainWindow):
                         listp[0].device if listp else None)
         self.port_act = None
 
-        self.MCU_mode = 0
+        self.MCU_mode = 2
         self.mode_act = None
 
         self.dac_act = None
@@ -757,8 +760,8 @@ class MainWindow(QMainWindow):
         self.mode_act.setChecked(False)
         action.setChecked(True)
         self.mode_act = action
-        if self.MCU_mode == 2:
-            self.page_extra.monitor_btn.click()
+        # if self.MCU_mode == 2:
+        #     self.page_extra.monitor_btn.click()
 
     def set_com_port(self):
         global ser
@@ -846,7 +849,7 @@ class GraphWindow(QtWidgets.QWidget):
 
         # 点显示切换（显示/不显示 filter_visual 与 update_us_point 绘制的点）
         self.points_toggle = QtWidgets.QRadioButton("显示点")
-        self.points_toggle.setChecked(True)
+        self.points_toggle.setChecked(False)
         self.points_toggle.toggled.connect(self.on_toggle_points)
 
         self.ctrl_layout.addWidget(lab_interval)
@@ -990,10 +993,10 @@ class GraphWindow(QtWidgets.QWidget):
 
         self.initials_length = 15
         self.peak_interval = 30
-        self.peak_threshold = 164
+        self.peak_threshold = 0.1
 
         # 控制是否显示点（filter_visual 和 update_us_point）
-        self.show_points = True
+        self.show_points = False
 
     def mouseMoved(self, evt):
         pos = evt[0]
@@ -1019,10 +1022,10 @@ class GraphWindow(QtWidgets.QWidget):
             return
     
         adc = np.array([
-            self.filts[0][index],
-            self.filts[1][index],
-            self.filts[2][index],
-            self.filts[3][index]
+            self.adc[0][index],
+            self.adc[1][index],
+            self.adc[2][index],
+            self.adc[3][index]
         ])
 
         indey = np.abs(adc-y).argmin()
@@ -1231,6 +1234,8 @@ class GraphWindow(QtWidgets.QWidget):
                 v3 = ch3*2.5/4095
                 v4 = ch4*2.5/4095
 
+                # print(f"{ch1},{ch2},{ch3},{ch4}")
+
                 self.adc[0].append(v1)
                 self.adc[1].append(v2)
                 self.adc[2].append(v3)
@@ -1357,6 +1362,8 @@ class GraphWindow(QtWidgets.QWidget):
         # 用python算的峰值
         for i in range(4):
             self.waves[i] = self.calculate_peaks(self.filts[i], i)
+            # print(self.waves[i])
+            # print(i)
 
         self.curve1.setData(np.array(x),np.array(self.filts[0]))
         self.curve2.setData(np.array(x),np.array(self.filts[1]))
@@ -1382,10 +1389,16 @@ class GraphWindow(QtWidgets.QWidget):
         self.process_down = True
 
     def calculate_peaks(self, _data, i):
+        # print(_data)
         if len(_data) == 0:
             return
         peaks = self.find_peaks(_data, i)
+
         # print(peaks)
+        # print(i)
+
+        return peaks
+        
 
     def cal_peaks_line(self, i):
         if len(self.data[i]) == 0:
@@ -1421,9 +1434,10 @@ class GraphWindow(QtWidgets.QWidget):
         gap = ma-mi
         data_norvec = list(np.array(data_vec)-mi)
         mean = sum(data_norvec)
-        # print(f"{adc_index}:", mean)
         
-        if 100*mean>10*adc_length*gap:
+        # if gap*100 < 10 or 100*mean>10*adc_length*gap:
+        if gap*100<10:
+            # print(f"{adc_index}:", mean/(adc_length*gap))
             return initials
         it = 0
         for i in range(1,adc_length-2):
@@ -1437,10 +1451,11 @@ class GraphWindow(QtWidgets.QWidget):
             # print(front)
             # print(back)
             if data_norvec[i]>=max(front) and data_norvec[i]>=max(back) and data_norvec[i]>self.peak_threshold:
-                if 10*(data_norvec[i]-data_norvec[i-1])>gap*5 or 10*(data_norvec[i]-data_norvec[i-1])>gap*5:
-                   self.adc[adc_index][i] = 0
-                   continue
+                # if 10*(data_norvec[i]-data_norvec[i-1])>gap*5 or 10*(data_norvec[i]-data_norvec[i-1])>gap*5:
+                # #    self.adc[adc_index][i] = 0
+                #    continue
                 # print(data_norvec[i])
+                # print(i)
                 initials[it] = i
                 i+=self.peak_interval
                 it+=1
@@ -1465,24 +1480,28 @@ class GraphWindow(QtWidgets.QWidget):
                 sumxy+=data_vec[j]*self.wave_const[j]
                 sumy+=data_vec[j]
             peaks_vec[i] = sumxy/sumy
+            # print(peaks_vec[i])
 
         # print(peaks_vec)
         return peaks_vec
     
     def adc_filter(self, adc_vec):
-        # =========================
-        # 1. 中值滤波
-        # =========================
-        y = medfilt(adc_vec, kernel_size=7)
+
+
+        # todo: 开滤波
+        y = medfilt(adc_vec, kernel_size=9)
 
         # =========================
         # 2. SG滤波（保峰）
         # =========================
         y = savgol_filter(
             y,
-            window_length=15,
+            window_length=5,
             polyorder=2
         )
+
+        # # todo: 关滤波
+        # y = adc_vec
 
         self.filter_visual(adc_vec, y)
 
