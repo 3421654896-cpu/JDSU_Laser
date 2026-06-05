@@ -156,6 +156,7 @@ int main(void)
 				LED_TABLE_LOW();
 				LED_MANUAL_HIGH();
 				write_ms5614t_manual();
+				memset(unstableFlags, 0, sizeof(unstableFlags));
 				break;
 			}
 			case EXTRA_STATE:
@@ -163,6 +164,7 @@ int main(void)
 				LED_TABLE_HIGH();
 				LED_MANUAL_HIGH();
 				write_ms5614t_extra();
+				memset(unstableFlags, 0, sizeof(unstableFlags));
 				break;
 			}
 		}
