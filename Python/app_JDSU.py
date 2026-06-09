@@ -800,8 +800,8 @@ class GraphWindow(QtWidgets.QWidget):
         self.process_down = True
         self.peaks_lines = [[] for _ in range(4)]
         self.visible_lines = [False for _ in range(4)]
-        self.us_points = []
-        self.impress_points = []
+        self.us_scatter_items = []
+        self.filter_scatter_items = []
 
         layout = QtWidgets.QGridLayout()
         self.setLayout(layout)
@@ -831,14 +831,26 @@ class GraphWindow(QtWidgets.QWidget):
         self.temperature_text.setMaximumHeight(25)
         self.temperature = 0
 
-        self.com_btn = QtWidgets.QPushButton("打开")
-        self.com_btn.setMinimumWidth(100)
-
-        self.diff_threshold_label = QtWidgets.QLabel("滤波差异阈值:")
+        diff_threshold_label = QtWidgets.QLabel("滤波差异阈值:")
         self.diff_threshold_text = QtWidgets.QLineEdit("0.1")
         self.diff_threshold_text.setMinimumWidth(100)
         self.diff_threshold_text.setMaximumHeight(25)
         self.diff_threshold_text.textChanged.connect(self.on_threshold_changed)
+
+        scalar_label = QtWidgets.QLabel("Y轴缩放:")
+        self.scalar_text = QtWidgets.QLineEdit("1.0")
+        self.scalar_text.setMinimumWidth(100)
+        self.scalar_text.setMaximumHeight(25)
+        self.scalar_text.textChanged.connect(self.on_scalar_changed)
+        self.voltage_scalar = 1.0
+
+        # 点显示切换（显示/不显示 filter_visual 与 update_us_point 绘制的点）
+        self.points_toggle = QtWidgets.QRadioButton("显示点")
+        self.points_toggle.setChecked(False)
+        self.points_toggle.toggled.connect(self.on_toggle_points)
+
+        self.com_btn = QtWidgets.QPushButton("打开")
+        self.com_btn.setMinimumWidth(100)
 
         self.clear_btn = QtWidgets.QPushButton("清空数据")
         self.clear_btn.setMinimumWidth(100)
@@ -846,11 +858,6 @@ class GraphWindow(QtWidgets.QWidget):
         self.com_btn.clicked.connect(self.on_open_changed)
         self.interval_text.textChanged.connect(self.on_interval_changed)
         self.clear_btn.clicked.connect(self.on_clear_chart)
-
-        # 点显示切换（显示/不显示 filter_visual 与 update_us_point 绘制的点）
-        self.points_toggle = QtWidgets.QRadioButton("显示点")
-        self.points_toggle.setChecked(False)
-        self.points_toggle.toggled.connect(self.on_toggle_points)
 
         self.ctrl_layout.addWidget(lab_interval)
         self.ctrl_layout.addWidget(self.interval_text)
@@ -866,11 +873,15 @@ class GraphWindow(QtWidgets.QWidget):
         self.ctrl_layout.addSpacing(20)
         self.ctrl_layout.addStretch()
         
-        self.ctrl_layout.addWidget(self.diff_threshold_label)
+        self.ctrl_layout.addWidget(diff_threshold_label)
         self.ctrl_layout.addWidget(self.diff_threshold_text)
         self.ctrl_layout.addSpacing(20)
         self.ctrl_layout.addStretch()
-        
+
+        self.ctrl_layout.addWidget(scalar_label)
+        self.ctrl_layout.addWidget(self.scalar_text)
+        self.ctrl_layout.addSpacing(20)
+        self.ctrl_layout.addStretch()
         
         self.ctrl_layout.addWidget(self.points_toggle)
         self.ctrl_layout.addSpacing(10)
@@ -901,6 +912,18 @@ class GraphWindow(QtWidgets.QWidget):
         self.curve2 = self.plot1.plot(pen=self.color_list[1], name='CH1')
         self.curve3 = self.plot1.plot(pen=self.color_list[2], name='CH2')
         self.curve4 = self.plot1.plot(pen=self.color_list[3], name='CH3')
+
+        for ch_color in ['red','yellow','magenta','cyan']:
+            scatter = pg.ScatterPlotItem([], [], pen=pg.mkPen(ch_color), brush=pg.mkBrush(ch_color), symbol='o', size=8)
+            scatter.setVisible(False)
+            self.plot1.addItem(scatter)
+            self.us_scatter_items.append(scatter)
+
+        for ch_color in ['yellow','yellow','yellow','yellow']:
+            scatter = pg.ScatterPlotItem([], [], pen=pg.mkPen(255,255,0), brush=pg.mkBrush(255,255,0), symbol='o', size=6)
+            scatter.setVisible(False)
+            self.plot1.addItem(scatter)
+            self.filter_scatter_items.append(scatter)
 
         self.num_panel = QtWidgets.QWidget()
         self.num_layout = QtWidgets.QGridLayout()
@@ -1077,8 +1100,8 @@ class GraphWindow(QtWidgets.QWidget):
             self.worker.temp_signal.connect(self.update_temp)
             self.worker.start()
 
-            self.frame_timer.start(1)
-            self.update_timer.start(2)
+            self.frame_timer.start(5)
+            self.update_timer.start(40)
 
             self.com_btn.setText("关闭")
         elif do_close:
@@ -1105,20 +1128,21 @@ class GraphWindow(QtWidgets.QWidget):
 
     def on_clear_chart(self):
         curves = [self.curve1, self.curve2, self.curve3, self.curve4]
-        datas = self.data
-        adcs = self.data
         for idx in range(4):
             curves[idx].setData([])
-            datas[idx].clear()
-            adcs[idx].clear()
+            self.data[idx].clear()
+            self.adc[idx].clear()
             self.temperature = 0
+            self.us_scatter_items[idx].setData([], [])
+            self.filter_scatter_items[idx].setData([], [])
 
-            for j in range(len(self.peaks_lines[idx])):
-                self.peaks_lines[idx][j].setVisible(False)
-                del self.peaks_lines[idx][j]
-            for label in self.num_labels[idx]:  
+            for l in self.peaks_lines[idx]:
+                l.setVisible(False)
+                self.plot1.removeItem(l)
+            self.peaks_lines[idx].clear()
+            for label in self.num_labels[idx]:
                 label.setText("0")
-            self.temperature_text.setText("0")
+        self.temperature_text.setText("0")
 
     def on_interval_changed(self):
         self.interval = int(self.interval_text.text())
@@ -1150,6 +1174,12 @@ class GraphWindow(QtWidgets.QWidget):
     def on_threshold_changed(self):
         try:
             self.filter_diff_threshold = float(self.diff_threshold_text.text())
+        except Exception:
+            pass
+
+    def on_scalar_changed(self):
+        try:
+            self.voltage_scalar = float(self.scalar_text.text())
         except Exception:
             pass
 
@@ -1327,32 +1357,22 @@ class GraphWindow(QtWidgets.QWidget):
         self.dac_label.setText(f"DAC: {label}")
 
     def update_us_point(self):
-        us_list = self.usdata
-        filt_list = self.filts
-        x_data = []
-        y_data = []
-        # 先移除已有不稳定点
-        for usp in self.us_points:
-            try:
-                self.plot1.removeItem(usp)
-            except Exception:
-                pass
-        self.us_points.clear()
-
         if not self.show_points:
+            for item in self.us_scatter_items:
+                item.setData([], [])
+                item.setVisible(False)
             return
 
-        for usl,adcl in zip(us_list,filt_list):
-            x_data = []
-            y_data = []
-            for pt in usl:
-                x_data.append(self.wave_const[pt])
-                y_data.append(adcl[pt])
+        for ch, usl in enumerate(self.usdata):
+            if not usl:
+                self.us_scatter_items[ch].setData([], [])
+                self.us_scatter_items[ch].setVisible(False)
+                continue
 
-            if x_data and y_data:
-                scatter = pg.ScatterPlotItem(x_data, y_data, pen=pg.mkPen(255,0,0), symbol='o', symbolBrush=pg.mkBrush(255,0,0), symbolSize=10)
-                self.us_points.append(scatter)
-                self.plot1.addItem(scatter)
+            x_data = [self.wave_const[pt] for pt in usl]
+            y_data = [self.filts[ch][pt] for pt in usl]
+            self.us_scatter_items[ch].setData(x=x_data, y=y_data)
+            self.us_scatter_items[ch].setVisible(True)
 
     def update_plot(self):
         if self.process_down == False:
@@ -1362,16 +1382,10 @@ class GraphWindow(QtWidgets.QWidget):
             return
         self.process_down = False
 
-        self.plot1.getViewBox().setLimits(xMin=self.wave_const[0]-5,xMax=self.wave_const[-1]+5,
-                                          yMin=-self.voltage_range/self.voltage_range,yMax=self.voltage_range)
         x = self.wave_const
 
-        # 更新被抑制的点
-        for imp in self.impress_points:
-            self.plot1.removeItem(imp)
-
         # 更新曲线
-        self.filts = [self.adc_filter(_adcs) for _adcs in self.adc]
+        self.filts = [self.adc_filter(_adcs, idx) for idx, _adcs in enumerate(self.adc)]
         self.filter_diff_indices = [self.find_filter_diff_indices(_adcs, filt)
                                     for _adcs, filt in zip(self.adc, self.filts)]
         self.send_filter_diff_indices()
@@ -1406,17 +1420,10 @@ class GraphWindow(QtWidgets.QWidget):
         self.process_down = True
 
     def calculate_peaks(self, _data, i):
-        # print(_data)
         if len(_data) == 0:
-            return
-        peaks = self.find_peaks(_data, i)
-
-        # print(peaks)
-        # print(i)
-
-        return peaks
+            return [0]*self.initials_length
+        return self.find_peaks(_data, i)
         
-
     def cal_peaks_line(self, i):
         if len(self.data[i]) == 0:
             return
@@ -1502,64 +1509,39 @@ class GraphWindow(QtWidgets.QWidget):
         # print(peaks_vec)
         return peaks_vec
     
-    def adc_filter(self, adc_vec):
+    def adc_filter(self, adc_vec, channel):
+        if len(adc_vec) == 0:
+            return np.array([])
 
+        arr = np.asarray(adc_vec, dtype=float)
+        y = medfilt(arr, kernel_size=9)
+        y = savgol_filter(y, window_length=5, polyorder=2)
+        y = np.array(y)*self.voltage_scalar
 
-        # todo: 开滤波
-        y = medfilt(adc_vec, kernel_size=9)
-
-        # =========================
-        # 2. SG滤波（保峰）
-        # =========================
-        y = savgol_filter(
-            y,
-            window_length=5,
-            polyorder=2
-        )
-
-        # # todo: 关滤波
-        # y = adc_vec
-
-        self.filter_visual(adc_vec, y)
+        if self.show_points:
+            self.filter_visual(channel, arr, y)
+        else:
+            self.filter_scatter_items[channel].setData([], [])
 
         return y
     
-    def filter_visual(self, adc_vec, fil_vec):
+    def filter_visual(self, channel, adc_vec, fil_vec):
         x_data = []
         y_data = []
-        # 若不显示点则直接跳过绘制
-        if not self.show_points:
-            return
-
         for i,(fi,adc) in enumerate(zip(fil_vec, adc_vec)):
-            if abs(fi-adc) < self.filter_diff_threshold:
-                continue
-            x_data.append(self.wave_const[i])
-            y_data.append(adc)
+            if abs(fi-adc) >= self.filter_diff_threshold:
+                x_data.append(self.wave_const[i])
+                y_data.append(adc)
 
-            scatter = pg.ScatterPlotItem(x_data, y_data, pen=pg.mkPen(255,255,0), symbol='o', symbolBrush=pg.mkBrush(255,255,0), symbolSize=10)
-            self.impress_points.append(scatter)
-            self.plot1.addItem(scatter)
+        self.filter_scatter_items[channel].setData(x=x_data, y=y_data)
+        self.filter_scatter_items[channel].setVisible(self.show_points and bool(x_data))
 
     def on_toggle_points(self, checked):
-        # 切换显示点（checked=True 显示）
         self.show_points = checked
-        if not checked:
-            # 移除所有现有点
-            for imp in self.impress_points:
-                try:
-                    self.plot1.removeItem(imp)
-                except Exception:
-                    pass
-            self.impress_points.clear()
-            for usp in self.us_points:
-                try:
-                    self.plot1.removeItem(usp)
-                except Exception:
-                    pass
-            self.us_points.clear()
-        else:
-            # 重新绘制点（利用现有更新机制）
+        for item in self.filter_scatter_items + self.us_scatter_items:
+            item.setVisible(False)
+            item.setData([], [])
+        if checked:
             self.update_plot()
 
 class ap6150bWindow(QtWidgets.QWidget):

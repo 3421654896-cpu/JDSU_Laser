@@ -150,10 +150,11 @@ void write_ms5614t_table(void){
 			
 				// 波长数据0x00就跳过
 				if ((IDACData[0] == 0xFFFF) && (IDACData[1] == 0xFFFF) && (IDACData[2] == 0xFFFF)){
-						uint8_t p1 = Find_Peaks(adc1, peaks1, i-1);
-						uint8_t p2 = Find_Peaks(adc2, peaks2, i-1);
-						uint8_t p3 = Find_Peaks(adc3, peaks3, i-1);
-						uint8_t p4 = Find_Peaks(adc4, peaks4, i-1);
+//						uint8_t p1 = Find_Peaks(adc1, peaks1, i-1);
+//						uint8_t p2 = Find_Peaks(adc2, peaks2, i-1);
+//						uint8_t p3 = Find_Peaks(adc3, peaks3, i-1);
+//						uint8_t p4 = Find_Peaks(adc4, peaks4, i-1);
+						uint8_t p1=0,p2=0,p3=0,p4=0;
 				
 						txBuffer[2] = ((i-1) >> 8) & 0xFF;
 						txBuffer[3] = (i-1) & 0xFF;
@@ -164,40 +165,23 @@ void write_ms5614t_table(void){
 						sendTxBuffer(i-1, p1, p2, p3, p4);
 						break;
 				}
-			
-//				for(uint8_t step = 1; step <= TRANSITION_STEPS; step++)
-//				{
-//						uint16_t interpDAC[5];
 
-//						for(j = 0; j < 5; j++)
-//						{
-//								if(step == TRANSITION_STEPS) interpDAC[j] = IDACData[j];
-//								else interpDAC[j] = prevDAC[j] +(((int32_t)IDACData[j] - (int32_t)prevDAC[j])*step) / TRANSITION_STEPS;
-//								
-//						}
-
-						// ========================================
-						// DAC??
-						// ========================================
-						if(dacTarget == 0)
-						{
-								MS5614T2_SetCode(MS5614T_DAC_A,IDACData[0],MS5614T_SPEED_FAST,MS5614T_NORMAL);
-								MS5614T2_SetCode(MS5614T_DAC_C,IDACData[1],MS5614T_SPEED_FAST,MS5614T_NORMAL);
-								MS5614T2_SetCode(MS5614T_DAC_B,IDACData[2],MS5614T_SPEED_FAST,MS5614T_NORMAL);
-								MS5614T_SetCode(MS5614T_DAC_A,IDACData[3],MS5614T_SPEED_FAST,MS5614T_NORMAL);
-								MS5614T_SetCode(MS5614T_DAC_C,IDACData[4],MS5614T_SPEED_FAST,MS5614T_NORMAL);
-						}
-						else if(dacTarget == 1)
-						{
-								PI11210_SetCode(IDAC5, IDACData[0]); // GAIN
-								PI11210_SetCode(IDAC6, IDACData[1]); // SOA
-								PI11210_SetCode(IDAC1, IDACData[2]); // PHASE
-								PI11210_SetCode(IDAC4, IDACData[3]); // WAVEA
-								PI11210_SetCode(IDAC7, IDACData[4]); // WAVEB
-						}
-//						delay_us(2);
-//				}
-//				delay_us(10);	
+				if(dacTarget == 0)
+				{
+						MS5614T2_SetCode(MS5614T_DAC_A,IDACData[0],MS5614T_SPEED_FAST,MS5614T_NORMAL);
+						MS5614T2_SetCode(MS5614T_DAC_C,IDACData[1],MS5614T_SPEED_FAST,MS5614T_NORMAL);
+						MS5614T2_SetCode(MS5614T_DAC_B,IDACData[2],MS5614T_SPEED_FAST,MS5614T_NORMAL);
+						MS5614T_SetCode(MS5614T_DAC_A,IDACData[3],MS5614T_SPEED_FAST,MS5614T_NORMAL);
+						MS5614T_SetCode(MS5614T_DAC_C,IDACData[4],MS5614T_SPEED_FAST,MS5614T_NORMAL);
+				}
+				else if(dacTarget == 1)
+				{
+						PI11210_SetCode(IDAC5, IDACData[0]); // GAIN
+						PI11210_SetCode(IDAC6, IDACData[1]); // SOA
+						PI11210_SetCode(IDAC1, IDACData[2]); // PHASE
+						PI11210_SetCode(IDAC4, IDACData[3]); // WAVEA
+						PI11210_SetCode(IDAC7, IDACData[4]); // WAVEB
+				}
 				sampleVoltageStable(i);// todo:increase sample time via unstableFlag
 				
 //				M1820Z_GetTmp();
