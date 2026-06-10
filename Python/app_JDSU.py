@@ -838,11 +838,18 @@ class GraphWindow(QtWidgets.QWidget):
         self.diff_threshold_text.textChanged.connect(self.on_threshold_changed)
 
         scalar_label = QtWidgets.QLabel("Y轴缩放:")
+        self.voltage_scalars = [1.0, 1.0, 1.0, 1.0]
+
+        self.scalar_channel_combo = QtWidgets.QComboBox()
+        self.scalar_channel_combo.addItems([f"CH{i}" for i in range(4)])
+        self.scalar_channel_combo.setMinimumWidth(70)
+        self.scalar_channel_combo.setMaximumHeight(25)
+        self.scalar_channel_combo.currentIndexChanged.connect(self.on_scalar_channel_changed)
+
         self.scalar_text = QtWidgets.QLineEdit("1.0")
         self.scalar_text.setMinimumWidth(100)
         self.scalar_text.setMaximumHeight(25)
         self.scalar_text.textChanged.connect(self.on_scalar_changed)
-        self.voltage_scalar = 1.0
 
         # 点显示切换（显示/不显示 filter_visual 与 update_us_point 绘制的点）
         self.points_toggle = QtWidgets.QRadioButton("显示点")
@@ -879,6 +886,7 @@ class GraphWindow(QtWidgets.QWidget):
         self.ctrl_layout.addStretch()
 
         self.ctrl_layout.addWidget(scalar_label)
+        self.ctrl_layout.addWidget(self.scalar_channel_combo)
         self.ctrl_layout.addWidget(self.scalar_text)
         self.ctrl_layout.addSpacing(20)
         self.ctrl_layout.addStretch()
@@ -1177,9 +1185,19 @@ class GraphWindow(QtWidgets.QWidget):
         except Exception:
             pass
 
+    def on_scalar_channel_changed(self, index):
+        try:
+            self.scalar_text.blockSignals(True)
+            self.scalar_text.setText(str(self.voltage_scalars[index]))
+        except Exception:
+            pass
+        finally:
+            self.scalar_text.blockSignals(False)
+
     def on_scalar_changed(self):
         try:
-            self.voltage_scalar = float(self.scalar_text.text())
+            channel = self.scalar_channel_combo.currentIndex()
+            self.voltage_scalars[channel] = float(self.scalar_text.text())
         except Exception:
             pass
 
@@ -1516,7 +1534,7 @@ class GraphWindow(QtWidgets.QWidget):
         arr = np.asarray(adc_vec, dtype=float)
         y = medfilt(arr, kernel_size=9)
         y = savgol_filter(y, window_length=5, polyorder=2)
-        y = np.array(y)*self.voltage_scalar
+        y = np.array(y) * self.voltage_scalars[channel]
 
         if self.show_points:
             self.filter_visual(channel, arr, y)

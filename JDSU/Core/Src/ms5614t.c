@@ -126,7 +126,7 @@ HAL_StatusTypeDef  PI11210_SetCode(PI11210_Channeld_t channel, uint16_t code)
 
 void write_ms5614t_table(void){
 		if(!dma_transfer_complete) return;
-	
+
 		int i;
 	  int j;
 		uint8_t Head = 0xFF;
