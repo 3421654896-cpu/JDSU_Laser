@@ -1,0 +1,369 @@
+{
+  "port": "COM6",
+  "baud": 2000000,
+  "requested_seconds": 28.0,
+  "mode": "temperature",
+  "selective_ch2_focus": false,
+  "frame_count": 0,
+  "fps": 0.0,
+  "segments": [
+    {
+      "index": 0,
+      "start_index": 0,
+      "stop_index": 11,
+      "start_nm": 1539.683,
+      "stop_nm": 1540.655
+    },
+    {
+      "index": 1,
+      "start_index": 11,
+      "stop_index": 22,
+      "start_nm": 1543.905,
+      "stop_nm": 1544.946
+    },
+    {
+      "index": 2,
+      "start_index": 22,
+      "stop_index": 33,
+      "start_nm": 1547.403,
+      "stop_nm": 1548.39
+    },
+    {
+      "index": 3,
+      "start_index": 33,
+      "stop_index": 44,
+      "start_nm": 1551.273,
+      "stop_nm": 1552.304
+    },
+    {
+      "index": 4,
+      "start_index": 44,
+      "stop_index": 55,
+      "start_nm": 1555.278,
+      "stop_nm": 1556.313
+    },
+    {
+      "index": 5,
+      "start_index": 55,
+      "stop_index": 66,
+      "start_nm": 1559.36,
+      "stop_nm": 1560.399
+    }
+  ],
+  "channels": [
+    {
+      "channel": 0,
+      "peaks": [
+        {
+          "segment": 0,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        },
+        {
+          "segment": 1,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        },
+        {
+          "segment": 2,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        },
+        {
+          "segment": 3,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        },
+        {
+          "segment": 4,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        },
+        {
+          "segment": 5,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        }
+      ]
+    },
+    {
+      "channel": 1,
+      "peaks": [
+        {
+          "segment": 0,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        },
+        {
+          "segment": 1,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        },
+        {
+          "segment": 2,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        },
+        {
+          "segment": 3,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        },
+        {
+          "segment": 4,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        },
+        {
+          "segment": 5,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        }
+      ]
+    },
+    {
+      "channel": 2,
+      "peaks": [
+        {
+          "segment": 0,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        },
+        {
+          "segment": 1,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        },
+        {
+          "segment": 2,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        },
+        {
+          "segment": 3,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        },
+        {
+          "segment": 4,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        },
+        {
+          "segment": 5,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        }
+      ]
+    },
+    {
+      "channel": 3,
+      "peaks": [
+        {
+          "segment": 0,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        },
+        {
+          "segment": 1,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        },
+        {
+          "segment": 2,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        },
+        {
+          "segment": 3,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        },
+        {
+          "segment": 4,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        },
+        {
+          "segment": 5,
+          "valid_frames": 0,
+          "raw": {
+            "count": 0
+          },
+          "stabilized": {
+            "count": 0
+          },
+          "median_amplitude_v": null,
+          "median_r_squared": null
+        }
+      ]
+    }
+  ],
+  "final_display_scales": [
+    1,
+    1,
+    1,
+    1
+  ]
+}

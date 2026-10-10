@@ -23,6 +23,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usbd_cdc_if.h"
+#include "wifi_transport.h"
+#include "ota_update.h"
 
 /* USER CODE END Includes */
 
@@ -45,8 +47,10 @@
 I2C_HandleTypeDef hi2c1;
 
 SPI_HandleTypeDef hspi1;
+#if 0  /* Legacy MS5614T voltage DAC interfaces are intentionally disabled. */
 SPI_HandleTypeDef hspi2;
 SPI_HandleTypeDef hspi3;
+#endif
 
 TIM_HandleTypeDef htim1;
 DMA_HandleTypeDef hdma_tim1_up;
@@ -64,10 +68,19 @@ DMA_HandleTypeDef hdma_usart6_rx;
 /* USER CODE BEGIN PV */
 uint8_t test = 0x21;
 uint8_t workState = EXTRA_STATE;
+#if 0  /* The DAC target is fixed to PI11210. */
 uint8_t dacTarget = 0;
+#endif
 
 uint8_t txBuffer[PACK_SIZE] = {0};
 uint8_t aTxBuffer[USART_TX_SIZE] = {0};
+static uint8_t usbControlWasActive = 0U;
+#if BW20_RECOVERY_BRIDGE
+volatile uint32_t bw20BridgeBaud = 115200U;
+static uint32_t bw20BridgeActiveBaud = 115200U;
+static uint8_t bw20BridgeUsbTxBuffer[64];
+static uint8_t bw20BridgeUsbTxPending = 0U;
+#endif
 
 /* USER CODE END PV */
 
@@ -76,14 +89,19 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_USART1_UART_Init(void);
+#if 0  /* Legacy MS5614T voltage DAC interfaces are intentionally disabled. */
 static void MX_SPI2_Init(void);
+#endif
 static void MX_SPI1_Init(void);
+#if 0  /* Legacy MS5614T voltage DAC interfaces are intentionally disabled. */
 static void MX_SPI3_Init(void);
+#endif
 static void MX_TIM1_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_USART6_UART_Init(void);
 static void MX_UART4_Init(void);
 /* USER CODE BEGIN PFP */
+static void FanPwmDmaError(DMA_HandleTypeDef *hdma);
 
 /* USER CODE END PFP */
 
@@ -124,27 +142,53 @@ int main(void)
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_USART1_UART_Init();
+#if 0  /* Do not enable either legacy MS5614T voltage DAC. */
   MX_SPI2_Init();
+#endif
   MX_SPI1_Init();
+#if 0  /* Do not enable either legacy MS5614T voltage DAC. */
   MX_SPI3_Init();
+#endif
   MX_TIM1_Init();
   MX_I2C1_Init();
+  /* Probe the PI11210 with SOA gated and initialise its source code to zero.
+     A failed probe is reported through status telemetry; no laser-current
+     write is accepted until it recovers. */
+  (void)PI11210_Init();
+  /* Select the STM32 while its USB pull-up is still disabled.  Holding this
+     state creates a real bus disconnect before the CDC device is started. */
+  USB_ENABLE;
+  HAL_Delay(500);
   MX_USB_DEVICE_Init();
   MX_USART6_UART_Init();
   MX_UART4_Init();
   /* USER CODE BEGIN 2 */
+#if BW20_RECOVERY_BRIDGE
+	/* Temporary transparent diagnostic path: PC COM6 <-> USART6 on PC6/PC7
+	 * <-> BW20 AT UART.  No laser, ADC or MQTT activity runs here. */
+	USB_ENABLE;
+#else
 	ADC_MANUAL_SPI_Init();
 	
 	aTxBuffer[0] = 0xFF;
 	aTxBuffer[1] = 0xFF;
 	HAL_UART_Receive_DMA(&huart1, uartFrame, USART_RX_SIZE);
+	WifiTransport_Init();
 	HAL_UARTEx_ReceiveToIdle_DMA(&huart6, atFrame, AT_RX_SIZE);
 	__HAL_DMA_DISABLE_IT(&hdma_usart6_rx, DMA_IT_HT);
 	
-	Set_Soft_PWM_Duty(25);
+	/* Start fail-safe at full cooling until the first CRC-valid board
+	 * temperature is available. */
+	ThermalControl_Init();
+	CH224Q_Init();
+	hdma_tim1_up.XferErrorCallback = FanPwmDmaError;
 	__HAL_TIM_ENABLE_DMA(&htim1, TIM_DMA_UPDATE);
-	HAL_DMA_Start(&hdma_tim1_up, (uint32_t)pwm_buffer, (uint32_t)&(GPIOC->BSRR), ARR_1);
-	HAL_TIM_Base_Start(&htim1);
+	if(HAL_DMA_Start(&hdma_tim1_up, (uint32_t)pwm_buffer,
+			(uint32_t)&(GPIOC->BSRR), ARR_1) != HAL_OK ||
+		 HAL_TIM_Base_Start(&htim1) != HAL_OK)
+	{
+		FanPwmDmaError(&hdma_tim1_up);
+	}
 	
 	HAL_GPIO_WritePin(CHOISE_0_A_PORT, CHOISE_0_A_PIN, (GPIO_PinState)CHOISE_0_A);
 	HAL_GPIO_WritePin(CHOISE_0_B_PORT, CHOISE_0_B_PIN, (GPIO_PinState)CHOISE_0_B);
@@ -153,32 +197,104 @@ int main(void)
 
 	USB_ENABLE;
 //	UART_ENABLE;
+#endif
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	uint8_t cmd[] = "AT+WJAP=HUAWEI-10ES6Z,dong@#304\r\n";
-	uint8_t check[] = "AT+STAINFO?\r\n";
-	if(at_transfer_complete){
-		at_transfer_complete = 0;
-		
-		HAL_UART_Transmit_DMA(&huart6,
-													cmd,
-													sizeof(cmd)-1);
-	}
-	
   while (1)
   {
+#if BW20_RECOVERY_BRIDGE
+		USBD_CDC_HandleTypeDef *hcdc =
+			(USBD_CDC_HandleTypeDef *)hUsbDeviceFS.pClassData;
+
+		if(bw20BridgeBaud >= 9600U && bw20BridgeBaud <= 2000000U &&
+		   bw20BridgeBaud != bw20BridgeActiveBaud)
+		{
+			HAL_UART_DeInit(&huart6);
+			huart6.Init.BaudRate = bw20BridgeBaud;
+			if(HAL_UART_Init(&huart6) == HAL_OK)
+				bw20BridgeActiveBaud = bw20BridgeBaud;
+		}
+
+		if(bw20BridgeUsbTxPending && hcdc != NULL && hcdc->TxState == 0U)
+			bw20BridgeUsbTxPending = 0U;
+
+		if(!bw20BridgeUsbTxPending && hcdc != NULL && hcdc->TxState == 0U)
+		{
+			uint16_t length = 0U;
+			while(length < sizeof(bw20BridgeUsbTxBuffer) &&
+			      __HAL_UART_GET_FLAG(&huart6, UART_FLAG_RXNE))
+			{
+				bw20BridgeUsbTxBuffer[length++] =
+					(uint8_t)(huart6.Instance->DR & 0xFFU);
+			}
+			if(length > 0U &&
+			   CDC_Transmit_FS(bw20BridgeUsbTxBuffer, length) == USBD_OK)
+				bw20BridgeUsbTxPending = 1U;
+		}
+		continue;
+#else
 		USB_ENABLE;
+		/* Advance at most one <=980 us cooperative temperature primitive at a
+		 * frame boundary.  CH224Q is hard-strapped on this PCB and its service is
+		 * side-effect free; PI11210 protection remains live at every boundary. */
+		ThermalControl_Process();
+		CH224Q_Process();
+		PI11210_Process();
+		/* A physical USB removal has no opportunity to send the normal CDC
+		 * DTR-close request.  The USB IRQ callbacks clear usbCdcHostOpen; consume
+		 * that falling edge here so the abandoned local scan cannot continue and
+		 * the LAN raw-byte client can take ownership immediately. */
+		if(usbControlWasActive && !usbCdcHostOpen)
+		{
+			ApplyWorkState(EXTRA_STATE);
+			(void)PI11210_SetSOAShutter(1U);
+			ReceEndFlag = 0U;
+			USB_ResetQueue();
+		}
+		usbControlWasActive = usbCdcHostOpen ? 1U : 0U;
+		WifiTransport_SetLocalControlActive(usbCdcHostOpen);
+		WifiTransport_Process();
+		OtaUpdate_ProcessUsb();
+		if(WifiTransport_IsOtaActive())
+		{
+			/* OTA owns the board exclusively.  Stop wavelength switching and
+			 * close the SOA optical shutter before any flash programming. */
+			if(workState != EXTRA_STATE) ApplyWorkState(EXTRA_STATE);
+			(void)PI11210_SetSOAShutter(1U);
+			ThermalControl_Process();
+			CH224Q_Process();
+			continue;
+		}
+		{
+			uint8_t requestedMode;
+			uint32_t requestId;
+			/* EXTRA/MANUAL are idle safe points.  Active scan modes deliberately
+			 * defer the same request to write_ms5614t_table's frame boundary. */
+			if(WifiTransport_TakePendingMode(workState, 0U,
+					&requestedMode, &requestId))
+			{
+				ApplyWorkState(requestedMode);
+				WifiTransport_OnRemoteModeApplied(requestedMode, requestId);
+			}
+		}
 		//workState = MANUAL_STATE;
 		
 		switch(workState)
 		{
+#if FBG_FEATURE_LEGACY_PEAK_MODES
 			case TABLE_STATE:
 			{
 				write_ms5614t_table();
 				break;
 			}
+			case PRECISION_TABLE_STATE:
+			{
+				write_ms5614t_table();
+				break;
+			}
+#endif
 			case MANUAL_STATE:
 			{
 				write_ms5614t_manual();
@@ -190,6 +306,11 @@ int main(void)
 				break;
 			}
 		}
+		WifiTransport_SetLocalControlActive(usbCdcHostOpen);
+		WifiTransport_Process();
+		ThermalControl_Process();
+		CH224Q_Process();
+#endif
 			
 //			if(at_transfer_complete){
 //				at_transfer_complete = 0;
@@ -325,6 +446,7 @@ static void MX_SPI1_Init(void)
   * @param None
   * @retval None
   */
+#if 0  /* Legacy MS5614T voltage DAC initialization retained for reference. */
 static void MX_SPI2_Init(void)
 {
 
@@ -394,6 +516,19 @@ static void MX_SPI3_Init(void)
 
   /* USER CODE END SPI3_Init 2 */
 
+}
+
+#endif
+
+/* A fan waveform failure must not leave either cooling or optical power in an
+ * indeterminate state.  This callback is also used for start-up failures. */
+static void FanPwmDmaError(DMA_HandleTypeDef *hdma)
+{
+	(void)hdma;
+	__HAL_TIM_DISABLE_DMA(&htim1, TIM_DMA_UPDATE);
+	(void)HAL_TIM_Base_Stop(&htim1);
+	ThermalControl_OnFanPwmFault();
+	PI11210_EmergencyShutter();
 }
 
 /**
@@ -599,17 +734,25 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_9, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3|GPIO_PIN_8|GPIO_PIN_15, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3|GPIO_PIN_15, GPIO_PIN_SET);
+
+  /* Keep legacy DAC1 in hardware power-down. */
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
+  /* TPC5121 CS is active low.  Keep it inactive whenever no 16-bit frame is
+     being clocked; the ADC driver supplies the required high-time guard. */
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5|GPIO_PIN_8|GPIO_PIN_11, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_2|GPIO_PIN_12|GPIO_PIN_14
-                          |GPIO_PIN_3|GPIO_PIN_4, GPIO_PIN_SET);
+                          |GPIO_PIN_4, GPIO_PIN_SET);
+
+  /* Keep legacy DAC2 in hardware power-down. */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, GPIO_PIN_RESET);
@@ -617,11 +760,22 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8|GPIO_PIN_9, GPIO_PIN_RESET);
 
+  /* PI11210 CLR is active high.  Keep SOA gated until its source code has
+     explicitly been initialised; a power-on must not enable an old bias. */
+  HAL_GPIO_WritePin(PI11210_CLR_PORT, PI11210_CLR_PIN, GPIO_PIN_SET);
+
   /*Configure GPIO pins : PC0 PC1 PC9 PC11 */
   GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_9|GPIO_PIN_11;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /* Four-wire fan tachometer, normally two falling edges per revolution. */
+  GPIO_InitStruct.Pin = GPIO_PIN_3;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PC2 */
@@ -658,8 +812,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PB0 PB2 PB8 PB9 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_2|GPIO_PIN_8|GPIO_PIN_9;
+  /*Configure GPIO pins : PB0 PB2 PB5 PB8 PB9 */
+  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_2|PI11210_CLR_PIN|GPIO_PIN_8|GPIO_PIN_9;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
@@ -694,6 +848,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
+
+  HAL_NVIC_SetPriority(EXTI3_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(EXTI3_IRQn);
 
   /* USER CODE END MX_GPIO_Init_2 */
 }

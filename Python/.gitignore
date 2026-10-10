@@ -1,0 +1,7 @@
+fbg_remote_config.yaml
+.venv/
+.ruff_cache/
+.coverage
+htmlcov/
+__pycache__/
+*.pyc

@@ -31,6 +31,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "firmware_features.h"
 #include "stm32f2xx.h"
 #include "datastruct.h"
 #include "ms5614t.h"
@@ -39,6 +40,10 @@ extern "C" {
 #include "adc.h"
 #include "com.h"
 #include "temperature.h"
+#include "ch224q.h"
+
+/* Set to 1 only for a temporary COM6 <-> BW20 AT diagnostic build. */
+#define BW20_RECOVERY_BRIDGE 0
 #include "stdlib.h"
 #include <stdio.h>
 #include <math.h>
@@ -52,6 +57,7 @@ typedef enum
     TABLE_STATE = 0,
     MANUAL_STATE = 1,
 		EXTRA_STATE = 2,
+		PRECISION_TABLE_STATE = 3,
 }MAIN_LOOP_STATE;
 
 /* USER CODE END ET */
@@ -91,9 +97,9 @@ typedef enum
 #define CHOISE_1_B_PORT						GPIOB
 #define CHOISE_1_B_PIN 					  GPIO_PIN_0
 
-#define CHOISE_0_A								0
+#define CHOISE_0_A								1
 #define CHOISE_0_B								0
-#define CHOISE_1_A								0
+#define CHOISE_1_A								1
 #define CHOISE_1_B								0
 
 /* USER CODE END EM */
@@ -111,8 +117,10 @@ void Error_Handler(void);
 extern I2C_HandleTypeDef hi2c1;
 
 extern SPI_HandleTypeDef hspi1;
+#if 0  /* Legacy MS5614T voltage DAC interfaces are intentionally disabled. */
 extern SPI_HandleTypeDef hspi2;
 extern SPI_HandleTypeDef hspi3;
+#endif
 
 extern UART_HandleTypeDef huart4;
 extern UART_HandleTypeDef huart1;
@@ -126,14 +134,18 @@ extern DMA_HandleTypeDef hdma_usart6_rx;
 extern const uint16_t Wave_DAC[Number][5];
 extern const uint16_t Wave_DATA[Number][2];
 extern const uint16_t Pwr_DATA[Number][2];
+#if FBG_FEATURE_LEGACY_PEAK_MODES
 extern int8_t unstableFlags[Number][4];
+#endif
 
 extern uint8_t txBuffer[PACK_SIZE];
 extern uint8_t aTxBuffer[USART_TX_SIZE];
 
 extern uint32_t wave_time;
 extern uint8_t workState;
+#if 0  /* The DAC target is fixed to PI11210. */
 extern uint8_t dacTarget;
+#endif
 
 /* USER CODE END Private defines */
 

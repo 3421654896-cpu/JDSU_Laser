@@ -1,0 +1,137 @@
+{
+  "created_utc": "2026-09-26T03:21:56+00:00",
+  "profile": "fullband_2001_145mA_v1",
+  "current_limit_ma": 145.0,
+  "stages": {
+    "scratch_initialization": {
+      "status": "complete",
+      "completed_utc": "2026-09-26T03:21:58+00:00",
+      "outputs": [
+        "C:\\Users\\xiechengxin\\Desktop\\chat光栅解调工作室\\JDSU_Laser_HAL_最新\\Python\\outputs\\fullband_145_auto_machine3_soa_repaired_20260926\\scratch_initialization.json"
+      ]
+    },
+    "mode_map": {
+      "status": "complete",
+      "completed_utc": "2026-09-26T03:49:48+00:00",
+      "outputs": [
+        "C:\\Users\\xiechengxin\\Desktop\\chat光栅解调工作室\\JDSU_Laser_HAL_最新\\Python\\outputs\\fullband_145_auto_machine3_soa_repaired_20260926\\mode_map_145.json",
+        "C:\\Users\\xiechengxin\\Desktop\\chat光栅解调工作室\\JDSU_Laser_HAL_最新\\Python\\outputs\\fullband_145_auto_machine3_soa_repaired_20260926\\mode_map_offset_145.json",
+        "C:\\Users\\xiechengxin\\Desktop\\chat光栅解调工作室\\JDSU_Laser_HAL_最新\\Python\\outputs\\fullband_145_auto_machine3_soa_repaired_20260926\\pdt_pdr_landscape.json"
+      ]
+    },
+    "select_phase_branches": {
+      "status": "complete",
+      "completed_utc": "2026-09-26T03:49:50+00:00",
+      "outputs": [
+        "C:\\Users\\xiechengxin\\Desktop\\chat光栅解调工作室\\JDSU_Laser_HAL_最新\\Python\\outputs\\fullband_145_auto_machine3_soa_repaired_20260926\\phase_branches_145.json"
+      ]
+    },
+    "phase_map_base": {
+      "status": "complete",
+      "completed_utc": "2026-09-26T04:40:45+00:00",
+      "outputs": [
+        "C:\\Users\\xiechengxin\\Desktop\\chat光栅解调工作室\\JDSU_Laser_HAL_最新\\Python\\outputs\\fullband_145_auto_machine3_soa_repaired_20260926\\phase_map_base_145.json"
+      ]
+    },
+    "phase_candidates_base": {
+      "status": "complete",
+      "completed_utc": "2026-09-26T04:40:49+00:00",
+      "outputs": [
+        "C:\\Users\\xiechengxin\\Desktop\\chat光栅解调工作室\\JDSU_Laser_HAL_最新\\Python\\outputs\\fullband_145_auto_machine3_soa_repaired_20260926\\phase_candidates_145.json"
+      ]
+    },
+    "phase_gap_refinement": {
+      "status": "complete",
+      "completed_utc": "2026-09-26T05:14:31+00:00",
+      "outputs": [
+        "C:\\Users\\xiechengxin\\Desktop\\chat光栅解调工作室\\JDSU_Laser_HAL_最新\\Python\\outputs\\fullband_145_auto_machine3_soa_repaired_20260926\\phase_gap_branches_145.json",
+        "C:\\Users\\xiechengxin\\Desktop\\chat光栅解调工作室\\JDSU_Laser_HAL_最新\\Python\\outputs\\fullband_145_auto_machine3_soa_repaired_20260926\\phase_map_gap_145.json"
+      ]
+    },
+    "phase_alternate_refinement": {
+      "status": "complete",
+      "completed_utc": "2026-09-26T06:03:20+00:00",
+      "outputs": [
+        "C:\\Users\\xiechengxin\\Desktop\\chat光栅解调工作室\\JDSU_Laser_HAL_最新\\Python\\outputs\\fullband_145_auto_machine3_soa_repaired_20260926\\phase_alternate_branches_145.json",
+        "C:\\Users\\xiechengxin\\Desktop\\chat光栅解调工作室\\JDSU_Laser_HAL_最新\\Python\\outputs\\fullband_145_auto_machine3_soa_repaired_20260926\\phase_map_alternate_145.json"
+      ]
+    },
+    "dense_2001": {
+      "status": "complete",
+      "completed_utc": "2026-09-26T08:07:25+00:00",
+      "outputs": [
+        "C:\\Users\\xiechengxin\\Desktop\\chat光栅解调工作室\\JDSU_Laser_HAL_最新\\Python\\outputs\\fullband_145_auto_machine3_soa_repaired_20260926\\dense_raw_145_2001.json"
+      ]
+    },
+    "repair_dense": {
+      "status": "complete",
+      "completed_utc": "2026-09-26T08:08:59+00:00",
+      "outputs": [
+        "C:\\Users\\xiechengxin\\Desktop\\chat光栅解调工作室\\JDSU_Laser_HAL_最新\\Python\\outputs\\fullband_145_auto_machine3_soa_repaired_20260926\\dense_repaired_145_2001.json"
+      ]
+    },
+    "maximize_power": {
+      "status": "complete",
+      "completed_utc": "2026-09-26T08:10:49+00:00",
+      "outputs": [
+        "C:\\Users\\xiechengxin\\Desktop\\chat光栅解调工作室\\JDSU_Laser_HAL_最新\\Python\\outputs\\fullband_145_auto_machine3_soa_repaired_20260926\\maximum_power_145_2001.json"
+      ]
+    },
+    "soa_transfer": {
+      "status": "complete",
+      "completed_utc": "2026-09-26T08:13:44+00:00",
+      "outputs": [
+        "C:\\Users\\xiechengxin\\Desktop\\chat光栅解调工作室\\JDSU_Laser_HAL_最新\\Python\\outputs\\fullband_145_auto_machine3_soa_repaired_20260926\\soa_transfer_145.json"
+      ]
+    },
+    "equalize_common_power": {
+      "status": "complete",
+      "completed_utc": "2026-09-26T11:31:01+00:00",
+      "outputs": [
+        "C:\\Users\\xiechengxin\\Desktop\\chat光栅解调工作室\\JDSU_Laser_HAL_最新\\Python\\outputs\\fullband_145_auto_machine3_soa_repaired_20260926\\equal_power_145_2001.json"
+      ]
+    },
+    "repair_equal_power": {
+      "status": "complete",
+      "completed_utc": "2026-09-26T12:19:33+00:00",
+      "outputs": [
+        "C:\\Users\\xiechengxin\\Desktop\\chat光栅解调工作室\\JDSU_Laser_HAL_最新\\Python\\outputs\\fullband_145_auto_machine3_soa_repaired_20260926\\equal_power_repaired_145_2001.json"
+      ]
+    }
+  },
+  "port": "COM18",
+  "meter_resource": "GPIB0::7::INSTR",
+  "runtime_dir": "C:\\Users\\xiechengxin\\Desktop\\chat光栅解调工作室\\JDSU_Laser_HAL_最新\\Python\\machine_defaults\\machine_3",
+  "certification_direction": "forward",
+  "single_point_power_relative_tolerance": 0.05,
+  "internal_power_relative_tolerance": 0.025,
+  "discovery_mode": "from_zero",
+  "legacy_tables_used": false,
+  "result": {
+    "status": "running",
+    "started_utc": "2026-09-27T01:21:03+00:00"
+  },
+  "updated_utc": "2026-09-27T01:21:06+00:00",
+  "last_preflight": {
+    "at_utc": "2026-09-27T01:21:06+00:00",
+    "meter": "YOKOGAWA,AQ6150B,9027C2596,01.03",
+    "port": "COM18",
+    "requested_codes": [
+      63351,
+      0,
+      0,
+      0,
+      0
+    ],
+    "returned_codes": [
+      63351,
+      0,
+      0,
+      0,
+      0
+    ],
+    "gain_145_profile_marker_confirmed": true,
+    "soa_shutter_forced_code": 0,
+    "soa_shutter_confirmed": true
+  }
+}

@@ -35,8 +35,14 @@ void ADC_LOOP_SPI_Init(void);
 void ADC_MANUAL_SPI_Init(void);
 uint16_t ADC_SPI_Cmd(uint16_t cmdF);
 uint16_t ADC_Write_Read(uint8_t ch);
+void ADC_ReadTwo(uint16_t values[2]);
+void ADC_ReadFour(uint16_t values[4]);
+void ADC_ReadMask(uint8_t channelMask, uint16_t values[4]);
+void ADC_ReadSix(uint16_t values[6]);
 uint16_t ADC_Write_Read_Stable(uint8_t ch, uint8_t* unstable, uint8_t multi);
 void ADC_Loop_Start(void);
 uint16_t ADC_Write_Loop(void);
+uint8_t ADC_LastTransferOk(void);
+uint32_t ADC_GetSpiErrorCount(void);
 
 #endif /* __ADC_H */

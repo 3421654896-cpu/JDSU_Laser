@@ -23,6 +23,8 @@ from openpyxl import load_workbook
 import tkinter as tk
 from tkinter import filedialog
 
+from laser_dac_safety import parse_pi11210_code
+
 # ====== 参数（按需改）======
 ADDR = "GPIB0::7::INSTR"
 COM_PORT = "COM6"
@@ -41,7 +43,14 @@ ACK_VALUE = 0x21
 ACK_RESEND_SLEEP_S = 0.001  # 每次重发后短暂停一下，避免占满CPU
 # ==========================
 
-ser = serial.Serial(COM_PORT, BAUD, timeout=1)
+ser = serial.Serial(baudrate=BAUD, timeout=1)
+
+
+def ensure_serial_open():
+    """Open COM6 only when the standalone acquisition is actually started."""
+    if not ser.is_open:
+        ser.port = COM_PORT
+        ser.open()
 
 def get_desktop_path():
     home = os.path.expanduser("~")
@@ -95,25 +104,26 @@ def excel_operate(iter_excel):
     """
     try:
         row = next(iter_excel)
-        readPhase = int(row[4])
-        readwaveA = int(row[5])
-        readwaveB = int(row[6])
-
-        bWrite = [0] * 8
-        bWrite[0] = 0xFF
-        bWrite[1] = 0xFF
-        bWrite[2] = (readPhase >> 8) & 0xFF
-        bWrite[3] = (readPhase >> 0) & 0xFF
-        bWrite[4] = (readwaveA >> 8) & 0xFF
-        bWrite[5] = (readwaveA >> 0) & 0xFF
-        bWrite[6] = (readwaveB >> 8) & 0xFF
-        bWrite[7] = (readwaveB >> 0) & 0xFF
-
-        cmd = bytes(bWrite)
-        info = f"phase={readPhase}, waveA={readwaveA}, waveB={readwaveB}"
-        return cmd, info
-    except Exception:
+    except StopIteration:
         return None, None
+
+    readPhase = parse_pi11210_code(row[4], 32768, "PHASE")
+    readwaveA = parse_pi11210_code(row[5], 24576, "WAVE_A")
+    readwaveB = parse_pi11210_code(row[6], 24576, "WAVE_B")
+
+    bWrite = [0] * 8
+    bWrite[0] = 0xFF
+    bWrite[1] = 0xFF
+    bWrite[2] = (readPhase >> 8) & 0xFF
+    bWrite[3] = (readPhase >> 0) & 0xFF
+    bWrite[4] = (readwaveA >> 8) & 0xFF
+    bWrite[5] = (readwaveA >> 0) & 0xFF
+    bWrite[6] = (readwaveB >> 8) & 0xFF
+    bWrite[7] = (readwaveB >> 0) & 0xFF
+
+    cmd = bytes(bWrite)
+    info = f"phase={readPhase}, waveA={readwaveA}, waveB={readwaveB}"
+    return cmd, info
 
 def parse_arr(reply: str):
     if reply is None:
@@ -224,6 +234,7 @@ def main():
     inst.write_termination = "\n"
 
     try:
+        ensure_serial_open()
         try:
             print("Connected:", inst.query("*IDN?").strip())
         except Exception:
@@ -321,6 +332,8 @@ def main():
             inst.close()
         finally:
             rm.close()
+        if ser.is_open:
+            ser.close()
         wb_out.save(xlsx_path)
         print("结束。")
 

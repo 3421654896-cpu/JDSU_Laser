@@ -1,0 +1,41 @@
+{
+  "fps": {
+    "median": 7.964186645492548,
+    "mean": 8.065481894132835,
+    "min": 7.845764816922994,
+    "max": 9.142263679340592,
+    "frames": 24
+  },
+  "channels": {
+    "CH0": {
+      "max_abs_delta_v": 0.0244140625,
+      "worst_index": 19,
+      "p95_abs_delta_v": 0.0146484375,
+      "mean_abs_delta_v": 0.005657958984375,
+      "over_0_2_v": 0
+    },
+    "CH1": {
+      "max_abs_delta_v": 0.14404296875,
+      "worst_index": 67,
+      "p95_abs_delta_v": 0.06591796875,
+      "mean_abs_delta_v": 0.01868896484375,
+      "over_0_2_v": 0
+    },
+    "CH2": {
+      "max_abs_delta_v": 0.0048828125,
+      "worst_index": 3,
+      "p95_abs_delta_v": 0.00244140625,
+      "mean_abs_delta_v": 0.000482177734375,
+      "over_0_2_v": 0
+    },
+    "CH3": {
+      "max_abs_delta_v": 0.009765625,
+      "worst_index": 35,
+      "p95_abs_delta_v": 0.001220703125,
+      "mean_abs_delta_v": 0.0003662109375,
+      "over_0_2_v": 0
+    }
+  },
+  "park_index": 44,
+  "created": "2026-08-10 12:29:03"
+}

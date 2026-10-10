@@ -13,7 +13,7 @@
 
 extern uint8_t getData;
 extern uint8_t lastGet;
-extern uint8_t ReceEndFlag;
+extern volatile uint8_t ReceEndFlag;
 extern uint8_t aRxBuffer[USART_RX_SIZE];
 extern uint8_t uartFrame[USART_RX_SIZE];
 
@@ -21,12 +21,12 @@ extern uint8_t atReceEndFlag;
 extern uint8_t atRxBuffer[AT_RX_SIZE];
 extern uint8_t atFrame[AT_RX_SIZE];
 
-extern uint8_t txHead;
-extern uint8_t txTail;
+extern volatile uint8_t txHead;
+extern volatile uint8_t txTail;
 extern uint16_t txCount;
-extern uint8_t dma_transfer_complete;
+extern volatile uint8_t dma_transfer_complete;
 extern uint8_t txQueue[TX_QUEUE_SIZE][USART_TX_SIZE];
-extern uint16_t txLen[USART_TX_SIZE];
+extern uint16_t txLen[TX_QUEUE_SIZE];
 
 //extern uint8_t atTxHead;
 //extern uint8_t atTxTail;
@@ -39,6 +39,7 @@ void USART_DMA_Send(void);
 
 void USB_Queue_Send(uint8_t *data, uint16_t len);
 void USB_SendNext(void);
+void USB_ResetQueue(void);
 void USB_IRQHandler_Process(void);
 
 #endif

@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "status": "complete_and_applied",
+  "coordinate_units": "mm",
+  "tool_reference": "8 mm circular press-face centre aligned to the selected silicone boundary landmark",
+  "contact_definition": "Z=0 work coordinate inherited from the operator-confirmed lower-right boundary contact",
+  "do_not_apply_until_complete": false,
+  "applied_to": "t31_touch_calibration.json",
+  "reference_image": "outputs/calibration_references/silicone_lower_boundary_annotated_20260904.png",
+  "model_mapping": {
+    "kind": "two_point_similarity_in_cad_mm",
+    "cad_half_span_x_mm": 17.832737,
+    "cad_half_span_y_mm": 24.3053895,
+    "right_model_x_norm": 0.34,
+    "left_model_x_norm": -0.34,
+    "model_y_norm": -0.15733485316035195,
+    "measured_separation_mm": 13.852760981710697,
+    "uniform_scale": 1.142376928793664,
+    "rotation_deg_model_to_work": -1.143953676,
+    "tip_direction_work_unit": [
+      0.01996443166565391,
+      0.9998006908720695
+    ],
+    "work_offset_machine_minus_work": [
+      -13.0984375,
+      -50.1046875,
+      14.0046875
+    ]
+  },
+  "samples": [
+    {
+      "anchor_id": "silicone_lower_right_boundary",
+      "label": "硅胶右下边界 / 新工件原点",
+      "work_x": 0.0,
+      "work_y": 0.0,
+      "work_z_contact": 0.0,
+      "machine_x": -13.0984375,
+      "machine_y": -50.1046875,
+      "machine_z_contact": 14.0046875,
+      "z_source": "operator_confirmed_contact",
+      "model_x_norm": 0.34,
+      "model_y_norm": -0.15733485316035195,
+      "contact": true,
+      "confidence": "operator_confirmed"
+    },
+    {
+      "anchor_id": "silicone_lower_left_boundary",
+      "label": "硅胶左下边界",
+      "work_x": -13.850000000000001,
+      "work_y": 0.27656249999999716,
+      "work_z_contact": 0.0,
+      "machine_x": -26.9484375,
+      "machine_y": -49.828125,
+      "machine_z_contact": 14.0046875,
+      "observed_work_z": 1.7718750000000014,
+      "observed_machine_z": 15.7765625,
+      "observed_clearance_mm": 1.7718750000000014,
+      "z_source": "inherited_from_silicone_lower_right_boundary",
+      "model_x_norm": -0.34,
+      "model_y_norm": -0.15733485316035195,
+      "contact": true,
+      "contact_observed": false,
+      "confidence": "operator_confirmed_xy_inherited_z"
+    }
+  ]
+}

@@ -1,4 +1,22 @@
 import sys
+import os
+from pathlib import Path
+
+# A copied/local virtual environment does not always expose Qt's platform
+# plugins through the process search path.  Configure it before pyqtgraph or
+# PyQt5 imports Qt, matching the supported main application.
+qt_platform_plugins = (
+    Path(sys.prefix)
+    / "Lib"
+    / "site-packages"
+    / "PyQt5"
+    / "Qt5"
+    / "plugins"
+    / "platforms"
+)
+if qt_platform_plugins.exists():
+    os.environ["QT_QPA_PLATFORM_PLUGIN_PATH"] = str(qt_platform_plugins)
+
 import serial
 import math
 import time
@@ -7,6 +25,7 @@ import pyvisa
 import openpyxl
 import threading
 import statistics
+from decimal import Decimal, InvalidOperation
 
 import pyqtgraph as pg
 import numpy as np
@@ -22,7 +41,6 @@ from PyQt5.QtCore import (
     QThread, pyqtSignal
 )
 from serial.tools import list_ports
-from pathlib import Path
 from datetime import datetime
 from collections import deque
 
@@ -46,7 +64,9 @@ array_size = 1904
 tx_size = 9
 # ==========================
 
-ser = serial.Serial()
+ser = serial.Serial(timeout=0.2)
+
+STM32_CDC_VID_PID = (0x0483, 0x5740)
 
 ser_open = False
 ser_cond = threading.Condition()
@@ -109,22 +129,23 @@ def get_desktop_path():
 def serial_write(info: bytes):
     ser.write(info)
 
-def wait_ack_0x21_forever(regDataCommand: bytes) -> None:
+def wait_ack_0x21_forever(regDataCommand: bytes, should_continue=None) -> bool:
     """
     一直等待直到收到 ACK=0x21。
     期间如果没收到或收到的不是0x21，就重发同一条命令，不推进。
     """
-    while True:
+    while should_continue is None or bool(should_continue()):
         b = ser.read(1)
         if b:
             v = int.from_bytes(b, "big")
             if PRINT_ACK:
                 print(f"接收到数据: {v}")
             if v == ACK_VALUE:
-                return
+                return True
         # 没收到或不是0x21 -> 重发
         serial_write(regDataCommand)
         time.sleep(ACK_RESEND_SLEEP_S)
+    return False
 
 def try_write(inst, cmd):
     try:
@@ -139,26 +160,42 @@ def excel_operate(iter_excel):
     """
     try:
         row = next(iter_excel)
-        readPhase = int(row[4])
-        readwaveA = int(row[5])
-        readwaveB = int(row[6])
-
-        bWrite = [0] * tx_size
-        bWrite[0] = 0xFF
-        bWrite[1] = 0xFF
-        bWrite[2] = 0x00
-        bWrite[3] = (readPhase >> 8) & 0xFF
-        bWrite[4] = (readPhase >> 0) & 0xFF
-        bWrite[5] = (readwaveA >> 8) & 0xFF
-        bWrite[6] = (readwaveA >> 0) & 0xFF
-        bWrite[7] = (readwaveB >> 8) & 0xFF
-        bWrite[8] = (readwaveB >> 0) & 0xFF
-
-        cmd = bytes(bWrite)
-        info = f"phase={readPhase}, waveA={readwaveA}, waveB={readwaveB}"
-        return cmd, info
-    except Exception:
+    except StopIteration:
         return None, None
+    if len(row) < 7:
+        raise ValueError("波长表数据行少于7列")
+
+    def exact_uint16(value, name):
+        try:
+            parsed = Decimal(str(value).strip())
+        except (InvalidOperation, ValueError):
+            raise ValueError(f"{name}必须是0..65535整数") from None
+        if (
+            not parsed.is_finite()
+            or parsed != parsed.to_integral_value()
+            or not 0 <= parsed <= 0xFFFF
+        ):
+            raise ValueError(f"{name}必须是0..65535整数")
+        return int(parsed)
+
+    readPhase = exact_uint16(row[4], "phase")
+    readwaveA = exact_uint16(row[5], "waveA")
+    readwaveB = exact_uint16(row[6], "waveB")
+
+    bWrite = [0] * tx_size
+    bWrite[0] = 0xFF
+    bWrite[1] = 0xFF
+    bWrite[2] = 0x00
+    bWrite[3] = (readPhase >> 8) & 0xFF
+    bWrite[4] = readPhase & 0xFF
+    bWrite[5] = (readwaveA >> 8) & 0xFF
+    bWrite[6] = readwaveA & 0xFF
+    bWrite[7] = (readwaveB >> 8) & 0xFF
+    bWrite[8] = readwaveB & 0xFF
+
+    cmd = bytes(bWrite)
+    info = f"phase={readPhase}, waveA={readwaveA}, waveB={readwaveB}"
+    return cmd, info
 
 def parse_arr(reply: str):
     if reply is None:
@@ -260,19 +297,31 @@ class MQComboBox(QtWidgets.QComboBox):
         super().showPopup()
 
     def refresh_ports(self):
-        current_text = self.currentText()
+        current_port = self.currentData()
 
         self.blockSignals(True)
         self.clear()
 
+        native_port = None
         for p in list_ports.comports():
             text = f"{p.device} {p.description}"
             self.addItem(text, p.device)
+            if (
+                getattr(p, "vid", None),
+                getattr(p, "pid", None),
+            ) == STM32_CDC_VID_PID and native_port is None:
+                native_port = p.device
 
-        if current_text:
-            index = self.findText(current_text)
+        if current_port:
+            index = self.findData(current_port)
             if index >= 0:
                 self.setCurrentIndex(index)
+                self.blockSignals(False)
+                return
+        if native_port is not None:
+            self.setCurrentIndex(self.findData(native_port))
+        else:
+            self.setCurrentIndex(-1)
         
         self.blockSignals(False)
 
@@ -331,6 +380,7 @@ class peakWorker(QThread):
                 elif idx>0:
                     # print(buf)
                     del buf[:idx]
+                    idx = 0
                 
                 end_idx = buf.find(b'\xff\xff')
                 if end_idx<0:
@@ -345,9 +395,11 @@ class peakWorker(QThread):
 
         while self.running:
             with ser_cond:
-                while not ser_open:
+                while not ser_open and self.running:
                     ser_cond.wait()
                     rx_buffer.clear()
+            if not self.running:
+                break
             if ser.is_open:
                 try:
                     data = ser.read(pack_size)
@@ -390,7 +442,7 @@ class APWorker(QThread):
 
             try:
                 try:
-                    self.log("Connected:", inst.query("*IDN?").strip())
+                    self.log(f"Connected: {inst.query('*IDN?').strip()}")
                 except Exception:
                     self.log("提示：*IDN? 不响应也没关系。")
 
@@ -446,15 +498,18 @@ class APWorker(QThread):
 
                     # 打印 Excel 读取内容（可控频率）
                     if PRINT_EXCEL_EVERY > 0 and ((count + 1) % PRINT_EXCEL_EVERY == 0):
-                        self.log_signal.emit("----excel----")
-                        self.log_signal.emit(current_info)
-                        self.log_signal.emit("----excel----")
+                        self.log("----excel----")
+                        self.log(current_info)
+                        self.log("----excel----")
 
                     # 串口发送
                     serial_write(current_cmd)
 
                     # 等 ACK（不成功就一直重发，不推进）
-                    wait_ack_0x21_forever(current_cmd)
+                    if not wait_ack_0x21_forever(
+                        current_cmd, should_continue=lambda: self.running
+                    ):
+                        break
 
                     # ACK 成功：计数并“推进到下一行”
                     count += 1
@@ -657,12 +712,11 @@ class ap6150bWindow(QtWidgets.QWidget):
         do_close = False
 
         if ap_open == False:
+            if not self.file_path:
+                QMessageBox.warning(self, "未选择文件", "请先选择波长 Excel 表")
+                return
             do_open = True
-            ap_open = True 
-            self.worker = APWorker(self.file_path)
-            self.worker.log_signal.connect(self.printf_area.log)
-            self.worker.start()
-            # ap_cond.notify_all()
+            ap_open = True
         else: 
             do_close = True
             ap_open = False
@@ -681,6 +735,9 @@ class ap6150bWindow(QtWidgets.QWidget):
             self.combo_baud.setEnabled(False)
 
             self.com_btn.setText("关闭")
+            self.worker = APWorker(self.file_path)
+            self.worker.log_signal.connect(self.printf_area.log)
+            self.worker.start()
         elif do_close:
             try:
                 ser.close()
@@ -874,7 +931,6 @@ class GraphWindow(QtWidgets.QWidget):
         ser.baudrate = self.baud
 
         self.worker = peakWorker()
-        self.worker.start()
         
         self.frame_timer = QtCore.QTimer()    
         self.frame_timer.timeout.connect(self.process_frame)
@@ -884,7 +940,8 @@ class GraphWindow(QtWidgets.QWidget):
         
         QtWidgets.QShortcut(QtGui.QKeySequence("P"), self, activated=self.toggle_pause)
 
-        with open("C:/Users/xiechengxin/Desktop/JDSU_Laser_最新/Python/wave_const.yaml", 'r', encoding="utf-8") as file:
+        wavelength_file = Path(__file__).resolve().with_name("wave_const.yaml")
+        with wavelength_file.open('r', encoding="utf-8") as file:
             yaml_data = yaml.safe_load(file)
             # print((yaml_data['Wave_DATA']))
             self.yaml = yaml_data['Wave_DATA']
@@ -904,6 +961,32 @@ class GraphWindow(QtWidgets.QWidget):
             rateLimit=60,
             slot=self.mouseMoved
         )
+        self.worker.start()
+
+    def shutdown_worker(self):
+        """Stop the receiver without leaving a live QThread at Qt shutdown."""
+        global ser_open
+        worker = getattr(self, "worker", None)
+        if worker is None:
+            return True
+        worker.running = False
+        with ser_cond:
+            ser_open = False
+            ser_cond.notify_all()
+        if worker.isRunning():
+            worker.wait(700)
+        return not worker.isRunning()
+
+    def closeEvent(self, event):
+        self.frame_timer.stop()
+        self.update_timer.stop()
+        self.shutdown_worker()
+        try:
+            if ser.is_open:
+                ser.close()
+        except Exception:
+            pass
+        super().closeEvent(event)
 
     def mouseMoved(self, evt):
         pos = evt[0] 
@@ -1020,9 +1103,9 @@ class GraphWindow(QtWidgets.QWidget):
         curves = [self.curve1, self.curve2, self.curve3, self.curve4]
         for idx in range(4):
             curves[idx].setData([])
-            for j in range(len(self.peaks_lines[idx])):
-                self.peaks_lines[idx][j].setVisible(False)
-                del self.peaks_lines[idx][j]
+            for line in self.peaks_lines[idx]:
+                self.plot1.removeItem(line)
+            self.peaks_lines[idx].clear()
             for label in self.num_labels[idx]:  
                 label.setText("0")
 
@@ -1085,7 +1168,7 @@ class GraphWindow(QtWidgets.QWidget):
             single_size = 8
 
             # print(len(raw))
-            if raw[0]!=0xEE and raw[1]!=0xEE:
+            if raw[0]!=0xEE or raw[1]!=0xEE:
                 print("pack head error")
                 self.process_down = True
                 print(raw)
@@ -1099,10 +1182,10 @@ class GraphWindow(QtWidgets.QWidget):
                 ch3 = (com_input[4]<<8)+com_input[5]
                 ch4 = (com_input[6]<<8)+com_input[7]
 
-                v1 = ch1*2.5/4095
-                v2 = ch2*2.5/4095
-                v3 = ch3*2.5/4095
-                v4 = ch4*2.5/4095
+                v1 = ch1*2.5/4096
+                v2 = ch2*2.5/4096
+                v3 = ch3*2.5/4096
+                v4 = ch4*2.5/4096
 
                 self.adc1.append(v1)
                 self.adc2.append(v2)
@@ -1186,11 +1269,13 @@ class GraphWindow(QtWidgets.QWidget):
         _data = datas[i]
         if len(_data) == 0:
             return
-        ma = max(_data)
-        mi = min(_data)
-        for j,x in enumerate(_data):
-            _data[j] = (x-mi)/(ma-mi)
-        peaks = peak_main(_data, statistics.mean(_data))
+        values = np.asarray(_data, dtype=float)
+        ma = float(np.max(values))
+        mi = float(np.min(values))
+        if not ma > mi:
+            return
+        normalized = (values - mi) / (ma - mi)
+        peaks = peak_main(normalized, float(np.mean(normalized)))
         # print(statistics.mean(_data))
 
         for l in self.peaks_lines[i]:
@@ -1198,9 +1283,6 @@ class GraphWindow(QtWidgets.QWidget):
 
         for idx,p in enumerate(peaks):
             if p==-1:
-                if idx < len(self.peaks_lines[i]):
-                    self.plot1.removeItem(self.peaks_lines[i][idx])
-                    del self.peaks_lines[i][idx]
                 continue
             if idx>=len(self.peaks_lines[i]):
                 vline = pg.InfiniteLine(
@@ -1220,10 +1302,12 @@ class GraphWindow(QtWidgets.QWidget):
 
     def toggle_pause(self):
         if self.paused: 
-            self.timer.start(1) 
+            self.frame_timer.start(1)
+            self.update_timer.start(2)
             self.paused = False
         else: 
-            self.timer.stop() 
+            self.frame_timer.stop()
+            self.update_timer.stop()
             self.paused = True
 
 def peak_initial(adc_vec, interval, adc_length, initials_length, threshold):

@@ -1,0 +1,288 @@
+{
+  "created": "2026-08-30T02:39:13+08:00",
+  "method": "measured_anchor_plus_local_phase_branch_following",
+  "target_start_nm": 1525.0,
+  "target_stop_nm": 1525.2,
+  "target_step_nm": 0.02,
+  "target_count": 11,
+  "limits_ma": {
+    "gain_ma": 135.0,
+    "soa_ma": 135.0,
+    "phase_ma": 10.0,
+    "wave_a_ma": 30.0,
+    "wave_b_ma": 30.0
+  },
+  "wavelength_tolerance_pm": 2.0,
+  "single_mode_gate_smsr_db": 20.0,
+  "gain_soa_discovery_ma": 135.0,
+  "rows": {
+    "1525.000000": {
+      "success": true,
+      "target_nm": 1525.0,
+      "codes": [
+        58982,
+        58982,
+        10248,
+        0,
+        6144
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        3.12744140625,
+        0.0,
+        7.5
+      ],
+      "reading": {
+        "wavelength_nm": 1525.0011200000001,
+        "wavelength_error_pm": 1.1200000001281296,
+        "power_mw": 1.6932363295939044,
+        "power_dbm": 2.28717578,
+        "peak_count": 4,
+        "secondary_power_mw": 0.0006594741700661274,
+        "side_mode_suppression_db": 34.09519788,
+        "pdt_code": 348,
+        "pdr_code": 480,
+        "pdt_ma": 0.518798828125,
+        "pdr_ma": 0.478515625,
+        "pdr_pdt_ratio": 0.9223529411764706
+      },
+      "phase_slope_nm_per_ma": -0.06875000000074269,
+      "source": "validated_integer_anchor"
+    },
+    "1525.020000": {
+      "success": true,
+      "target_nm": 1525.02,
+      "codes": [
+        58982,
+        58982,
+        9348,
+        0,
+        6144
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        2.852783203125,
+        0.0,
+        7.5
+      ],
+      "reading": {
+        "wavelength_nm": 1525.01854,
+        "wavelength_error_pm": -1.4599999999518332,
+        "power_mw": 1.6709624326738322,
+        "power_dbm": 2.22966686,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": 254,
+        "pdr_code": 579,
+        "pdt_ma": 0.5474853515625,
+        "pdr_ma": 0.44830322265625,
+        "pdr_pdt_ratio": 0.8188405797101449
+      },
+      "phase_slope_nm_per_ma": -0.06529429290333494,
+      "source": "phase_branch_follow"
+    },
+    "1525.040000": {
+      "success": true,
+      "target_nm": 1525.04,
+      "codes": [
+        58982,
+        58982,
+        8271,
+        0,
+        6144
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        2.52410888671875,
+        0.0,
+        7.5
+      ],
+      "reading": {
+        "wavelength_nm": 1525.03829,
+        "wavelength_error_pm": -1.7100000000027649,
+        "power_mw": 1.6723870732373194,
+        "power_dbm": 2.23336802,
+        "peak_count": 12,
+        "secondary_power_mw": 0.0009336679692514452,
+        "side_mode_suppression_db": 32.531443419999995,
+        "pdt_code": 133,
+        "pdr_code": 708,
+        "pdt_ma": 0.58441162109375,
+        "pdr_ma": 0.408935546875,
+        "pdr_pdt_ratio": 0.6997389033942559
+      },
+      "phase_slope_nm_per_ma": -0.061912437984304264,
+      "source": "phase_branch_follow"
+    },
+    "1525.060000": {
+      "success": false,
+      "target_nm": 1525.06,
+      "failure": "no_single_mode_branch_within_wavelength_tolerance"
+    },
+    "1525.080000": {
+      "success": false,
+      "target_nm": 1525.08,
+      "failure": "no_single_mode_branch_within_wavelength_tolerance"
+    },
+    "1525.100000": {
+      "success": false,
+      "target_nm": 1525.1,
+      "failure": "no_single_mode_branch_within_wavelength_tolerance"
+    },
+    "1525.120000": {
+      "success": false,
+      "target_nm": 1525.12,
+      "failure": "no_single_mode_branch_within_wavelength_tolerance"
+    },
+    "1525.140000": {
+      "success": true,
+      "target_nm": 1525.14,
+      "codes": [
+        58982,
+        58982,
+        16777,
+        15974,
+        4915
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        5.11993408203125,
+        19.49951171875,
+        5.999755859375
+      ],
+      "reading": {
+        "wavelength_nm": 1525.13804,
+        "wavelength_error_pm": -1.9600000000536966,
+        "power_mw": 1.5190638544960786,
+        "power_dbm": 1.8157603,
+        "peak_count": 18,
+        "secondary_power_mw": 0.002836021049884421,
+        "side_mode_suppression_db": 27.2886658,
+        "pdt_code": 41,
+        "pdr_code": 1510,
+        "pdt_ma": 0.61248779296875,
+        "pdr_ma": 0.1641845703125,
+        "pdr_pdt_ratio": 0.268061783756851
+      },
+      "phase_slope_nm_per_ma": -0.055000000001352065,
+      "source": "full_branch_recovery"
+    },
+    "1525.160000": {
+      "success": true,
+      "target_nm": 1525.16,
+      "codes": [
+        58982,
+        58982,
+        15753,
+        15974,
+        4915
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        4.80743408203125,
+        19.49951171875,
+        5.999755859375
+      ],
+      "reading": {
+        "wavelength_nm": 1525.15974,
+        "wavelength_error_pm": -0.26000000002568413,
+        "power_mw": 1.49666608328103,
+        "power_dbm": 1.75124917,
+        "peak_count": 16,
+        "secondary_power_mw": 0.0013612969140230145,
+        "side_mode_suppression_db": 30.41172057,
+        "pdt_code": 44,
+        "pdr_code": 1671,
+        "pdt_ma": 0.611572265625,
+        "pdr_ma": 0.11505126953125,
+        "pdr_pdt_ratio": 0.18812375249500998
+      },
+      "phase_slope_nm_per_ma": -0.06757355841442803,
+      "source": "phase_branch_follow"
+    },
+    "1525.180000": {
+      "success": true,
+      "target_nm": 1525.18,
+      "codes": [
+        58982,
+        58982,
+        14771,
+        15974,
+        4915
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        4.50775146484375,
+        19.49951171875,
+        5.999755859375
+      ],
+      "reading": {
+        "wavelength_nm": 1525.17931,
+        "wavelength_error_pm": -0.6900000000769069,
+        "power_mw": 1.495416902115563,
+        "power_dbm": 1.74762285,
+        "peak_count": 10,
+        "secondary_power_mw": 0.0010387472810123829,
+        "side_mode_suppression_db": 31.582523849999998,
+        "pdt_code": 45,
+        "pdr_code": 1782,
+        "pdt_ma": 0.61126708984375,
+        "pdr_ma": 0.0811767578125,
+        "pdr_pdt_ratio": 0.1328007988017973
+      },
+      "phase_slope_nm_per_ma": -0.06607766794294544,
+      "source": "phase_branch_follow"
+    },
+    "1525.200000": {
+      "success": true,
+      "target_nm": 1525.2,
+      "codes": [
+        58982,
+        58982,
+        13745,
+        15974,
+        4915
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        4.19464111328125,
+        19.49951171875,
+        5.999755859375
+      ],
+      "reading": {
+        "wavelength_nm": 1525.19913,
+        "wavelength_error_pm": -0.8700000000771979,
+        "power_mw": 1.5291273212093794,
+        "power_dbm": 1.84443648,
+        "peak_count": 3,
+        "secondary_power_mw": 0.0009173867431573313,
+        "side_mode_suppression_db": 32.21891188,
+        "pdt_code": 46,
+        "pdr_code": 1859,
+        "pdt_ma": 0.6109619140625,
+        "pdr_ma": 0.05767822265625,
+        "pdr_pdt_ratio": 0.0944055944055944
+      },
+      "phase_slope_nm_per_ma": -0.06427163018436902,
+      "source": "phase_branch_follow"
+    }
+  },
+  "meter": "YOKOGAWA,AQ6150B,9027C2596,01.03",
+  "summary": {
+    "tested": 11,
+    "passed": 7,
+    "failed": 4,
+    "raw_power_min_mw": 1.495416902115563,
+    "raw_power_max_mw": 1.6932363295939044,
+    "maximum_abs_wavelength_error_pm": 1.9600000000536966,
+    "minimum_smsr_db": 27.2886658
+  }
+}

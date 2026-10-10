@@ -1,0 +1,72 @@
+{
+  "groups": [
+    {
+      "hybrid_index": 72,
+      "failed_target_nm": 1551.78,
+      "replacement_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "candidates": [
+        {
+          "replacement_index": 0,
+          "source_excel_row": 1592,
+          "wavelength_nm": 1551.831,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.257097,
+          "codes": [
+            26214,
+            26214,
+            29491,
+            819,
+            24576
+          ]
+        },
+        {
+          "replacement_index": 1,
+          "source_excel_row": 1586,
+          "wavelength_nm": 1551.728,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.243887,
+          "codes": [
+            26214,
+            26214,
+            8192,
+            24576,
+            2048
+          ]
+        },
+        {
+          "replacement_index": 2,
+          "source_excel_row": 1593,
+          "wavelength_nm": 1551.87,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 3.943668,
+          "codes": [
+            26214,
+            26214,
+            16384,
+            21709,
+            22938
+          ]
+        },
+        {
+          "replacement_index": 3,
+          "source_excel_row": 1594,
+          "wavelength_nm": 1551.884,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.212389,
+          "codes": [
+            26214,
+            26214,
+            26214,
+            819,
+            24166
+          ]
+        }
+      ]
+    }
+  ]
+}

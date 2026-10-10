@@ -10,7 +10,7 @@
       <TargetName>JDSU</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>6240000::V6.24::ARMCLANG</pCCUsed>
+      <pCCUsed>6220000::V6.22::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -276,8 +276,8 @@
               </OCR_RVCT3>
               <OCR_RVCT4>
                 <Type>1</Type>
-                <StartAddress>0x8000000</StartAddress>
-                <Size>0x80000</Size>
+                <StartAddress>0x8008000</StartAddress>
+                <Size>0x38000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
@@ -425,14 +425,44 @@
               <FilePath>..\Core\Src\wave_const.c</FilePath>
             </File>
             <File>
+              <FileName>stress_table.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\stress_table.c</FilePath>
+            </File>
+            <File>
+              <FileName>stress_multirate.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\stress_multirate.c</FilePath>
+            </File>
+            <File>
               <FileName>temperature.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Core\Src\temperature.c</FilePath>
             </File>
             <File>
+              <FileName>ch224q.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\ch224q.c</FilePath>
+            </File>
+            <File>
               <FileName>com.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Core\Src\com.c</FilePath>
+            </File>
+            <File>
+              <FileName>wifi_transport.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\wifi_transport.c</FilePath>
+            </File>
+            <File>
+              <FileName>ota_update.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\ota_update.c</FilePath>
+            </File>
+            <File>
+              <FileName>sha256.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\sha256.c</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>

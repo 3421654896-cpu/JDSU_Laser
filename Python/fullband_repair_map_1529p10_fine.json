@@ -1,0 +1,3786 @@
+{
+  "created": "2026-08-30T08:17:30+08:00",
+  "method": "boustrophedon_wave_a_wave_b_mode_map_at_fixed_phase",
+  "limits_ma": {
+    "gain_ma": 135.0,
+    "soa_ma": 135.0,
+    "phase_ma": 10.0,
+    "wave_a_ma": 30.0,
+    "wave_b_ma": 30.0
+  },
+  "gain_ma": 135.0,
+  "soa_ma": 135.0,
+  "phase_ma": 6.25,
+  "wave_step_ma": 0.05,
+  "wave_a_range_ma": [
+    29.5,
+    30.0
+  ],
+  "wave_b_range_ma": [
+    15.0,
+    15.5
+  ],
+  "rows": {
+    "A29.5000_B15.0000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24166,
+        12288
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.49951171875,
+        15.0
+      ],
+      "reading": {
+        "wavelength_nm": 1529.47409,
+        "wavelength_error_pm": -15525.910000000067,
+        "power_mw": 1.5680362156185856,
+        "power_dbm": 1.95356089,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5000_B15.0500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24166,
+        12329
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.49951171875,
+        15.050048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11744,
+        "wavelength_error_pm": -15882.560000000012,
+        "power_mw": 1.5788082095821883,
+        "power_dbm": 1.98329376,
+        "peak_count": 2,
+        "secondary_power_mw": 0.0008793281571200676,
+        "side_mode_suppression_db": 32.541783960000004,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5000_B15.1000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24166,
+        12370
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.49951171875,
+        15.10009765625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11678,
+        "wavelength_error_pm": -15883.219999999937,
+        "power_mw": 1.5726761476096778,
+        "power_dbm": 1.966393,
+        "peak_count": 3,
+        "secondary_power_mw": 0.0015268019642403193,
+        "side_mode_suppression_db": 30.1285659,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5000_B15.1500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24166,
+        12411
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.49951171875,
+        15.150146484375
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11625,
+        "wavelength_error_pm": -15883.749999999964,
+        "power_mw": 1.5713021943305945,
+        "power_dbm": 1.96259717,
+        "peak_count": 8,
+        "secondary_power_mw": 0.0012283005038615834,
+        "side_mode_suppression_db": 31.069550869999997,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5000_B15.2000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24166,
+        12452
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.49951171875,
+        15.2001953125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1155800000001,
+        "wavelength_error_pm": -15884.419999999864,
+        "power_mw": 1.5896983080305722,
+        "power_dbm": 2.01314712,
+        "peak_count": 3,
+        "secondary_power_mw": 0.0006967493303780978,
+        "side_mode_suppression_db": 33.58238152,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5000_B15.2500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24166,
+        12493
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.49951171875,
+        15.250244140625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11485,
+        "wavelength_error_pm": -15885.150000000067,
+        "power_mw": 1.5688148369969181,
+        "power_dbm": 1.95571688,
+        "peak_count": 2,
+        "secondary_power_mw": 0.0008593556961683783,
+        "side_mode_suppression_db": 32.613987279999996,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5000_B15.3000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24166,
+        12534
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.49951171875,
+        15.30029296875
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11403,
+        "wavelength_error_pm": -15885.970000000043,
+        "power_mw": 1.588976839157211,
+        "power_dbm": 2.01117567,
+        "peak_count": 6,
+        "secondary_power_mw": 0.000621438277331231,
+        "side_mode_suppression_db": 34.07719567,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5000_B15.3500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24166,
+        12575
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.49951171875,
+        15.350341796875
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11293,
+        "wavelength_error_pm": -15887.069999999994,
+        "power_mw": 1.5927030363268353,
+        "power_dbm": 2.02134808,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5000_B15.4000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24166,
+        12616
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.49951171875,
+        15.400390625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1117399999998,
+        "wavelength_error_pm": -15888.260000000173,
+        "power_mw": 1.5856518259772576,
+        "power_dbm": 2.00207832,
+        "peak_count": 8,
+        "secondary_power_mw": 0.0011546729715001605,
+        "side_mode_suppression_db": 31.377488319999998,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5000_B15.4500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24166,
+        12657
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.49951171875,
+        15.450439453125
+      ],
+      "reading": {
+        "wavelength_nm": 1535.09989,
+        "wavelength_error_pm": -9900.11000000004,
+        "power_mw": 1.5364974682920047,
+        "power_dbm": 1.86531849,
+        "peak_count": 8,
+        "secondary_power_mw": 0.0024535703793510067,
+        "side_mode_suppression_db": 27.96733329,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5000_B15.5000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24166,
+        12698
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.49951171875,
+        15.50048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1535.10076,
+        "wavelength_error_pm": -9899.239999999963,
+        "power_mw": 1.5486960797034472,
+        "power_dbm": 1.89966199,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5500_B15.5000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24207,
+        12698
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.549560546875,
+        15.50048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1535.0988,
+        "wavelength_error_pm": -9901.200000000017,
+        "power_mw": 1.5291212475899796,
+        "power_dbm": 1.84441923,
+        "peak_count": 15,
+        "secondary_power_mw": 0.0019583377243168687,
+        "side_mode_suppression_db": 28.92554333,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5500_B15.4500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24207,
+        12657
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.549560546875,
+        15.450439453125
+      ],
+      "reading": {
+        "wavelength_nm": 1535.09786,
+        "wavelength_error_pm": -9902.139999999918,
+        "power_mw": 1.5469277633869305,
+        "power_dbm": 1.89470034,
+        "peak_count": 12,
+        "secondary_power_mw": 0.0007452274783268829,
+        "side_mode_suppression_db": 33.171811739999995,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5500_B15.4000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24207,
+        12616
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.549560546875,
+        15.400390625
+      ],
+      "reading": {
+        "wavelength_nm": 1535.09669,
+        "wavelength_error_pm": -9903.30999999992,
+        "power_mw": 1.5503098415688767,
+        "power_dbm": 1.90418504,
+        "peak_count": 7,
+        "secondary_power_mw": 0.0018939004620468101,
+        "side_mode_suppression_db": 29.130613540000002,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5500_B15.3500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24207,
+        12575
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.549560546875,
+        15.350341796875
+      ],
+      "reading": {
+        "wavelength_nm": 1535.09511,
+        "wavelength_error_pm": -9904.890000000023,
+        "power_mw": 1.5580489787112004,
+        "power_dbm": 1.92581106,
+        "peak_count": 6,
+        "secondary_power_mw": 0.0006047133270994858,
+        "side_mode_suppression_db": 34.11031566,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5500_B15.3000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24207,
+        12534
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.549560546875,
+        15.30029296875
+      ],
+      "reading": {
+        "wavelength_nm": 1535.09324,
+        "wavelength_error_pm": -9906.760000000077,
+        "power_mw": 1.5435799259693004,
+        "power_dbm": 1.88529122,
+        "peak_count": 14,
+        "secondary_power_mw": 0.0012415223723827734,
+        "side_mode_suppression_db": 30.945745719999998,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5500_B15.2500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24207,
+        12493
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.549560546875,
+        15.250244140625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11547,
+        "wavelength_error_pm": -15884.53000000004,
+        "power_mw": 1.5843407258749076,
+        "power_dbm": 1.99848586,
+        "peak_count": 11,
+        "secondary_power_mw": 0.002192174693802438,
+        "side_mode_suppression_db": 28.58973426,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5500_B15.2000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24207,
+        12452
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.549560546875,
+        15.2001953125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11622,
+        "wavelength_error_pm": -15883.779999999888,
+        "power_mw": 1.5693092080032724,
+        "power_dbm": 1.95708523,
+        "peak_count": 9,
+        "secondary_power_mw": 0.009927967573264238,
+        "side_mode_suppression_db": 21.98848173,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5500_B15.1500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24207,
+        12411
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.549560546875,
+        15.150146484375
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11681,
+        "wavelength_error_pm": -15883.190000000013,
+        "power_mw": 1.5876491090167173,
+        "power_dbm": 2.00754524,
+        "peak_count": 4,
+        "secondary_power_mw": 0.0027954917827295424,
+        "side_mode_suppression_db": 27.54296304,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5500_B15.1000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24207,
+        12370
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.549560546875,
+        15.10009765625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11719,
+        "wavelength_error_pm": -15882.810000000063,
+        "power_mw": 1.5881024180216778,
+        "power_dbm": 2.00878507,
+        "peak_count": 2,
+        "secondary_power_mw": 0.0005394601514818282,
+        "side_mode_suppression_db": 34.68919137,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5500_B15.0500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24207,
+        12329
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.549560546875,
+        15.050048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1175799999999,
+        "wavelength_error_pm": -15882.420000000138,
+        "power_mw": 1.56876993999406,
+        "power_dbm": 1.95559259,
+        "peak_count": 2,
+        "secondary_power_mw": 0.0005651915887483257,
+        "side_mode_suppression_db": 34.43363569,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.5500_B15.0000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24207,
+        12288
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.549560546875,
+        15.0
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1176899999998,
+        "wavelength_error_pm": -15882.310000000189,
+        "power_mw": 1.5686082831366706,
+        "power_dbm": 1.95514504,
+        "peak_count": 2,
+        "secondary_power_mw": 0.0009133195625998206,
+        "side_mode_suppression_db": 32.34891744,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6000_B15.0000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24248,
+        12288
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.599609375,
+        15.0
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1181,
+        "wavelength_error_pm": -15881.900000000087,
+        "power_mw": 1.5763766453684656,
+        "power_dbm": 1.97659992,
+        "peak_count": 4,
+        "secondary_power_mw": 0.00552403192717528,
+        "side_mode_suppression_db": 24.55403812,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6000_B15.0500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24248,
+        12329
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.599609375,
+        15.050048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1181,
+        "wavelength_error_pm": -15881.900000000087,
+        "power_mw": 1.578071054746941,
+        "power_dbm": 1.98126554,
+        "peak_count": 2,
+        "secondary_power_mw": 0.0005690843990906855,
+        "side_mode_suppression_db": 34.42949874,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6000_B15.1000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24248,
+        12370
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.599609375,
+        15.10009765625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11785,
+        "wavelength_error_pm": -15882.14999999991,
+        "power_mw": 1.565983381736264,
+        "power_dbm": 1.94787149,
+        "peak_count": 2,
+        "secondary_power_mw": 0.0015162491485620508,
+        "side_mode_suppression_db": 30.14016579,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6000_B15.1500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24248,
+        12411
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.599609375,
+        15.150146484375
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1173,
+        "wavelength_error_pm": -15882.700000000114,
+        "power_mw": 1.581094645861697,
+        "power_dbm": 1.98957868,
+        "peak_count": 3,
+        "secondary_power_mw": 0.0008085812381549571,
+        "side_mode_suppression_db": 32.91234208,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6000_B15.2000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24248,
+        12452
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.599609375,
+        15.2001953125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11683,
+        "wavelength_error_pm": -15883.170000000064,
+        "power_mw": 1.5877532449656988,
+        "power_dbm": 2.00783009,
+        "peak_count": 3,
+        "secondary_power_mw": 0.0023582973338050765,
+        "side_mode_suppression_db": 28.281844489999997,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6000_B15.2500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24248,
+        12493
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.599609375,
+        15.250244140625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1161100000002,
+        "wavelength_error_pm": -15883.889999999838,
+        "power_mw": 1.5784799833868148,
+        "power_dbm": 1.98239079,
+        "peak_count": 3,
+        "secondary_power_mw": 0.0009404231685606345,
+        "side_mode_suppression_db": 32.249157589999996,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6000_B15.3000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24248,
+        12534
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.599609375,
+        15.30029296875
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1153,
+        "wavelength_error_pm": -15884.700000000066,
+        "power_mw": 1.5722157586982903,
+        "power_dbm": 1.96512145,
+        "peak_count": 10,
+        "secondary_power_mw": 0.008607430604739853,
+        "side_mode_suppression_db": 22.61638615,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6000_B15.3500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24248,
+        12575
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.599609375,
+        15.350341796875
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11428,
+        "wavelength_error_pm": -15885.719999999992,
+        "power_mw": 1.587009553010033,
+        "power_dbm": 2.00579541,
+        "peak_count": 8,
+        "secondary_power_mw": 0.0006956571769265238,
+        "side_mode_suppression_db": 33.58184271,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6000_B15.4000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24248,
+        12616
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.599609375,
+        15.400390625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11345,
+        "wavelength_error_pm": -15886.549999999943,
+        "power_mw": 1.577689161492419,
+        "power_dbm": 1.98021442,
+        "peak_count": 5,
+        "secondary_power_mw": 0.0021355539137036857,
+        "side_mode_suppression_db": 28.68510902,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6000_B15.4500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24248,
+        12657
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.599609375,
+        15.450439453125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11241,
+        "wavelength_error_pm": -15887.590000000046,
+        "power_mw": 1.5701332733120341,
+        "power_dbm": 1.95936517,
+        "peak_count": 2,
+        "secondary_power_mw": 0.0006371771308620318,
+        "side_mode_suppression_db": 33.91676337,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6000_B15.5000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24248,
+        12698
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.599609375,
+        15.50048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11119,
+        "wavelength_error_pm": -15888.809999999921,
+        "power_mw": 1.581884909176632,
+        "power_dbm": 1.99174883,
+        "peak_count": 10,
+        "secondary_power_mw": 0.006181283889354641,
+        "side_mode_suppression_db": 24.080961929999997,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6500_B15.5000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24289,
+        12698
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.649658203125,
+        15.50048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1118,
+        "wavelength_error_pm": -15888.200000000097,
+        "power_mw": 1.595889123935974,
+        "power_dbm": 2.03002715,
+        "peak_count": 12,
+        "secondary_power_mw": 0.00210477215677391,
+        "side_mode_suppression_db": 28.797976249999998,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6500_B15.4500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24289,
+        12657
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.649658203125,
+        15.450439453125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11305,
+        "wavelength_error_pm": -15886.95000000007,
+        "power_mw": 1.5861412655004123,
+        "power_dbm": 2.00341864,
+        "peak_count": 12,
+        "secondary_power_mw": 0.005889284028674491,
+        "side_mode_suppression_db": 24.30279364,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6500_B15.4000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24289,
+        12616
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.649658203125,
+        15.400390625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11411,
+        "wavelength_error_pm": -15885.890000000018,
+        "power_mw": 1.5737623238090774,
+        "power_dbm": 1.96939144,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6500_B15.3500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24289,
+        12575
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.649658203125,
+        15.350341796875
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1151,
+        "wavelength_error_pm": -15884.900000000016,
+        "power_mw": 1.5757137435647817,
+        "power_dbm": 1.97477323,
+        "peak_count": 4,
+        "secondary_power_mw": 0.002892300415697531,
+        "side_mode_suppression_db": 27.36233923,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6500_B15.3000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24289,
+        12534
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.649658203125,
+        15.30029296875
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11597,
+        "wavelength_error_pm": -15884.029999999939,
+        "power_mw": 1.5924824651125982,
+        "power_dbm": 2.02074659,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6500_B15.2500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24289,
+        12493
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.649658203125,
+        15.250244140625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11667,
+        "wavelength_error_pm": -15883.329999999887,
+        "power_mw": 1.5649528379284394,
+        "power_dbm": 1.94501254,
+        "peak_count": 2,
+        "secondary_power_mw": 0.002692897604566497,
+        "side_mode_suppression_db": 27.64281414,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6500_B15.2000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24289,
+        12452
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.649658203125,
+        15.2001953125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11736,
+        "wavelength_error_pm": -15882.640000000038,
+        "power_mw": 1.590321963831921,
+        "power_dbm": 2.01485057,
+        "peak_count": 2,
+        "secondary_power_mw": 0.0034046339069777228,
+        "side_mode_suppression_db": 26.69414637,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6500_B15.1500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24289,
+        12411
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.649658203125,
+        15.150146484375
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11771,
+        "wavelength_error_pm": -15882.290000000012,
+        "power_mw": 1.590419910394021,
+        "power_dbm": 2.01511804,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6500_B15.1000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24289,
+        12370
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.649658203125,
+        15.10009765625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11823,
+        "wavelength_error_pm": -15881.76999999996,
+        "power_mw": 1.5708552433478615,
+        "power_dbm": 1.96136166,
+        "peak_count": 14,
+        "secondary_power_mw": 0.0014026785960725174,
+        "side_mode_suppression_db": 30.491779960000002,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6500_B15.0500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24289,
+        12329
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.649658203125,
+        15.050048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1183700000001,
+        "wavelength_error_pm": -15881.62999999986,
+        "power_mw": 1.5728955038623262,
+        "power_dbm": 1.96699871,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.6500_B15.0000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24289,
+        12288
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.649658203125,
+        15.0
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11861,
+        "wavelength_error_pm": -15881.39000000001,
+        "power_mw": 1.5855341298909935,
+        "power_dbm": 2.00175595,
+        "peak_count": 10,
+        "secondary_power_mw": 0.0006464215704698234,
+        "side_mode_suppression_db": 33.89659755,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7000_B15.0000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24330,
+        12288
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.69970703125,
+        15.0
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11869,
+        "wavelength_error_pm": -15881.309999999985,
+        "power_mw": 1.5904013364470382,
+        "power_dbm": 2.01506732,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7000_B15.0500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24330,
+        12329
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.69970703125,
+        15.050048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11867,
+        "wavelength_error_pm": -15881.329999999934,
+        "power_mw": 1.5894104094705555,
+        "power_dbm": 2.01236053,
+        "peak_count": 2,
+        "secondary_power_mw": 0.0045373560495554546,
+        "side_mode_suppression_db": 25.444331929999997,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7000_B15.1000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24330,
+        12370
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.69970703125,
+        15.10009765625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11853,
+        "wavelength_error_pm": -15881.470000000036,
+        "power_mw": 1.584542561423333,
+        "power_dbm": 1.99903909,
+        "peak_count": 5,
+        "secondary_power_mw": 0.008644242265147569,
+        "side_mode_suppression_db": 22.63176979,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7000_B15.1500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24330,
+        12411
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.69970703125,
+        15.150146484375
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1182000000001,
+        "wavelength_error_pm": -15881.799999999885,
+        "power_mw": 1.570291764471346,
+        "power_dbm": 1.95980353,
+        "peak_count": 6,
+        "secondary_power_mw": 0.003505859601527517,
+        "side_mode_suppression_db": 26.51185833,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7000_B15.2000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24330,
+        12452
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.69970703125,
+        15.2001953125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1175799999999,
+        "wavelength_error_pm": -15882.420000000138,
+        "power_mw": 1.592788373814063,
+        "power_dbm": 2.02158077,
+        "peak_count": 2,
+        "secondary_power_mw": 0.0014576195011769412,
+        "side_mode_suppression_db": 30.38513907,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7000_B15.2500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24330,
+        12493
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.69970703125,
+        15.250244140625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11708,
+        "wavelength_error_pm": -15882.920000000013,
+        "power_mw": 1.5824597590644436,
+        "power_dbm": 1.99332675,
+        "peak_count": 8,
+        "secondary_power_mw": 0.004134350383259616,
+        "side_mode_suppression_db": 25.829253950000002,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7000_B15.3000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24330,
+        12534
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.69970703125,
+        15.30029296875
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1162800000002,
+        "wavelength_error_pm": -15883.719999999812,
+        "power_mw": 1.5838318057121383,
+        "power_dbm": 1.9970906,
+        "peak_count": 2,
+        "secondary_power_mw": 0.0005195217689032519,
+        "side_mode_suppression_db": 34.8410531,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7000_B15.3500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24330,
+        12575
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.69970703125,
+        15.350341796875
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11541,
+        "wavelength_error_pm": -15884.58999999989,
+        "power_mw": 1.5727730653242318,
+        "power_dbm": 1.96666063,
+        "peak_count": 5,
+        "secondary_power_mw": 0.009296741170829362,
+        "side_mode_suppression_db": 22.28335323,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7000_B15.4000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24330,
+        12616
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.69970703125,
+        15.400390625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11451,
+        "wavelength_error_pm": -15885.48999999989,
+        "power_mw": 1.591330497439498,
+        "power_dbm": 2.01760386,
+        "peak_count": 7,
+        "secondary_power_mw": 0.0016694120732101232,
+        "side_mode_suppression_db": 29.791968360000002,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7000_B15.4500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24330,
+        12657
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.69970703125,
+        15.450439453125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1134200000001,
+        "wavelength_error_pm": -15886.579999999867,
+        "power_mw": 1.596883413543134,
+        "power_dbm": 2.0327321,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7000_B15.5000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24330,
+        12698
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.69970703125,
+        15.50048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11235,
+        "wavelength_error_pm": -15887.649999999894,
+        "power_mw": 1.578050026995656,
+        "power_dbm": 1.98120767,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7500_B15.5000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24371,
+        12698
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.749755859375,
+        15.50048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11282,
+        "wavelength_error_pm": -15887.179999999944,
+        "power_mw": 1.5759579050653867,
+        "power_dbm": 1.97544613,
+        "peak_count": 4,
+        "secondary_power_mw": 0.0010928004621437234,
+        "side_mode_suppression_db": 31.590037430000002,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7500_B15.4500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24371,
+        12657
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.749755859375,
+        15.450439453125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11403,
+        "wavelength_error_pm": -15885.970000000043,
+        "power_mw": 1.5776596310339368,
+        "power_dbm": 1.98013313,
+        "peak_count": 12,
+        "secondary_power_mw": 0.0013362291755141976,
+        "side_mode_suppression_db": 30.721323629999997,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7500_B15.4000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24371,
+        12616
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.749755859375,
+        15.400390625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11502,
+        "wavelength_error_pm": -15884.980000000041,
+        "power_mw": 1.5822226963429997,
+        "power_dbm": 1.9926761,
+        "peak_count": 4,
+        "secondary_power_mw": 0.0013081879968860773,
+        "side_mode_suppression_db": 30.8259745,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7500_B15.3500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24371,
+        12575
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.749755859375,
+        15.350341796875
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11581,
+        "wavelength_error_pm": -15884.18999999999,
+        "power_mw": 1.578818981132088,
+        "power_dbm": 1.98332339,
+        "peak_count": 2,
+        "secondary_power_mw": 0.004579196182234266,
+        "side_mode_suppression_db": 25.37543089,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7500_B15.3000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24371,
+        12534
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.749755859375,
+        15.30029296875
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11656,
+        "wavelength_error_pm": -15883.440000000064,
+        "power_mw": 1.5748564083644405,
+        "power_dbm": 1.97240962,
+        "peak_count": 3,
+        "secondary_power_mw": 0.005056664616646854,
+        "side_mode_suppression_db": 24.93376812,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7500_B15.2500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24371,
+        12493
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.749755859375,
+        15.250244140625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11733,
+        "wavelength_error_pm": -15882.669999999962,
+        "power_mw": 1.5830111979573631,
+        "power_dbm": 1.99483987,
+        "peak_count": 4,
+        "secondary_power_mw": 0.004678887143781111,
+        "side_mode_suppression_db": 25.29341417,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7500_B15.2000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24371,
+        12452
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.749755859375,
+        15.2001953125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11782,
+        "wavelength_error_pm": -15882.180000000062,
+        "power_mw": 1.589697246510395,
+        "power_dbm": 2.01314422,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7500_B15.1500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24371,
+        12411
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.749755859375,
+        15.150146484375
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11826,
+        "wavelength_error_pm": -15881.740000000036,
+        "power_mw": 1.5678140244845788,
+        "power_dbm": 1.95294545,
+        "peak_count": 3,
+        "secondary_power_mw": 0.0035960417065787104,
+        "side_mode_suppression_db": 26.39469825,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7500_B15.1000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24371,
+        12370
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.749755859375,
+        15.10009765625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11861,
+        "wavelength_error_pm": -15881.39000000001,
+        "power_mw": 1.5733213859123754,
+        "power_dbm": 1.96817446,
+        "peak_count": 2,
+        "secondary_power_mw": 0.0009236079447429645,
+        "side_mode_suppression_db": 32.31329786,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7500_B15.0500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24371,
+        12329
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.749755859375,
+        15.050048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11894,
+        "wavelength_error_pm": -15881.059999999934,
+        "power_mw": 1.5913850652525028,
+        "power_dbm": 2.01775278,
+        "peak_count": 4,
+        "secondary_power_mw": 0.0009857852825650953,
+        "side_mode_suppression_db": 32.07992948,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.7500_B15.0000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24371,
+        12288
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.749755859375,
+        15.0
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11904,
+        "wavelength_error_pm": -15880.95999999996,
+        "power_mw": 1.594790261489648,
+        "power_dbm": 2.02703575,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8000_B15.0000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24412,
+        12288
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.7998046875,
+        15.0
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11902,
+        "wavelength_error_pm": -15880.979999999909,
+        "power_mw": 1.5920458169645817,
+        "power_dbm": 2.01955562,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8000_B15.0500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24412,
+        12329
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.7998046875,
+        15.050048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11896,
+        "wavelength_error_pm": -15881.039999999985,
+        "power_mw": 1.582337260989756,
+        "power_dbm": 1.99299055,
+        "peak_count": 4,
+        "secondary_power_mw": 0.0008914697480188758,
+        "side_mode_suppression_db": 32.49192445,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8000_B15.1000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24412,
+        12370
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.7998046875,
+        15.10009765625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11867,
+        "wavelength_error_pm": -15881.329999999934,
+        "power_mw": 1.5704063222206208,
+        "power_dbm": 1.96012035,
+        "peak_count": 2,
+        "secondary_power_mw": 0.0012302746347193168,
+        "side_mode_suppression_db": 31.06009965,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8000_B15.1500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24412,
+        12411
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.7998046875,
+        15.150146484375
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11861,
+        "wavelength_error_pm": -15881.39000000001,
+        "power_mw": 1.565516008710723,
+        "power_dbm": 1.94657513,
+        "peak_count": 2,
+        "secondary_power_mw": 0.0028455656522209604,
+        "side_mode_suppression_db": 27.40488903,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8000_B15.2000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24412,
+        12452
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.7998046875,
+        15.2001953125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11801,
+        "wavelength_error_pm": -15881.990000000087,
+        "power_mw": 1.5856521180651453,
+        "power_dbm": 2.00207912,
+        "peak_count": 2,
+        "secondary_power_mw": 0.007887119300311541,
+        "side_mode_suppression_db": 23.03289502,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8000_B15.2500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24412,
+        12493
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.7998046875,
+        15.250244140625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11752,
+        "wavelength_error_pm": -15882.479999999987,
+        "power_mw": 1.5680781742282857,
+        "power_dbm": 1.9536771,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8000_B15.3000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24412,
+        12534
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.7998046875,
+        15.30029296875
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11683,
+        "wavelength_error_pm": -15883.170000000064,
+        "power_mw": 1.5967077490905779,
+        "power_dbm": 2.03225433,
+        "peak_count": 2,
+        "secondary_power_mw": 0.001951978141172141,
+        "side_mode_suppression_db": 29.12750483,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8000_B15.3500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24412,
+        12575
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.7998046875,
+        15.350341796875
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1160599999998,
+        "wavelength_error_pm": -15883.940000000166,
+        "power_mw": 1.568855588217046,
+        "power_dbm": 1.95582969,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8000_B15.4000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24412,
+        12616
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.7998046875,
+        15.400390625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1153,
+        "wavelength_error_pm": -15884.700000000066,
+        "power_mw": 1.5958683327856804,
+        "power_dbm": 2.02997057,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8000_B15.4500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24412,
+        12657
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.7998046875,
+        15.450439453125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1142,
+        "wavelength_error_pm": -15885.800000000017,
+        "power_mw": 1.5980320012823934,
+        "power_dbm": 2.03585472,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8000_B15.5000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24412,
+        12698
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.7998046875,
+        15.50048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11305,
+        "wavelength_error_pm": -15886.95000000007,
+        "power_mw": 1.5865012477497131,
+        "power_dbm": 2.00440418,
+        "peak_count": 2,
+        "secondary_power_mw": 0.002629476719078392,
+        "side_mode_suppression_db": 27.80571088,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8500_B15.5000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24453,
+        12698
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.849853515625,
+        15.50048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11339,
+        "wavelength_error_pm": -15886.610000000019,
+        "power_mw": 1.5727208051368107,
+        "power_dbm": 1.96651632,
+        "peak_count": 6,
+        "secondary_power_mw": 0.0006501064127374071,
+        "side_mode_suppression_db": 33.83667182,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8500_B15.4500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24453,
+        12657
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.849853515625,
+        15.450439453125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11471,
+        "wavelength_error_pm": -15885.28999999994,
+        "power_mw": 1.5748464471122203,
+        "power_dbm": 1.97238215,
+        "peak_count": 9,
+        "secondary_power_mw": 0.001646124315179282,
+        "side_mode_suppression_db": 29.807755850000003,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8500_B15.4000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24453,
+        12616
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.849853515625,
+        15.400390625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1155,
+        "wavelength_error_pm": -15884.499999999889,
+        "power_mw": 1.5981469452269625,
+        "power_dbm": 2.03616709,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8500_B15.3500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24453,
+        12575
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.849853515625,
+        15.350341796875
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11636,
+        "wavelength_error_pm": -15883.640000000014,
+        "power_mw": 1.581043801990316,
+        "power_dbm": 1.98943902,
+        "peak_count": 5,
+        "secondary_power_mw": 0.004624722727625113,
+        "side_mode_suppression_db": 25.33858202,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8500_B15.3000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24453,
+        12534
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.849853515625,
+        15.30029296875
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1169200000002,
+        "wavelength_error_pm": -15883.079999999836,
+        "power_mw": 1.5955889720064949,
+        "power_dbm": 2.02921026,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8500_B15.2500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24453,
+        12493
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.849853515625,
+        15.250244140625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11763,
+        "wavelength_error_pm": -15882.370000000037,
+        "power_mw": 1.568109128494188,
+        "power_dbm": 1.95376283,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8500_B15.2000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24453,
+        12452
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.849853515625,
+        15.2001953125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11807,
+        "wavelength_error_pm": -15881.930000000011,
+        "power_mw": 1.5848015598955087,
+        "power_dbm": 1.9997489,
+        "peak_count": 5,
+        "secondary_power_mw": 0.004153403934769441,
+        "side_mode_suppression_db": 25.8157072,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8500_B15.1500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24453,
+        12411
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.849853515625,
+        15.150146484375
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11858,
+        "wavelength_error_pm": -15881.419999999935,
+        "power_mw": 1.5828231006901103,
+        "power_dbm": 1.9943238,
+        "peak_count": 5,
+        "secondary_power_mw": 0.011028565833679817,
+        "side_mode_suppression_db": 21.5691334,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8500_B15.1000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24453,
+        12370
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.849853515625,
+        15.10009765625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11888,
+        "wavelength_error_pm": -15881.12000000001,
+        "power_mw": 1.5703806271761382,
+        "power_dbm": 1.96004929,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8500_B15.0500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24453,
+        12329
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.849853515625,
+        15.050048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11894,
+        "wavelength_error_pm": -15881.059999999934,
+        "power_mw": 1.5728645927368774,
+        "power_dbm": 1.96691336,
+        "peak_count": 3,
+        "secondary_power_mw": 0.0017261199816546312,
+        "side_mode_suppression_db": 29.59620356,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.8500_B15.0000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24453,
+        12288
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.849853515625,
+        15.0
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1189100000001,
+        "wavelength_error_pm": -15881.089999999858,
+        "power_mw": 1.5748236746281246,
+        "power_dbm": 1.97231935,
+        "peak_count": 3,
+        "secondary_power_mw": 0.0025857208655654146,
+        "side_mode_suppression_db": 27.846502949999998,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9000_B15.0000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24494,
+        12288
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.89990234375,
+        15.0
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1189100000001,
+        "wavelength_error_pm": -15881.089999999858,
+        "power_mw": 1.5760263344022436,
+        "power_dbm": 1.9756347,
+        "peak_count": 2,
+        "secondary_power_mw": 0.003953893343344601,
+        "side_mode_suppression_db": 26.0053852,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9000_B15.0500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24494,
+        12329
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.89990234375,
+        15.050048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11888,
+        "wavelength_error_pm": -15881.12000000001,
+        "power_mw": 1.5778540503473242,
+        "power_dbm": 1.98066829,
+        "peak_count": 3,
+        "secondary_power_mw": 0.004389356041900829,
+        "side_mode_suppression_db": 25.55666019,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9000_B15.1000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24494,
+        12370
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.89990234375,
+        15.10009765625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1188,
+        "wavelength_error_pm": -15881.200000000035,
+        "power_mw": 1.5815662582610224,
+        "power_dbm": 1.99087391,
+        "peak_count": 3,
+        "secondary_power_mw": 0.005412063829570386,
+        "side_mode_suppression_db": 24.65724481,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9000_B15.1500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24494,
+        12411
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.89990234375,
+        15.150146484375
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1187,
+        "wavelength_error_pm": -15881.30000000001,
+        "power_mw": 1.580548041642086,
+        "power_dbm": 1.98807701,
+        "peak_count": 2,
+        "secondary_power_mw": 0.0010351262450022719,
+        "side_mode_suppression_db": 31.838143810000002,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9000_B15.2000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24494,
+        12452
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.89990234375,
+        15.2001953125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11829,
+        "wavelength_error_pm": -15881.710000000112,
+        "power_mw": 1.5937378870323846,
+        "power_dbm": 2.02416897,
+        "peak_count": 3,
+        "secondary_power_mw": 0.0006790541066504548,
+        "side_mode_suppression_db": 33.70512517,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9000_B15.2500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24494,
+        12493
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.89990234375,
+        15.250244140625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1176899999998,
+        "wavelength_error_pm": -15882.310000000189,
+        "power_mw": 1.5754016681639227,
+        "power_dbm": 1.97391301,
+        "peak_count": 10,
+        "secondary_power_mw": 0.007463220448601053,
+        "side_mode_suppression_db": 23.24465031,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9000_B15.3000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24494,
+        12534
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.89990234375,
+        15.30029296875
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11722,
+        "wavelength_error_pm": -15882.779999999912,
+        "power_mw": 1.5910066247590027,
+        "power_dbm": 2.01671988,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9000_B15.3500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24494,
+        12575
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.89990234375,
+        15.350341796875
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11645,
+        "wavelength_error_pm": -15883.550000000014,
+        "power_mw": 1.5726900060821793,
+        "power_dbm": 1.96643127,
+        "peak_count": 9,
+        "secondary_power_mw": 0.0009273089682928307,
+        "side_mode_suppression_db": 32.29418667,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9000_B15.4000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24494,
+        12616
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.89990234375,
+        15.400390625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1155800000001,
+        "wavelength_error_pm": -15884.419999999864,
+        "power_mw": 1.5931478690676881,
+        "power_dbm": 2.02256087,
+        "peak_count": 2,
+        "secondary_power_mw": 0.0039628950409257915,
+        "side_mode_suppression_db": 26.04243517,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9000_B15.4500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24494,
+        12657
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.89990234375,
+        15.450439453125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11468,
+        "wavelength_error_pm": -15885.320000000092,
+        "power_mw": 1.5879062057674977,
+        "power_dbm": 2.00824846,
+        "peak_count": 11,
+        "secondary_power_mw": 0.002158779722163198,
+        "side_mode_suppression_db": 28.666165160000002,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9000_B15.5000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24494,
+        12698
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.89990234375,
+        15.50048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1136199999999,
+        "wavelength_error_pm": -15886.380000000145,
+        "power_mw": 1.5705772595683782,
+        "power_dbm": 1.96059305,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9500_B15.5000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24535,
+        12698
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.949951171875,
+        15.50048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11374,
+        "wavelength_error_pm": -15886.259999999993,
+        "power_mw": 1.570167409963875,
+        "power_dbm": 1.95945959,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9500_B15.4500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24535,
+        12657
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.949951171875,
+        15.450439453125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11491,
+        "wavelength_error_pm": -15885.089999999991,
+        "power_mw": 1.582189175592857,
+        "power_dbm": 1.99258409,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9500_B15.4000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24535,
+        12616
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.949951171875,
+        15.400390625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11567,
+        "wavelength_error_pm": -15884.33000000009,
+        "power_mw": 1.5937445549223055,
+        "power_dbm": 2.02418714,
+        "peak_count": 2,
+        "secondary_power_mw": 0.004213580252734964,
+        "side_mode_suppression_db": 25.77767444,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9500_B15.3500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24535,
+        12575
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.949951171875,
+        15.350341796875
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11647,
+        "wavelength_error_pm": -15883.530000000064,
+        "power_mw": 1.5703963927319735,
+        "power_dbm": 1.96009289,
+        "peak_count": 3,
+        "secondary_power_mw": 0.001002767477146221,
+        "side_mode_suppression_db": 31.94809049,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9500_B15.3000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24535,
+        12534
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.949951171875,
+        15.30029296875
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11719,
+        "wavelength_error_pm": -15882.810000000063,
+        "power_mw": 1.5958981489522577,
+        "power_dbm": 2.03005171,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9500_B15.2500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24535,
+        12493
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.949951171875,
+        15.250244140625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11771,
+        "wavelength_error_pm": -15882.290000000012,
+        "power_mw": 1.5779943213421013,
+        "power_dbm": 1.98105436,
+        "peak_count": 5,
+        "secondary_power_mw": 0.010860852609241594,
+        "side_mode_suppression_db": 21.622415160000003,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9500_B15.2000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24535,
+        12452
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.949951171875,
+        15.2001953125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11831,
+        "wavelength_error_pm": -15881.689999999935,
+        "power_mw": 1.5814149678078924,
+        "power_dbm": 1.99045845,
+        "peak_count": 2,
+        "secondary_power_mw": 0.0048307572017561575,
+        "side_mode_suppression_db": 25.150306349999997,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9500_B15.1500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24535,
+        12411
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.949951171875,
+        15.150146484375
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11867,
+        "wavelength_error_pm": -15881.329999999934,
+        "power_mw": 1.5925653815493634,
+        "power_dbm": 2.02097271,
+        "peak_count": 4,
+        "secondary_power_mw": 0.0013113389469268264,
+        "side_mode_suppression_db": 30.84382311,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9500_B15.1000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24535,
+        12370
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.949951171875,
+        15.10009765625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1188,
+        "wavelength_error_pm": -15881.200000000035,
+        "power_mw": 1.595921942755719,
+        "power_dbm": 2.03011646,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9500_B15.0500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24535,
+        12329
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.949951171875,
+        15.050048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11885,
+        "wavelength_error_pm": -15881.149999999934,
+        "power_mw": 1.5963627195849897,
+        "power_dbm": 2.03131577,
+        "peak_count": 3,
+        "secondary_power_mw": 0.0007483080031069566,
+        "side_mode_suppression_db": 33.29051187,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A29.9500_B15.0000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24535,
+        12288
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        29.949951171875,
+        15.0
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11885,
+        "wavelength_error_pm": -15881.149999999934,
+        "power_mw": 1.5983268273626443,
+        "power_dbm": 2.03665589,
+        "peak_count": 2,
+        "secondary_power_mw": 0.0018875176440585138,
+        "side_mode_suppression_db": 29.27774569,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A30.0000_B15.0000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24576,
+        12288
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        30.0,
+        15.0
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11861,
+        "wavelength_error_pm": -15881.39000000001,
+        "power_mw": 1.584399694526691,
+        "power_dbm": 1.9986475,
+        "peak_count": 4,
+        "secondary_power_mw": 0.0005836659794237205,
+        "side_mode_suppression_db": 34.3370037,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A30.0000_B15.0500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24576,
+        12329
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        30.0,
+        15.050048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11869,
+        "wavelength_error_pm": -15881.309999999985,
+        "power_mw": 1.590554973534974,
+        "power_dbm": 2.01548684,
+        "peak_count": 5,
+        "secondary_power_mw": 0.001445219856844436,
+        "side_mode_suppression_db": 30.416147640000002,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A30.0000_B15.1000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24576,
+        12370
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        30.0,
+        15.10009765625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11861,
+        "wavelength_error_pm": -15881.39000000001,
+        "power_mw": 1.5832962093428247,
+        "power_dbm": 1.99562172,
+        "peak_count": 1,
+        "secondary_power_mw": null,
+        "side_mode_suppression_db": null,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A30.0000_B15.1500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24576,
+        12411
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        30.0,
+        15.150146484375
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1185600000001,
+        "wavelength_error_pm": -15881.439999999884,
+        "power_mw": 1.5842535683608092,
+        "power_dbm": 1.99824694,
+        "peak_count": 2,
+        "secondary_power_mw": 0.0006382631481697604,
+        "side_mode_suppression_db": 33.94824924,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A30.0000_B15.2000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24576,
+        12452
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        30.0,
+        15.2001953125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1181,
+        "wavelength_error_pm": -15881.900000000087,
+        "power_mw": 1.5761436223082945,
+        "power_dbm": 1.97595789,
+        "peak_count": 5,
+        "secondary_power_mw": 0.001987663807897811,
+        "side_mode_suppression_db": 28.99252859,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A30.0000_B15.2500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24576,
+        12493
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        30.0,
+        15.250244140625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1176899999998,
+        "wavelength_error_pm": -15882.310000000189,
+        "power_mw": 1.5980793842541137,
+        "power_dbm": 2.03598349,
+        "peak_count": 2,
+        "secondary_power_mw": 0.003181382296373519,
+        "side_mode_suppression_db": 27.00982489,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A30.0000_B15.3000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24576,
+        12534
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        30.0,
+        15.30029296875
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11711,
+        "wavelength_error_pm": -15882.890000000089,
+        "power_mw": 1.5774498277559241,
+        "power_dbm": 1.97955555,
+        "peak_count": 10,
+        "secondary_power_mw": 0.0018007878425482572,
+        "side_mode_suppression_db": 29.42493005,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A30.0000_B15.3500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24576,
+        12575
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        30.0,
+        15.350341796875
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1163099999999,
+        "wavelength_error_pm": -15883.690000000115,
+        "power_mw": 1.5908707210433224,
+        "power_dbm": 2.01634889,
+        "peak_count": 11,
+        "secondary_power_mw": 0.0010738233911766321,
+        "side_mode_suppression_db": 31.70702029,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A30.0000_B15.4000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24576,
+        12616
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        30.0,
+        15.400390625
+      ],
+      "reading": {
+        "wavelength_nm": 1529.1157799999999,
+        "wavelength_error_pm": -15884.220000000141,
+        "power_mw": 1.5819846200503287,
+        "power_dbm": 1.99202257,
+        "peak_count": 6,
+        "secondary_power_mw": 0.0007277777098211777,
+        "side_mode_suppression_db": 33.37203507,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A30.0000_B15.4500_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24576,
+        12657
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        30.0,
+        15.450439453125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11474,
+        "wavelength_error_pm": -15885.260000000017,
+        "power_mw": 1.5956509238494947,
+        "power_dbm": 2.02937888,
+        "peak_count": 2,
+        "secondary_power_mw": 0.004240993433258909,
+        "side_mode_suppression_db": 25.75470288,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    },
+    "A30.0000_B15.5000_P6.2500": {
+      "codes": [
+        58982,
+        58982,
+        20480,
+        24576,
+        12698
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.25,
+        30.0,
+        15.50048828125
+      ],
+      "reading": {
+        "wavelength_nm": 1529.11394,
+        "wavelength_error_pm": -15886.060000000043,
+        "power_mw": 1.5787516992293948,
+        "power_dbm": 1.98313831,
+        "peak_count": 3,
+        "secondary_power_mw": 0.0020519868343800785,
+        "side_mode_suppression_db": 28.86139261,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      },
+      "single_mode": true
+    }
+  },
+  "meter": "YOKOGAWA,AQ6150B,9027C2596,01.03",
+  "summary": {
+    "planned": 121,
+    "measured": 121,
+    "single_mode": 121,
+    "wavelength_min_nm": 1529.11119,
+    "wavelength_max_nm": 1535.10076,
+    "power_min_mw": 1.5291212475899796,
+    "power_max_mw": 1.5983268273626443
+  }
+}

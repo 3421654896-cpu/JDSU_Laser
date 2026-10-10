@@ -125,7 +125,6 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
     /* USER CODE END I2C1_MspInit 1 */
 
   }
-
 }
 
 /**
@@ -156,7 +155,6 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* hi2c)
 
     /* USER CODE END I2C1_MspDeInit 1 */
   }
-
 }
 
 /**
@@ -193,6 +191,7 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
 
     /* USER CODE END SPI1_MspInit 1 */
   }
+#if 0  /* Legacy MS5614T SPI2/SPI3 hardware setup is disabled. */
   else if(hspi->Instance==SPI2)
   {
     /* USER CODE BEGIN SPI2_MspInit 0 */
@@ -241,6 +240,7 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
 
     /* USER CODE END SPI3_MspInit 1 */
   }
+#endif
 
 }
 
@@ -271,6 +271,7 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
 
     /* USER CODE END SPI1_MspDeInit 1 */
   }
+#if 0  /* Legacy MS5614T SPI2/SPI3 hardware teardown is disabled. */
   else if(hspi->Instance==SPI2)
   {
     /* USER CODE BEGIN SPI2_MspDeInit 0 */
@@ -307,6 +308,7 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
 
     /* USER CODE END SPI3_MspDeInit 1 */
   }
+#endif
 
 }
 

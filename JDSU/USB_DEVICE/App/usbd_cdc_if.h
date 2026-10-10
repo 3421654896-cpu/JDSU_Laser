@@ -95,6 +95,13 @@ extern USBD_CDC_ItfTypeDef USBD_Interface_fops_FS;
 
 /* USER CODE BEGIN EXPORTED_VARIABLES */
 
+extern volatile uint8_t usbCdcHostOpen;
+
+/* Release stale local ownership when the USB bus disappears without a final
+ * CDC_SET_CONTROL_LINE_STATE(DTR=0) request.  This function is IRQ-safe and
+ * deliberately leaves mode/shutter changes to the main loop. */
+void CDC_ReleaseHostControl_FS(void);
+
 /* USER CODE END EXPORTED_VARIABLES */
 
 /**

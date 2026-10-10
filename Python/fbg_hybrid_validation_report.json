@@ -1,0 +1,2409 @@
+{
+  "created": "2026-08-10T18:18:41",
+  "target_power_mw": 0.5,
+  "power_tolerance_mw": 0.015,
+  "wavelength_tolerance_pm": 8.0,
+  "results": {
+    "0": {
+      "index": 0,
+      "target_nm": 1527.417,
+      "codes": [
+        26214,
+        45941,
+        366,
+        4915,
+        22118
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1527.4176400000001,
+        "wavelength_error_pm": 0.6400000002031447,
+        "power_mw": 0.49908864943481235,
+        "power_dbm": -3.01822307,
+        "peak_count": 16,
+        "pdt_code": 637,
+        "pdr_code": 1434,
+        "pdt_ma": 0.43060302734375,
+        "pdr_ma": 0.1873779296875,
+        "pdr_pdt_ratio": 0.43515237420269315
+      }
+    },
+    "1": {
+      "index": 1,
+      "target_nm": 1527.533,
+      "codes": [
+        26214,
+        47917,
+        3747,
+        4096,
+        20480
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1527.5323799999999,
+        "wavelength_error_pm": -0.6200000000262662,
+        "power_mw": 0.49916569275534567,
+        "power_dbm": -3.01755271,
+        "peak_count": 4,
+        "pdt_code": 128,
+        "pdr_code": 1927,
+        "pdt_ma": 0.5859375,
+        "pdr_ma": 0.03692626953125,
+        "pdr_pdt_ratio": 0.06302083333333333
+      }
+    },
+    "2": {
+      "index": 2,
+      "target_nm": 1527.628,
+      "codes": [
+        26214,
+        46835,
+        29688,
+        4096,
+        17613
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1527.62773,
+        "wavelength_error_pm": -0.27000000000043656,
+        "power_mw": 0.49603095197573305,
+        "power_dbm": -3.04491223,
+        "peak_count": 10,
+        "pdt_code": 390,
+        "pdr_code": 1755,
+        "pdt_ma": 0.5059814453125,
+        "pdr_ma": 0.08941650390625,
+        "pdr_pdt_ratio": 0.1767189384800965
+      }
+    },
+    "3": {
+      "index": 3,
+      "target_nm": 1527.707,
+      "codes": [
+        26214,
+        31401,
+        1638,
+        4096,
+        20070
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1527.70778,
+        "wavelength_error_pm": 0.7799999998496787,
+        "power_mw": 0.34271068576421904,
+        "power_dbm": -4.65072354,
+        "peak_count": 11,
+        "pdt_code": 1152,
+        "pdr_code": 1552,
+        "pdt_ma": 0.2734375,
+        "pdr_ma": 0.1513671875,
+        "pdr_pdt_ratio": 0.5535714285714286
+      }
+    },
+    "4": {
+      "index": 4,
+      "target_nm": 1527.808,
+      "codes": [
+        26214,
+        29131,
+        24576,
+        4096,
+        1228
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1527.8088599999999,
+        "wavelength_error_pm": 0.8599999998750718,
+        "power_mw": 0.3461476631289872,
+        "power_dbm": -4.60738596,
+        "peak_count": 15,
+        "pdt_code": 1387,
+        "pdr_code": 1290,
+        "pdt_ma": 0.20172119140625,
+        "pdr_ma": 0.2313232421875,
+        "pdr_pdt_ratio": 1.146747352496218
+      }
+    },
+    "5": {
+      "index": 5,
+      "target_nm": 1527.935,
+      "codes": [
+        26214,
+        45225,
+        16646,
+        3277,
+        16794
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1527.93427,
+        "wavelength_error_pm": -0.7299999999759166,
+        "power_mw": 0.4980780327309728,
+        "power_dbm": -3.02702612,
+        "peak_count": 16,
+        "pdt_code": 1286,
+        "pdr_code": 893,
+        "pdt_ma": 0.2325439453125,
+        "pdr_ma": 0.35247802734375,
+        "pdr_pdt_ratio": 1.515748031496063
+      }
+    },
+    "6": {
+      "index": 6,
+      "target_nm": 1528.081,
+      "codes": [
+        26214,
+        41400,
+        14746,
+        3686,
+        819
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1528.08099,
+        "wavelength_error_pm": -0.009999999974752427,
+        "power_mw": 0.4993365231803592,
+        "power_dbm": -3.01606667,
+        "peak_count": 17,
+        "pdt_code": 1056,
+        "pdr_code": 963,
+        "pdt_ma": 0.302734375,
+        "pdr_ma": 0.33111572265625,
+        "pdr_pdt_ratio": 1.09375
+      }
+    },
+    "7": {
+      "index": 7,
+      "target_nm": 1528.156,
+      "codes": [
+        26214,
+        46264,
+        1900,
+        3686,
+        15565
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1528.15552,
+        "wavelength_error_pm": -0.4799999999249849,
+        "power_mw": 0.5014016525515351,
+        "power_dbm": -2.99814239,
+        "peak_count": 17,
+        "pdt_code": 852,
+        "pdr_code": 1258,
+        "pdt_ma": 0.364990234375,
+        "pdr_ma": 0.2410888671875,
+        "pdr_pdt_ratio": 0.6605351170568562
+      }
+    },
+    "8": {
+      "index": 8,
+      "target_nm": 1528.243,
+      "codes": [
+        26214,
+        43356,
+        1786,
+        3277,
+        14336
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1528.24319,
+        "wavelength_error_pm": 0.18999999997504347,
+        "power_mw": 0.4985005444802392,
+        "power_dbm": -3.02334363,
+        "peak_count": 18,
+        "pdt_code": 432,
+        "pdr_code": 1685,
+        "pdt_ma": 0.4931640625,
+        "pdr_ma": 0.11077880859375,
+        "pdr_pdt_ratio": 0.22462871287128713
+      }
+    },
+    "9": {
+      "index": 9,
+      "target_nm": 1528.347,
+      "codes": [
+        26214,
+        41492,
+        27000,
+        2867,
+        819
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1528.34702,
+        "wavelength_error_pm": 0.019999999949504854,
+        "power_mw": 0.4985692531734542,
+        "power_dbm": -3.02274508,
+        "peak_count": 11,
+        "pdt_code": 71,
+        "pdr_code": 1931,
+        "pdt_ma": 0.60333251953125,
+        "pdr_ma": 0.03570556640625,
+        "pdr_pdt_ratio": 0.05918057663125948
+      }
+    },
+    "10": {
+      "index": 10,
+      "target_nm": 1528.465,
+      "codes": [
+        26214,
+        44389,
+        15532,
+        2458,
+        15155
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1528.4645,
+        "wavelength_error_pm": -0.49999999987448973,
+        "power_mw": 0.5027550758985921,
+        "power_dbm": -2.98643536,
+        "peak_count": 9,
+        "pdt_code": 666,
+        "pdr_code": 1453,
+        "pdt_ma": 0.4217529296875,
+        "pdr_ma": 0.18157958984375,
+        "pdr_pdt_ratio": 0.4305354558610709
+      }
+    },
+    "11": {
+      "index": 11,
+      "target_nm": 1531.634,
+      "codes": [
+        26214,
+        41646,
+        262,
+        8192,
+        4096
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1531.6336999999999,
+        "wavelength_error_pm": -0.3000000001520675,
+        "power_mw": 0.501671857605781,
+        "power_dbm": -2.99580261,
+        "peak_count": 13,
+        "pdt_code": 806,
+        "pdr_code": 1197,
+        "pdt_ma": 0.3790283203125,
+        "pdr_ma": 0.25970458984375,
+        "pdr_pdt_ratio": 0.6851851851851852
+      }
+    },
+    "12": {
+      "index": 12,
+      "target_nm": 1531.741,
+      "codes": [
+        26214,
+        41272,
+        27525,
+        8602,
+        4096
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1531.74026,
+        "wavelength_error_pm": -0.739999999950669,
+        "power_mw": 0.49502172361218244,
+        "power_dbm": -3.05375742,
+        "peak_count": 12,
+        "pdt_code": 1200,
+        "pdr_code": 966,
+        "pdt_ma": 0.2587890625,
+        "pdr_ma": 0.3302001953125,
+        "pdr_pdt_ratio": 1.275943396226415
+      }
+    },
+    "13": {
+      "index": 13,
+      "target_nm": 1531.83,
+      "codes": [
+        26214,
+        43654,
+        25343,
+        8192,
+        3686
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1531.82991,
+        "wavelength_error_pm": -0.09000000000014552,
+        "power_mw": 0.49623686558327895,
+        "power_dbm": -3.04310975,
+        "peak_count": 14,
+        "pdt_code": 1237,
+        "pdr_code": 824,
+        "pdt_ma": 0.24749755859375,
+        "pdr_ma": 0.37353515625,
+        "pdr_pdt_ratio": 1.5092478421701603
+      }
+    },
+    "14": {
+      "index": 14,
+      "target_nm": 1531.908,
+      "codes": [
+        26214,
+        43304,
+        23193,
+        7782,
+        3277
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1531.90756,
+        "wavelength_error_pm": -0.4399999997986015,
+        "power_mw": 0.4983343775863361,
+        "power_dbm": -3.02479152,
+        "peak_count": 15,
+        "pdt_code": 1198,
+        "pdr_code": 837,
+        "pdt_ma": 0.2593994140625,
+        "pdr_ma": 0.36956787109375,
+        "pdr_pdt_ratio": 1.4247058823529413
+      }
+    },
+    "15": {
+      "index": 15,
+      "target_nm": 1532.001,
+      "codes": [
+        26214,
+        40936,
+        19661,
+        6963,
+        3277
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1532.00069,
+        "wavelength_error_pm": -0.30999999989944627,
+        "power_mw": 0.49873237594738945,
+        "power_dbm": -3.02132438,
+        "peak_count": 21,
+        "pdt_code": 1060,
+        "pdr_code": 1048,
+        "pdt_ma": 0.301513671875,
+        "pdr_ma": 0.30517578125,
+        "pdr_pdt_ratio": 1.0121457489878543
+      }
+    },
+    "16": {
+      "index": 16,
+      "target_nm": 1532.078,
+      "codes": [
+        26214,
+        39375,
+        152,
+        7782,
+        3277
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1532.07756,
+        "wavelength_error_pm": -0.44000000002597517,
+        "power_mw": 0.4991214783926848,
+        "power_dbm": -3.01793741,
+        "peak_count": 16,
+        "pdt_code": 757,
+        "pdr_code": 1317,
+        "pdt_ma": 0.39398193359375,
+        "pdr_ma": 0.22308349609375,
+        "pdr_pdt_ratio": 0.5662277304415182
+      }
+    },
+    "17": {
+      "index": 17,
+      "target_nm": 1532.245,
+      "codes": [
+        26214,
+        27897,
+        3276,
+        6144,
+        2867
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1532.24429,
+        "wavelength_error_pm": -0.709999999799038,
+        "power_mw": 0.3432790463263708,
+        "power_dbm": -4.64352705,
+        "peak_count": 12,
+        "pdt_code": 658,
+        "pdr_code": 1972,
+        "pdt_ma": 0.4241943359375,
+        "pdr_ma": 0.023193359375,
+        "pdr_pdt_ratio": 0.05467625899280575
+      }
+    },
+    "18": {
+      "index": 18,
+      "target_nm": 1532.335,
+      "codes": [
+        26214,
+        28565,
+        22937,
+        6963,
+        2867
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1532.3357,
+        "wavelength_error_pm": 0.7000000000516593,
+        "power_mw": 0.33962509898288085,
+        "power_dbm": -4.69000222,
+        "peak_count": 17,
+        "pdt_code": 955,
+        "pdr_code": 1758,
+        "pdt_ma": 0.33355712890625,
+        "pdr_ma": 0.0885009765625,
+        "pdr_pdt_ratio": 0.2653247941445563
+      }
+    },
+    "19": {
+      "index": 19,
+      "target_nm": 1532.413,
+      "codes": [
+        26214,
+        40722,
+        8542,
+        6144,
+        2458
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1532.41281,
+        "wavelength_error_pm": -0.18999999997504347,
+        "power_mw": 0.5015226285098356,
+        "power_dbm": -2.99709467,
+        "peak_count": 23,
+        "pdt_code": 811,
+        "pdr_code": 1227,
+        "pdt_ma": 0.37750244140625,
+        "pdr_ma": 0.25054931640625,
+        "pdr_pdt_ratio": 0.6637025060630558
+      }
+    },
+    "20": {
+      "index": 20,
+      "target_nm": 1532.499,
+      "codes": [
+        26214,
+        42654,
+        21299,
+        5734,
+        2458
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1532.4985299999998,
+        "wavelength_error_pm": -0.4700000001776061,
+        "power_mw": 0.4974606832250145,
+        "power_dbm": -3.03241238,
+        "peak_count": 13,
+        "pdt_code": 1073,
+        "pdr_code": 920,
+        "pdt_ma": 0.29754638671875,
+        "pdr_ma": 0.34423828125,
+        "pdr_pdt_ratio": 1.156923076923077
+      }
+    },
+    "21": {
+      "index": 21,
+      "target_nm": 1532.588,
+      "codes": [
+        26214,
+        39730,
+        16384,
+        5734,
+        2458
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1532.58836,
+        "wavelength_error_pm": 0.3600000000005821,
+        "power_mw": 0.4986561366494755,
+        "power_dbm": -3.02198832,
+        "peak_count": 18,
+        "pdt_code": 1250,
+        "pdr_code": 866,
+        "pdt_ma": 0.2435302734375,
+        "pdr_ma": 0.3607177734375,
+        "pdr_pdt_ratio": 1.481203007518797
+      }
+    },
+    "22": {
+      "index": 22,
+      "target_nm": 1532.675,
+      "codes": [
+        26214,
+        37925,
+        215,
+        5325,
+        2458
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1532.67435,
+        "wavelength_error_pm": -0.6499999999505235,
+        "power_mw": 0.5002941457893197,
+        "power_dbm": -3.00774579,
+        "peak_count": 13,
+        "pdt_code": 1241,
+        "pdr_code": 864,
+        "pdt_ma": 0.24627685546875,
+        "pdr_ma": 0.361328125,
+        "pdr_pdt_ratio": 1.4671623296158611
+      }
+    },
+    "23": {
+      "index": 23,
+      "target_nm": 1535.854,
+      "codes": [
+        26214,
+        45152,
+        25625,
+        0,
+        8602
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1535.85355,
+        "wavelength_error_pm": -0.4500000000007276,
+        "power_mw": 0.5004990471426654,
+        "power_dbm": -3.00596745,
+        "peak_count": 1,
+        "pdt_code": 1164,
+        "pdr_code": 850,
+        "pdt_ma": 0.269775390625,
+        "pdr_ma": 0.3656005859375,
+        "pdr_pdt_ratio": 1.3552036199095023
+      }
+    },
+    "24": {
+      "index": 24,
+      "target_nm": 1535.953,
+      "codes": [
+        26214,
+        46021,
+        19661,
+        14746,
+        7782
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1535.95289,
+        "wavelength_error_pm": -0.10999999994965037,
+        "power_mw": 0.49879618022792854,
+        "power_dbm": -3.02076881,
+        "peak_count": 4,
+        "pdt_code": 895,
+        "pdr_code": 1054,
+        "pdt_ma": 0.35186767578125,
+        "pdr_ma": 0.3033447265625,
+        "pdr_pdt_ratio": 0.8620988725065047
+      }
+    },
+    "25": {
+      "index": 25,
+      "target_nm": 1536.084,
+      "codes": [
+        26214,
+        30536,
+        4852,
+        13107,
+        7782
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1536.08479,
+        "wavelength_error_pm": 0.7900000000518048,
+        "power_mw": 0.34000237757854773,
+        "power_dbm": -4.68518046,
+        "peak_count": 15,
+        "pdt_code": 777,
+        "pdr_code": 1811,
+        "pdt_ma": 0.38787841796875,
+        "pdr_ma": 0.07232666015625,
+        "pdr_pdt_ratio": 0.18646734854445318
+      }
+    },
+    "26": {
+      "index": 26,
+      "target_nm": 1536.139,
+      "codes": [
+        26214,
+        42725,
+        323,
+        13107,
+        8192
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1536.13836,
+        "wavelength_error_pm": -0.6399999999757711,
+        "power_mw": 0.5012498226868076,
+        "power_dbm": -2.99945768,
+        "peak_count": 1,
+        "pdt_code": 42,
+        "pdr_code": 1914,
+        "pdt_ma": 0.6121826171875,
+        "pdr_ma": 0.0408935546875,
+        "pdr_pdt_ratio": 0.06679960119641076
+      }
+    },
+    "27": {
+      "index": 27,
+      "target_nm": 1536.275,
+      "codes": [
+        26214,
+        30456,
+        1638,
+        13926,
+        8192
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1536.2759,
+        "wavelength_error_pm": 0.9000000000014552,
+        "power_mw": 0.33348783169245766,
+        "power_dbm": -4.76920008,
+        "peak_count": 14,
+        "pdt_code": 911,
+        "pdr_code": 1686,
+        "pdt_ma": 0.34698486328125,
+        "pdr_ma": 0.1104736328125,
+        "pdr_pdt_ratio": 0.31838170624450307
+      }
+    },
+    "28": {
+      "index": 28,
+      "target_nm": 1536.38,
+      "codes": [
+        26214,
+        32241,
+        26214,
+        11468,
+        6963
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1536.3803400000002,
+        "wavelength_error_pm": 0.3400000000510772,
+        "power_mw": 0.33750902626836204,
+        "power_dbm": -4.71714608,
+        "peak_count": 2,
+        "pdt_code": 1264,
+        "pdr_code": 1342,
+        "pdt_ma": 0.2392578125,
+        "pdr_ma": 0.2154541015625,
+        "pdr_pdt_ratio": 0.9005102040816326
+      }
+    },
+    "29": {
+      "index": 29,
+      "target_nm": 1536.492,
+      "codes": [
+        26214,
+        29504,
+        19660,
+        11878,
+        6144
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1536.4921900000002,
+        "wavelength_error_pm": 0.19000000020241714,
+        "power_mw": 0.34004872044745144,
+        "power_dbm": -4.68458855,
+        "peak_count": 17,
+        "pdt_code": 1460,
+        "pdr_code": 1212,
+        "pdt_ma": 0.179443359375,
+        "pdr_ma": 0.255126953125,
+        "pdr_pdt_ratio": 1.4217687074829932
+      }
+    },
+    "30": {
+      "index": 30,
+      "target_nm": 1536.604,
+      "codes": [
+        26214,
+        47243,
+        16908,
+        10650,
+        6554
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1536.60454,
+        "wavelength_error_pm": 0.5400000000008731,
+        "power_mw": 0.5019076521000093,
+        "power_dbm": -2.99376183,
+        "peak_count": 2,
+        "pdt_code": 1149,
+        "pdr_code": 734,
+        "pdt_ma": 0.27435302734375,
+        "pdr_ma": 0.4010009765625,
+        "pdr_pdt_ratio": 1.4616240266963292
+      }
+    },
+    "31": {
+      "index": 31,
+      "target_nm": 1536.668,
+      "codes": [
+        26214,
+        46422,
+        15411,
+        10240,
+        6144
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1536.66802,
+        "wavelength_error_pm": 0.02000000017687853,
+        "power_mw": 0.503429748322781,
+        "power_dbm": -2.98061125,
+        "peak_count": 11,
+        "pdt_code": 1071,
+        "pdr_code": 833,
+        "pdt_ma": 0.29815673828125,
+        "pdr_ma": 0.37078857421875,
+        "pdr_pdt_ratio": 1.2436028659160696
+      }
+    },
+    "32": {
+      "index": 32,
+      "target_nm": 1536.775,
+      "codes": [
+        26214,
+        28698,
+        11468,
+        10240,
+        6144
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1536.77579,
+        "wavelength_error_pm": 0.7899999998244311,
+        "power_mw": 0.33504430322193557,
+        "power_dbm": -4.74897762,
+        "peak_count": 11,
+        "pdt_code": 1187,
+        "pdr_code": 1489,
+        "pdt_ma": 0.26275634765625,
+        "pdr_ma": 0.17059326171875,
+        "pdr_pdt_ratio": 0.6492450638792102
+      }
+    },
+    "33": {
+      "index": 33,
+      "target_nm": 1536.88,
+      "codes": [
+        26214,
+        29763,
+        1638,
+        10649,
+        6144
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1536.8801799999999,
+        "wavelength_error_pm": 0.17999999977291736,
+        "power_mw": 0.3328339399312562,
+        "power_dbm": -4.77772394,
+        "peak_count": 17,
+        "pdt_code": 740,
+        "pdr_code": 1838,
+        "pdt_ma": 0.399169921875,
+        "pdr_ma": 0.0640869140625,
+        "pdr_pdt_ratio": 0.16055045871559634
+      }
+    },
+    "34": {
+      "index": 34,
+      "target_nm": 1539.682,
+      "codes": [
+        26214,
+        31930,
+        15119,
+        2048,
+        22528
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1539.6827700000001,
+        "wavelength_error_pm": 0.7700000001023,
+        "power_mw": 0.3333460313492791,
+        "power_dbm": -4.77104711,
+        "peak_count": 2,
+        "pdt_code": 1466,
+        "pdr_code": 1177,
+        "pdt_ma": 0.1776123046875,
+        "pdr_ma": 0.26580810546875,
+        "pdr_pdt_ratio": 1.4965635738831615
+      }
+    },
+    "35": {
+      "index": 35,
+      "target_nm": 1539.761,
+      "codes": [
+        26214,
+        26634,
+        21092,
+        2048,
+        1228
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1539.76152,
+        "wavelength_error_pm": 0.5200000000513683,
+        "power_mw": 0.3336119886399945,
+        "power_dbm": -4.76758351,
+        "peak_count": 13,
+        "pdt_code": 1457,
+        "pdr_code": 1184,
+        "pdt_ma": 0.18035888671875,
+        "pdr_ma": 0.263671875,
+        "pdr_pdt_ratio": 1.4619289340101522
+      }
+    },
+    "36": {
+      "index": 36,
+      "target_nm": 1539.887,
+      "codes": [
+        26214,
+        51866,
+        25362,
+        2048,
+        21709
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1539.88691,
+        "wavelength_error_pm": -0.09000000000014552,
+        "power_mw": 0.4987174875041584,
+        "power_dbm": -3.02145403,
+        "peak_count": 13,
+        "pdt_code": 855,
+        "pdr_code": 946,
+        "pdt_ma": 0.36407470703125,
+        "pdr_ma": 0.3363037109375,
+        "pdr_pdt_ratio": 0.9237217099748533
+      }
+    },
+    "37": {
+      "index": 37,
+      "target_nm": 1539.978,
+      "codes": [
+        26214,
+        32404,
+        24410,
+        1638,
+        20070
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1539.97868,
+        "wavelength_error_pm": 0.6799999998747808,
+        "power_mw": 0.3363362378551838,
+        "power_dbm": -4.73226338,
+        "peak_count": 8,
+        "pdt_code": 977,
+        "pdr_code": 1609,
+        "pdt_ma": 0.32684326171875,
+        "pdr_ma": 0.13397216796875,
+        "pdr_pdt_ratio": 0.4098972922502334
+      }
+    },
+    "38": {
+      "index": 38,
+      "target_nm": 1540.052,
+      "codes": [
+        26214,
+        32536,
+        4806,
+        24576,
+        17612
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1540.05221,
+        "wavelength_error_pm": 0.210000000151922,
+        "power_mw": 0.33312418587806286,
+        "power_dbm": -4.77393835,
+        "peak_count": 3,
+        "pdt_code": 724,
+        "pdr_code": 1883,
+        "pdt_ma": 0.404052734375,
+        "pdr_ma": 0.05035400390625,
+        "pdr_pdt_ratio": 0.12462235649546828
+      }
+    },
+    "39": {
+      "index": 39,
+      "target_nm": 1540.202,
+      "codes": [
+        26214,
+        44686,
+        18022,
+        24576,
+        819
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1540.20233,
+        "wavelength_error_pm": 0.3300000000763248,
+        "power_mw": 0.49921392960953725,
+        "power_dbm": -3.01713305,
+        "peak_count": 14,
+        "pdt_code": 151,
+        "pdr_code": 1611,
+        "pdt_ma": 0.57891845703125,
+        "pdr_ma": 0.13336181640625,
+        "pdr_pdt_ratio": 0.23036373220875067
+      }
+    },
+    "40": {
+      "index": 40,
+      "target_nm": 1540.344,
+      "codes": [
+        26214,
+        52680,
+        24576,
+        22118,
+        17203
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1540.3444200000001,
+        "wavelength_error_pm": 0.4200000000764703,
+        "power_mw": 0.49529716139732544,
+        "power_dbm": -3.05134161,
+        "peak_count": 1,
+        "pdt_code": 965,
+        "pdr_code": 989,
+        "pdt_ma": 0.33050537109375,
+        "pdr_ma": 0.32318115234375,
+        "pdr_pdt_ratio": 0.9778393351800554
+      }
+    },
+    "41": {
+      "index": 41,
+      "target_nm": 1540.438,
+      "codes": [
+        26214,
+        54335,
+        19923,
+        22528,
+        16794
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1540.43832,
+        "wavelength_error_pm": 0.3199999998741987,
+        "power_mw": 0.49785241596254437,
+        "power_dbm": -3.02899381,
+        "peak_count": 4,
+        "pdt_code": 1109,
+        "pdr_code": 732,
+        "pdt_ma": 0.28656005859375,
+        "pdr_ma": 0.401611328125,
+        "pdr_pdt_ratio": 1.4014909478168265
+      }
+    },
+    "42": {
+      "index": 42,
+      "target_nm": 1540.518,
+      "codes": [
+        26214,
+        53499,
+        18284,
+        21709,
+        15565
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1540.5186,
+        "wavelength_error_pm": 0.6000000000767614,
+        "power_mw": 0.4988157628893906,
+        "power_dbm": -3.02059831,
+        "peak_count": 1,
+        "pdt_code": 1149,
+        "pdr_code": 694,
+        "pdt_ma": 0.27435302734375,
+        "pdr_ma": 0.4132080078125,
+        "pdr_pdt_ratio": 1.5061179087875418
+      }
+    },
+    "43": {
+      "index": 43,
+      "target_nm": 1540.598,
+      "codes": [
+        26214,
+        46476,
+        23353,
+        819,
+        15565
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1540.5984799999999,
+        "wavelength_error_pm": 0.4799999999249849,
+        "power_mw": 0.49133583721052615,
+        "power_dbm": -3.08621558,
+        "peak_count": 13,
+        "pdt_code": 1122,
+        "pdr_code": 821,
+        "pdt_ma": 0.2825927734375,
+        "pdr_ma": 0.37445068359375,
+        "pdr_pdt_ratio": 1.3250539956803455
+      }
+    },
+    "44": {
+      "index": 44,
+      "target_nm": 1540.652,
+      "codes": [
+        26214,
+        30970,
+        0,
+        20889,
+        14745
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1540.6523599999998,
+        "wavelength_error_pm": 0.3599999997732084,
+        "power_mw": 0.33519670126190404,
+        "power_dbm": -4.74700264,
+        "peak_count": 12,
+        "pdt_code": 1336,
+        "pdr_code": 1289,
+        "pdt_ma": 0.21728515625,
+        "pdr_ma": 0.23162841796875,
+        "pdr_pdt_ratio": 1.0660112359550562
+      }
+    },
+    "45": {
+      "index": 45,
+      "target_nm": 1543.905,
+      "codes": [
+        26214,
+        39905,
+        262,
+        5325,
+        4096
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1543.90551,
+        "wavelength_error_pm": 0.5100000000766158,
+        "power_mw": 0.4968962715055162,
+        "power_dbm": -3.03734262,
+        "peak_count": 18,
+        "pdt_code": 694,
+        "pdr_code": 1215,
+        "pdt_ma": 0.4132080078125,
+        "pdr_ma": 0.25421142578125,
+        "pdr_pdt_ratio": 0.6152141802067946
+      }
+    },
+    "46": {
+      "index": 46,
+      "target_nm": 1544.014,
+      "codes": [
+        26214,
+        44011,
+        3628,
+        4506,
+        4096
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1544.01404,
+        "wavelength_error_pm": 0.040000000126383384,
+        "power_mw": 0.5010339193053747,
+        "power_dbm": -3.00132872,
+        "peak_count": 8,
+        "pdt_code": 33,
+        "pdr_code": 1765,
+        "pdt_ma": 0.61492919921875,
+        "pdr_ma": 0.08636474609375,
+        "pdr_pdt_ratio": 0.14044665012406948
+      }
+    },
+    "47": {
+      "index": 47,
+      "target_nm": 1544.116,
+      "codes": [
+        26214,
+        44587,
+        26738,
+        4506,
+        4096
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1544.11641,
+        "wavelength_error_pm": 0.4100000001017179,
+        "power_mw": 0.49781452144744853,
+        "power_dbm": -3.02932439,
+        "peak_count": 14,
+        "pdt_code": 34,
+        "pdr_code": 1867,
+        "pdt_ma": 0.6146240234375,
+        "pdr_ma": 0.05523681640625,
+        "pdr_pdt_ratio": 0.08987090367428004
+      }
+    },
+    "48": {
+      "index": 48,
+      "target_nm": 1544.195,
+      "codes": [
+        26214,
+        42892,
+        26388,
+        4506,
+        3277
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1544.19488,
+        "wavelength_error_pm": -0.1199999999244028,
+        "power_mw": 0.4947762036630056,
+        "power_dbm": -3.05591196,
+        "peak_count": 15,
+        "pdt_code": 381,
+        "pdr_code": 1485,
+        "pdt_ma": 0.50872802734375,
+        "pdr_ma": 0.17181396484375,
+        "pdr_pdt_ratio": 0.33773245350929815
+      }
+    },
+    "49": {
+      "index": 49,
+      "target_nm": 1544.291,
+      "codes": [
+        26214,
+        42617,
+        1638,
+        3686,
+        3277
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1544.29121,
+        "wavelength_error_pm": 0.210000000151922,
+        "power_mw": 0.5000335989123648,
+        "power_dbm": -3.01000813,
+        "peak_count": 14,
+        "pdt_code": 818,
+        "pdr_code": 979,
+        "pdt_ma": 0.3753662109375,
+        "pdr_ma": 0.32623291015625,
+        "pdr_pdt_ratio": 0.8691056910569106
+      }
+    },
+    "50": {
+      "index": 50,
+      "target_nm": 1544.418,
+      "codes": [
+        26214,
+        43146,
+        18022,
+        3686,
+        2867
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1544.4181700000001,
+        "wavelength_error_pm": 0.1700000002529123,
+        "power_mw": 0.5007269171215895,
+        "power_dbm": -3.00399062,
+        "peak_count": 13,
+        "pdt_code": 1113,
+        "pdr_code": 698,
+        "pdt_ma": 0.28533935546875,
+        "pdr_ma": 0.4119873046875,
+        "pdr_pdt_ratio": 1.4438502673796791
+      }
+    },
+    "51": {
+      "index": 51,
+      "target_nm": 1544.56,
+      "codes": [
+        26214,
+        42016,
+        3539,
+        3686,
+        2867
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1544.55962,
+        "wavelength_error_pm": -0.37999999995008693,
+        "power_mw": 0.5012732967534249,
+        "power_dbm": -2.9992543,
+        "peak_count": 16,
+        "pdt_code": 1091,
+        "pdr_code": 757,
+        "pdt_ma": 0.29205322265625,
+        "pdr_ma": 0.39398193359375,
+        "pdr_pdt_ratio": 1.3490073145245558
+      }
+    },
+    "52": {
+      "index": 52,
+      "target_nm": 1544.674,
+      "codes": [
+        26214,
+        30183,
+        24576,
+        3686,
+        2867
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1544.674,
+        "wavelength_error_pm": 0.0,
+        "power_mw": 0.33361231895325444,
+        "power_dbm": -4.76757921,
+        "peak_count": 18,
+        "pdt_code": 1148,
+        "pdr_code": 1359,
+        "pdt_ma": 0.274658203125,
+        "pdr_ma": 0.21026611328125,
+        "pdr_pdt_ratio": 0.7655555555555555
+      }
+    },
+    "53": {
+      "index": 53,
+      "target_nm": 1544.73,
+      "codes": [
+        26214,
+        43193,
+        24742,
+        3277,
+        2867
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1544.7296999999999,
+        "wavelength_error_pm": -0.3000000001520675,
+        "power_mw": 0.49418737125522416,
+        "power_dbm": -3.06108357,
+        "peak_count": 11,
+        "pdt_code": 470,
+        "pdr_code": 1327,
+        "pdt_ma": 0.4815673828125,
+        "pdr_ma": 0.22003173828125,
+        "pdr_pdt_ratio": 0.45690747782002533
+      }
+    },
+    "54": {
+      "index": 54,
+      "target_nm": 1544.829,
+      "codes": [
+        26214,
+        39417,
+        1638,
+        2867,
+        2458
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1544.82913,
+        "wavelength_error_pm": 0.1300000001265289,
+        "power_mw": 0.4972897330925366,
+        "power_dbm": -3.03390507,
+        "peak_count": 14,
+        "pdt_code": 32,
+        "pdr_code": 1857,
+        "pdt_ma": 0.615234375,
+        "pdr_ma": 0.05828857421875,
+        "pdr_pdt_ratio": 0.09474206349206349
+      }
+    },
+    "55": {
+      "index": 55,
+      "target_nm": 1544.946,
+      "codes": [
+        26214,
+        42488,
+        5074,
+        2867,
+        2458
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1544.94596,
+        "wavelength_error_pm": -0.03999999989900971,
+        "power_mw": 0.500846987593811,
+        "power_dbm": -3.00294934,
+        "peak_count": 17,
+        "pdt_code": 32,
+        "pdr_code": 1711,
+        "pdt_ma": 0.615234375,
+        "pdr_ma": 0.10284423828125,
+        "pdr_pdt_ratio": 0.1671626984126984
+      }
+    },
+    "56": {
+      "index": 56,
+      "target_nm": 1547.4,
+      "codes": [
+        26214,
+        28741,
+        19660,
+        14336,
+        0
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1547.40028,
+        "wavelength_error_pm": 0.279999999975189,
+        "power_mw": 0.3321152852527849,
+        "power_dbm": -4.78711136,
+        "peak_count": 1,
+        "pdt_code": 942,
+        "pdr_code": 1582,
+        "pdt_ma": 0.3375244140625,
+        "pdr_ma": 0.1422119140625,
+        "pdr_pdt_ratio": 0.4213381555153707
+      }
+    },
+    "57": {
+      "index": 57,
+      "target_nm": 1547.46,
+      "codes": [
+        26214,
+        49767,
+        14395,
+        12698,
+        11469
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1547.4603900000002,
+        "wavelength_error_pm": 0.39000000015221303,
+        "power_mw": 0.4987311839368778,
+        "power_dbm": -3.02133476,
+        "peak_count": 5,
+        "pdt_code": 763,
+        "pdr_code": 1093,
+        "pdt_ma": 0.39215087890625,
+        "pdr_ma": 0.29144287109375,
+        "pdr_pdt_ratio": 0.7431906614785992
+      }
+    },
+    "58": {
+      "index": 58,
+      "target_nm": 1547.552,
+      "codes": [
+        26214,
+        37971,
+        238,
+        12698,
+        0
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1547.55288,
+        "wavelength_error_pm": 0.8800000000519503,
+        "power_mw": 0.49592496688890836,
+        "power_dbm": -3.04584027,
+        "peak_count": 12,
+        "pdt_code": 1070,
+        "pdr_code": 826,
+        "pdt_ma": 0.2984619140625,
+        "pdr_ma": 0.3729248046875,
+        "pdr_pdt_ratio": 1.2494887525562373
+      }
+    },
+    "59": {
+      "index": 59,
+      "target_nm": 1547.642,
+      "codes": [
+        26214,
+        50494,
+        8454,
+        11878,
+        12288
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1547.64121,
+        "wavelength_error_pm": -0.7900000000518048,
+        "power_mw": 0.49840251825959964,
+        "power_dbm": -3.02419772,
+        "peak_count": 13,
+        "pdt_code": 1125,
+        "pdr_code": 666,
+        "pdt_ma": 0.28167724609375,
+        "pdr_ma": 0.4217529296875,
+        "pdr_pdt_ratio": 1.4972914409534128
+      }
+    },
+    "60": {
+      "index": 60,
+      "target_nm": 1547.734,
+      "codes": [
+        26214,
+        46961,
+        1668,
+        11469,
+        11059
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1547.7342800000001,
+        "wavelength_error_pm": 0.28000000020256266,
+        "power_mw": 0.5018888540785654,
+        "power_dbm": -2.99392449,
+        "peak_count": 16,
+        "pdt_code": 1112,
+        "pdr_code": 736,
+        "pdt_ma": 0.28564453125,
+        "pdr_ma": 0.400390625,
+        "pdr_pdt_ratio": 1.4017094017094016
+      }
+    },
+    "61": {
+      "index": 61,
+      "target_nm": 1547.855,
+      "codes": [
+        26214,
+        46692,
+        18022,
+        11059,
+        10240
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1547.85513,
+        "wavelength_error_pm": 0.12999999989915523,
+        "power_mw": 0.4963348510029428,
+        "power_dbm": -3.04225229,
+        "peak_count": 16,
+        "pdt_code": 844,
+        "pdr_code": 1047,
+        "pdt_ma": 0.367431640625,
+        "pdr_ma": 0.30548095703125,
+        "pdr_pdt_ratio": 0.8313953488372093
+      }
+    },
+    "62": {
+      "index": 62,
+      "target_nm": 1547.996,
+      "codes": [
+        26214,
+        30611,
+        3276,
+        11059,
+        9830
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1547.9966399999998,
+        "wavelength_error_pm": 0.6399999997483974,
+        "power_mw": 0.3322332097550013,
+        "power_dbm": -4.78556958,
+        "peak_count": 19,
+        "pdt_code": 680,
+        "pdr_code": 1846,
+        "pdt_ma": 0.41748046875,
+        "pdr_ma": 0.0616455078125,
+        "pdr_pdt_ratio": 0.1476608187134503
+      }
+    },
+    "63": {
+      "index": 63,
+      "target_nm": 1548.094,
+      "codes": [
+        26214,
+        30668,
+        24576,
+        10649,
+        10649
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1548.09419,
+        "wavelength_error_pm": 0.18999999997504347,
+        "power_mw": 0.33111284130415297,
+        "power_dbm": -4.80023976,
+        "peak_count": 14,
+        "pdt_code": 654,
+        "pdr_code": 1948,
+        "pdt_ma": 0.4254150390625,
+        "pdr_ma": 0.030517578125,
+        "pdr_pdt_ratio": 0.07173601147776183
+      }
+    },
+    "64": {
+      "index": 64,
+      "target_nm": 1548.183,
+      "codes": [
+        26214,
+        46904,
+        1800,
+        10650,
+        9011
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1548.1827999999998,
+        "wavelength_error_pm": -0.20000000017716957,
+        "power_mw": 0.4943550170164429,
+        "power_dbm": -3.05961054,
+        "peak_count": 23,
+        "pdt_code": 340,
+        "pdr_code": 1474,
+        "pdt_ma": 0.521240234375,
+        "pdr_ma": 0.1751708984375,
+        "pdr_pdt_ratio": 0.3360655737704918
+      }
+    },
+    "65": {
+      "index": 65,
+      "target_nm": 1548.281,
+      "codes": [
+        26214,
+        31472,
+        19528,
+        9011,
+        9830
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1548.28142,
+        "wavelength_error_pm": 0.4200000000764703,
+        "power_mw": 0.33065981086811436,
+        "power_dbm": -4.80618587,
+        "peak_count": 12,
+        "pdt_code": 1221,
+        "pdr_code": 1323,
+        "pdt_ma": 0.25238037109375,
+        "pdr_ma": 0.22125244140625,
+        "pdr_pdt_ratio": 0.8766626360338573
+      }
+    },
+    "66": {
+      "index": 66,
+      "target_nm": 1548.386,
+      "codes": [
+        26214,
+        28148,
+        0,
+        9420,
+        9420
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1548.38596,
+        "wavelength_error_pm": -0.03999999989900971,
+        "power_mw": 0.32912709761666264,
+        "power_dbm": -4.8263636,
+        "peak_count": 15,
+        "pdt_code": 1437,
+        "pdr_code": 1201,
+        "pdt_ma": 0.18646240234375,
+        "pdr_ma": 0.25848388671875,
+        "pdr_pdt_ratio": 1.386252045826514
+      }
+    },
+    "67": {
+      "index": 67,
+      "target_nm": 1551.273,
+      "codes": [
+        26214,
+        42794,
+        17075,
+        1638,
+        2048
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1551.27346,
+        "wavelength_error_pm": 0.45999999997548,
+        "power_mw": 0.5018687728928627,
+        "power_dbm": -2.99409826,
+        "peak_count": 13,
+        "pdt_code": 35,
+        "pdr_code": 1929,
+        "pdt_ma": 0.61431884765625,
+        "pdr_ma": 0.03631591796875,
+        "pdr_pdt_ratio": 0.05911574764033781
+      }
+    },
+    "68": {
+      "index": 68,
+      "target_nm": 1551.379,
+      "codes": [
+        26214,
+        25152,
+        3174,
+        1638,
+        2048
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1551.37922,
+        "wavelength_error_pm": 0.22000000012667442,
+        "power_mw": 0.3336468600028036,
+        "power_dbm": -4.76712958,
+        "peak_count": 12,
+        "pdt_code": 898,
+        "pdr_code": 1700,
+        "pdt_ma": 0.3509521484375,
+        "pdr_ma": 0.106201171875,
+        "pdr_pdt_ratio": 0.3026086956521739
+      }
+    },
+    "69": {
+      "index": 69,
+      "target_nm": 1551.474,
+      "codes": [
+        26214,
+        45065,
+        19410,
+        24576,
+        2048
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1551.47329,
+        "wavelength_error_pm": -0.7100000000264117,
+        "power_mw": 0.5006929380507169,
+        "power_dbm": -3.00428534,
+        "peak_count": 1,
+        "pdt_code": 828,
+        "pdr_code": 1064,
+        "pdt_ma": 0.372314453125,
+        "pdr_ma": 0.30029296875,
+        "pdr_pdt_ratio": 0.8065573770491803
+      }
+    },
+    "70": {
+      "index": 70,
+      "target_nm": 1551.592,
+      "codes": [
+        26214,
+        27115,
+        22709,
+        1228,
+        2048
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1551.59269,
+        "wavelength_error_pm": 0.6899999998495332,
+        "power_mw": 0.3310015343938489,
+        "power_dbm": -4.80169993,
+        "peak_count": 17,
+        "pdt_code": 1408,
+        "pdr_code": 1161,
+        "pdt_ma": 0.1953125,
+        "pdr_ma": 0.27069091796875,
+        "pdr_pdt_ratio": 1.3859375
+      }
+    },
+    "71": {
+      "index": 71,
+      "target_nm": 1551.671,
+      "codes": [
+        26214,
+        38281,
+        23985,
+        22937,
+        24576
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1551.6706100000001,
+        "wavelength_error_pm": -0.38999999992483936,
+        "power_mw": 0.33048718583149966,
+        "power_dbm": -4.80845375,
+        "peak_count": 1,
+        "pdt_code": 1459,
+        "pdr_code": 1160,
+        "pdt_ma": 0.17974853515625,
+        "pdr_ma": 0.27099609375,
+        "pdr_pdt_ratio": 1.5076400679117148
+      }
+    },
+    "72": {
+      "index": 72,
+      "target_nm": 1551.78,
+      "codes": [
+        26214,
+        35817,
+        18970,
+        22528,
+        23347
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1551.78077,
+        "wavelength_error_pm": 0.7700000001023,
+        "power_mw": 0.3280699156805628,
+        "power_dbm": -4.84033593,
+        "peak_count": 1,
+        "pdt_code": 1402,
+        "pdr_code": 1237,
+        "pdt_ma": 0.1971435546875,
+        "pdr_ma": 0.24749755859375,
+        "pdr_pdt_ratio": 1.2554179566563468
+      }
+    },
+    "73": {
+      "index": 73,
+      "target_nm": 1551.882,
+      "codes": [
+        26214,
+        34302,
+        25894,
+        819,
+        24166
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1551.88239,
+        "wavelength_error_pm": 0.38999999992483936,
+        "power_mw": 0.3324672085397858,
+        "power_dbm": -4.78251183,
+        "peak_count": 13,
+        "pdt_code": 1131,
+        "pdr_code": 1394,
+        "pdt_ma": 0.27984619140625,
+        "pdr_ma": 0.1995849609375,
+        "pdr_pdt_ratio": 0.7131952017448201
+      }
+    },
+    "74": {
+      "index": 74,
+      "target_nm": 1552.02,
+      "codes": [
+        26214,
+        48383,
+        7067,
+        410,
+        22938
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1552.02143,
+        "wavelength_error_pm": 1.4300000000275759,
+        "power_mw": 0.5020411329818123,
+        "power_dbm": -2.99260699,
+        "peak_count": 15,
+        "pdt_code": 39,
+        "pdr_code": 1824,
+        "pdt_ma": 0.61309814453125,
+        "pdr_ma": 0.068359375,
+        "pdr_pdt_ratio": 0.11149825783972125
+      }
+    },
+    "75": {
+      "index": 75,
+      "target_nm": 1552.082,
+      "codes": [
+        26214,
+        31569,
+        18487,
+        0,
+        22937
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1552.08198,
+        "wavelength_error_pm": -0.02000000017687853,
+        "power_mw": 0.3287706338911227,
+        "power_dbm": -4.83106981,
+        "peak_count": 12,
+        "pdt_code": 631,
+        "pdr_code": 1969,
+        "pdt_ma": 0.43243408203125,
+        "pdr_ma": 0.02410888671875,
+        "pdr_pdt_ratio": 0.05575158786167961
+      }
+    },
+    "76": {
+      "index": 76,
+      "target_nm": 1552.174,
+      "codes": [
+        26214,
+        33398,
+        15358,
+        0,
+        22528
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1552.17419,
+        "wavelength_error_pm": 0.18999999997504347,
+        "power_mw": 0.3320644319612191,
+        "power_dbm": -4.7877764,
+        "peak_count": 12,
+        "pdt_code": 809,
+        "pdr_code": 1718,
+        "pdt_ma": 0.37811279296875,
+        "pdr_ma": 0.1007080078125,
+        "pdr_pdt_ratio": 0.26634382566585957
+      }
+    },
+    "77": {
+      "index": 77,
+      "target_nm": 1552.304,
+      "codes": [
+        26214,
+        48797,
+        24736,
+        410,
+        23347
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1552.30405,
+        "wavelength_error_pm": 0.049999999873762135,
+        "power_mw": 0.49303573059587613,
+        "power_dbm": -3.07121606,
+        "peak_count": 11,
+        "pdt_code": 936,
+        "pdr_code": 986,
+        "pdt_ma": 0.33935546875,
+        "pdr_ma": 0.3240966796875,
+        "pdr_pdt_ratio": 0.9550359712230215
+      }
+    },
+    "78": {
+      "index": 78,
+      "target_nm": 1555.278,
+      "codes": [
+        26214,
+        44319,
+        466,
+        4915,
+        7373
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1555.27935,
+        "wavelength_error_pm": 1.3500000000021828,
+        "power_mw": 0.5041331604065425,
+        "power_dbm": -2.97454735,
+        "peak_count": 12,
+        "pdt_code": 35,
+        "pdr_code": 1920,
+        "pdt_ma": 0.61431884765625,
+        "pdr_ma": 0.0390625,
+        "pdr_pdt_ratio": 0.06358668653750621
+      }
+    },
+    "79": {
+      "index": 79,
+      "target_nm": 1555.391,
+      "codes": [
+        26214,
+        43494,
+        3671,
+        4506,
+        6963
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1555.39138,
+        "wavelength_error_pm": 0.37999999995008693,
+        "power_mw": 0.5032914319309554,
+        "power_dbm": -2.98180463,
+        "peak_count": 23,
+        "pdt_code": 257,
+        "pdr_code": 1603,
+        "pdt_ma": 0.54656982421875,
+        "pdr_ma": 0.13580322265625,
+        "pdr_pdt_ratio": 0.248464544946957
+      }
+    },
+    "80": {
+      "index": 80,
+      "target_nm": 1555.481,
+      "codes": [
+        26214,
+        44626,
+        1813,
+        4506,
+        7373
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1555.4812200000001,
+        "wavelength_error_pm": 0.22000000012667442,
+        "power_mw": 0.5007351170853053,
+        "power_dbm": -3.0039195,
+        "peak_count": 14,
+        "pdt_code": 678,
+        "pdr_code": 1086,
+        "pdt_ma": 0.4180908203125,
+        "pdr_ma": 0.2935791015625,
+        "pdr_pdt_ratio": 0.7021897810218978
+      }
+    },
+    "81": {
+      "index": 81,
+      "target_nm": 1555.575,
+      "codes": [
+        26214,
+        45463,
+        10092,
+        4096,
+        5734
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1555.57511,
+        "wavelength_error_pm": 0.10999999994965037,
+        "power_mw": 0.4977131966191591,
+        "power_dbm": -3.03020844,
+        "peak_count": 16,
+        "pdt_code": 1022,
+        "pdr_code": 801,
+        "pdt_ma": 0.3131103515625,
+        "pdr_ma": 0.38055419921875,
+        "pdr_pdt_ratio": 1.2153996101364521
+      }
+    },
+    "82": {
+      "index": 82,
+      "target_nm": 1555.671,
+      "codes": [
+        26214,
+        42872,
+        4915,
+        4506,
+        6144
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1555.67165,
+        "wavelength_error_pm": 0.6499999999505235,
+        "power_mw": 0.4994366386405359,
+        "power_dbm": -3.01519601,
+        "peak_count": 17,
+        "pdt_code": 1184,
+        "pdr_code": 751,
+        "pdt_ma": 0.263671875,
+        "pdr_ma": 0.39581298828125,
+        "pdr_pdt_ratio": 1.5011574074074074
+      }
+    },
+    "83": {
+      "index": 83,
+      "target_nm": 1555.807,
+      "codes": [
+        26214,
+        44283,
+        524,
+        3277,
+        6144
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1555.8080499999999,
+        "wavelength_error_pm": 1.0499999998501153,
+        "power_mw": 0.4987012892909063,
+        "power_dbm": -3.02159509,
+        "peak_count": 4,
+        "pdt_code": 1017,
+        "pdr_code": 756,
+        "pdt_ma": 0.31463623046875,
+        "pdr_ma": 0.394287109375,
+        "pdr_pdt_ratio": 1.2531522793404462
+      }
+    },
+    "84": {
+      "index": 84,
+      "target_nm": 1555.935,
+      "codes": [
+        26214,
+        42449,
+        3612,
+        3686,
+        4915
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1555.9347699999998,
+        "wavelength_error_pm": -0.23000000010142685,
+        "power_mw": 0.4981034582756085,
+        "power_dbm": -3.02680443,
+        "peak_count": 17,
+        "pdt_code": 627,
+        "pdr_code": 1241,
+        "pdt_ma": 0.43365478515625,
+        "pdr_ma": 0.24627685546875,
+        "pdr_pdt_ratio": 0.5679099225897255
+      }
+    },
+    "85": {
+      "index": 85,
+      "target_nm": 1556.015,
+      "codes": [
+        26214,
+        44304,
+        11731,
+        2867,
+        5325
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1556.0154300000002,
+        "wavelength_error_pm": 0.43000000005122274,
+        "power_mw": 0.4990097324726039,
+        "power_dbm": -3.01890984,
+        "peak_count": 16,
+        "pdt_code": 170,
+        "pdr_code": 1669,
+        "pdt_ma": 0.5731201171875,
+        "pdr_ma": 0.11566162109375,
+        "pdr_pdt_ratio": 0.2018104366347178
+      }
+    },
+    "86": {
+      "index": 86,
+      "target_nm": 1556.12,
+      "codes": [
+        26214,
+        46216,
+        24576,
+        2867,
+        5325
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1556.1197,
+        "wavelength_error_pm": -0.29999999992469384,
+        "power_mw": 0.4970161432592078,
+        "power_dbm": -3.03629505,
+        "peak_count": 18,
+        "pdt_code": 35,
+        "pdr_code": 1912,
+        "pdt_ma": 0.61431884765625,
+        "pdr_ma": 0.04150390625,
+        "pdr_pdt_ratio": 0.06756085444610035
+      }
+    },
+    "87": {
+      "index": 87,
+      "target_nm": 1556.2,
+      "codes": [
+        26214,
+        27821,
+        17845,
+        2867,
+        5324
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1556.20049,
+        "wavelength_error_pm": 0.4899999998997373,
+        "power_mw": 0.3317585742832361,
+        "power_dbm": -4.79177844,
+        "peak_count": 17,
+        "pdt_code": 825,
+        "pdr_code": 1735,
+        "pdt_ma": 0.37322998046875,
+        "pdr_ma": 0.09552001953125,
+        "pdr_pdt_ratio": 0.2559280457890433
+      }
+    },
+    "88": {
+      "index": 88,
+      "target_nm": 1556.313,
+      "codes": [
+        26214,
+        39962,
+        262,
+        2867,
+        4915
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1556.31306,
+        "wavelength_error_pm": 0.05999999984851456,
+        "power_mw": 0.4995812542402247,
+        "power_dbm": -3.01393866,
+        "peak_count": 14,
+        "pdt_code": 852,
+        "pdr_code": 1037,
+        "pdt_ma": 0.364990234375,
+        "pdr_ma": 0.30853271484375,
+        "pdr_pdt_ratio": 0.8453177257525084
+      }
+    },
+    "89": {
+      "index": 89,
+      "target_nm": 1559.36,
+      "codes": [
+        26214,
+        41139,
+        18022,
+        11059,
+        819
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1559.36086,
+        "wavelength_error_pm": 0.8600000001024455,
+        "power_mw": 0.49905015291775356,
+        "power_dbm": -3.01855807,
+        "peak_count": 17,
+        "pdt_code": 33,
+        "pdr_code": 1916,
+        "pdt_ma": 0.61492919921875,
+        "pdr_ma": 0.040283203125,
+        "pdr_pdt_ratio": 0.06550868486352357
+      }
+    },
+    "90": {
+      "index": 90,
+      "target_nm": 1559.515,
+      "codes": [
+        26214,
+        35661,
+        9830,
+        9830,
+        16384
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1559.51465,
+        "wavelength_error_pm": -0.35000000002582965,
+        "power_mw": 0.3332271294877212,
+        "power_dbm": -4.77259648,
+        "peak_count": 6,
+        "pdt_code": 1102,
+        "pdr_code": 1452,
+        "pdt_ma": 0.2886962890625,
+        "pdr_ma": 0.181884765625,
+        "pdr_pdt_ratio": 0.6300211416490487
+      }
+    },
+    "91": {
+      "index": 91,
+      "target_nm": 1559.575,
+      "codes": [
+        26214,
+        51210,
+        1757,
+        10650,
+        15565
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1559.5751300000002,
+        "wavelength_error_pm": 0.1300000001265289,
+        "power_mw": 0.49755729948413685,
+        "power_dbm": -3.03156898,
+        "peak_count": 16,
+        "pdt_code": 932,
+        "pdr_code": 967,
+        "pdt_ma": 0.340576171875,
+        "pdr_ma": 0.32989501953125,
+        "pdr_pdt_ratio": 0.9686379928315412
+      }
+    },
+    "92": {
+      "index": 92,
+      "target_nm": 1559.612,
+      "codes": [
+        26214,
+        26584,
+        14745,
+        9420,
+        409
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1559.6127900000001,
+        "wavelength_error_pm": 0.7900000000518048,
+        "power_mw": 0.33456683504598644,
+        "power_dbm": -4.75517112,
+        "peak_count": 17,
+        "pdt_code": 1382,
+        "pdr_code": 1268,
+        "pdt_ma": 0.2032470703125,
+        "pdr_ma": 0.238037109375,
+        "pdr_pdt_ratio": 1.1711711711711712
+      }
+    },
+    "93": {
+      "index": 93,
+      "target_nm": 1559.708,
+      "codes": [
+        26214,
+        31473,
+        0,
+        9420,
+        16793
+      ],
+      "success": false,
+      "reading": {
+        "wavelength_nm": 1559.70774,
+        "wavelength_error_pm": -0.26000000002568413,
+        "power_mw": 0.33179406708474884,
+        "power_dbm": -4.79131384,
+        "peak_count": 10,
+        "pdt_code": 1455,
+        "pdr_code": 1164,
+        "pdt_ma": 0.18096923828125,
+        "pdr_ma": 0.269775390625,
+        "pdr_pdt_ratio": 1.4907251264755481
+      }
+    },
+    "94": {
+      "index": 94,
+      "target_nm": 1559.872,
+      "codes": [
+        26214,
+        42498,
+        26214,
+        8602,
+        0
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1559.87283,
+        "wavelength_error_pm": 0.8299999999508145,
+        "power_mw": 0.4994425312515173,
+        "power_dbm": -3.01514477,
+        "peak_count": 7,
+        "pdt_code": 1036,
+        "pdr_code": 859,
+        "pdt_ma": 0.308837890625,
+        "pdr_ma": 0.36285400390625,
+        "pdr_pdt_ratio": 1.174901185770751
+      }
+    },
+    "95": {
+      "index": 95,
+      "target_nm": 1560.011,
+      "codes": [
+        26214,
+        42155,
+        18546,
+        7782,
+        0
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1560.01161,
+        "wavelength_error_pm": 0.6100000000515138,
+        "power_mw": 0.49748927780415986,
+        "power_dbm": -3.03216275,
+        "peak_count": 1,
+        "pdt_code": 455,
+        "pdr_code": 1373,
+        "pdt_ma": 0.48614501953125,
+        "pdr_ma": 0.20599365234375,
+        "pdr_pdt_ratio": 0.423728813559322
+      }
+    },
+    "96": {
+      "index": 96,
+      "target_nm": 1560.102,
+      "codes": [
+        26214,
+        40694,
+        3539,
+        8192,
+        0
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1560.10275,
+        "wavelength_error_pm": 0.7499999999254214,
+        "power_mw": 0.49929644743580276,
+        "power_dbm": -3.01641524,
+        "peak_count": 11,
+        "pdt_code": 33,
+        "pdr_code": 1832,
+        "pdt_ma": 0.61492919921875,
+        "pdr_ma": 0.06591796875,
+        "pdr_pdt_ratio": 0.10719602977667494
+      }
+    },
+    "97": {
+      "index": 97,
+      "target_nm": 1560.188,
+      "codes": [
+        26214,
+        52369,
+        25182,
+        7373,
+        11469
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1560.18793,
+        "wavelength_error_pm": -0.07000000005064066,
+        "power_mw": 0.5032709991261174,
+        "power_dbm": -2.98198095,
+        "peak_count": 1,
+        "pdt_code": 33,
+        "pdr_code": 1875,
+        "pdt_ma": 0.61492919921875,
+        "pdr_ma": 0.05279541015625,
+        "pdr_pdt_ratio": 0.0858560794044665
+      }
+    },
+    "98": {
+      "index": 98,
+      "target_nm": 1560.269,
+      "codes": [
+        26214,
+        50530,
+        21299,
+        6963,
+        11878
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1560.26978,
+        "wavelength_error_pm": 0.7800000000770524,
+        "power_mw": 0.4974957121832753,
+        "power_dbm": -3.03210658,
+        "peak_count": 4,
+        "pdt_code": 392,
+        "pdr_code": 1501,
+        "pdt_ma": 0.50537109375,
+        "pdr_ma": 0.16693115234375,
+        "pdr_pdt_ratio": 0.3303140096618358
+      }
+    },
+    "99": {
+      "index": 99,
+      "target_nm": 1560.399,
+      "codes": [
+        26214,
+        49971,
+        614,
+        6554,
+        12288
+      ],
+      "success": true,
+      "reading": {
+        "wavelength_nm": 1560.39906,
+        "wavelength_error_pm": 0.06000000007588824,
+        "power_mw": 0.5012503166719692,
+        "power_dbm": -2.9994534,
+        "peak_count": 13,
+        "pdt_code": 909,
+        "pdr_code": 873,
+        "pdt_ma": 0.34759521484375,
+        "pdr_ma": 0.35858154296875,
+        "pdr_pdt_ratio": 1.0316066725197541
+      }
+    }
+  },
+  "meter": "YOKOGAWA,AQ6150B,9027C2596,01.03"
+}

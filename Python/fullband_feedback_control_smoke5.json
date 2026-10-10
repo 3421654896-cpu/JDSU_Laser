@@ -1,0 +1,396 @@
+{
+  "created_utc": "2026-08-30T08:10:44.781958+00:00",
+  "source_table": "fullband_equal_power_operational_2001.json",
+  "source_targets": "fullband_equal_power_feedback_targets_2001.json",
+  "stride": 500,
+  "rows": [
+    {
+      "index": 0,
+      "target_nm": 1525.0,
+      "base_codes": [
+        58982,
+        51503,
+        1860,
+        0,
+        6145
+      ],
+      "adjusted_codes": [
+        58982,
+        51579,
+        1860,
+        0,
+        6145
+      ],
+      "base_soa_ma": 117.88101196289062,
+      "adjusted_soa_ma": 118.05496215820312,
+      "feedback_channel": "PDT",
+      "feedback_reference_code": 569,
+      "final_feedback_code": 506,
+      "final_feedback_error_code": -63,
+      "pdt_code": 506,
+      "pdr_code": 626,
+      "monitor_frames": 2,
+      "reading": {
+        "wavelength_nm": 1525.00034,
+        "wavelength_error_pm": 0.3400000000510772,
+        "power_mw": 1.5235214600642206,
+        "power_error_percent": -0.423433982730681,
+        "peak_count": 11,
+        "smsr_db": 31.90658466
+      },
+      "history": [
+        {
+          "iteration": 0,
+          "stage": "base",
+          "soa_ma": 117.88101196289062,
+          "pdt_code": 1207,
+          "pdr_code": 867,
+          "selected_code": 1207,
+          "error_code": 638,
+          "monitor_frames": 1
+        },
+        {
+          "iteration": 0,
+          "stage": "probe",
+          "soa_ma": 118.1304931640625,
+          "pdt_code": 618,
+          "pdr_code": 514,
+          "selected_code": 618,
+          "slope_code_per_ma": -2360.8993272171256,
+          "monitor_frames": 1
+        },
+        {
+          "iteration": 1,
+          "stage": "base",
+          "soa_ma": 118.15109252929688,
+          "pdt_code": 595,
+          "pdr_code": 537,
+          "selected_code": 595,
+          "error_code": 26,
+          "monitor_frames": 1
+        },
+        {
+          "iteration": 1,
+          "stage": "probe",
+          "soa_ma": 118.40057373046875,
+          "pdt_code": 553,
+          "pdr_code": 573,
+          "selected_code": 553,
+          "slope_code_per_ma": -168.34935779816513,
+          "monitor_frames": 1
+        },
+        {
+          "iteration": 2,
+          "stage": "base",
+          "soa_ma": 118.304443359375,
+          "pdt_code": 539,
+          "pdr_code": 590,
+          "selected_code": 539,
+          "error_code": -30,
+          "monitor_frames": 1
+        },
+        {
+          "iteration": 2,
+          "stage": "probe",
+          "soa_ma": 118.55392456054688,
+          "pdt_code": 509,
+          "pdr_code": 614,
+          "selected_code": 509,
+          "slope_code_per_ma": -120.24954128440368,
+          "monitor_frames": 1
+        }
+      ]
+    },
+    {
+      "index": 500,
+      "target_nm": 1535.0,
+      "base_codes": [
+        58982,
+        49456,
+        11,
+        1185,
+        14743
+      ],
+      "adjusted_codes": [
+        58982,
+        49456,
+        11,
+        1185,
+        14743
+      ],
+      "base_soa_ma": 113.19580078125,
+      "adjusted_soa_ma": 113.19580078125,
+      "feedback_channel": "PDT",
+      "feedback_reference_code": 881,
+      "final_feedback_code": 881,
+      "final_feedback_error_code": 0,
+      "pdt_code": 881,
+      "pdr_code": 289,
+      "monitor_frames": 1,
+      "reading": {
+        "wavelength_nm": 1535.00078,
+        "wavelength_error_pm": 0.7800000000770524,
+        "power_mw": 1.5317977666847051,
+        "power_error_percent": 0.11750109050359114,
+        "peak_count": 8,
+        "smsr_db": 29.67687092
+      },
+      "history": [
+        {
+          "iteration": 0,
+          "stage": "base",
+          "soa_ma": 113.19580078125,
+          "pdt_code": 880,
+          "pdr_code": 289,
+          "selected_code": 880,
+          "error_code": -1,
+          "monitor_frames": 2
+        }
+      ]
+    },
+    {
+      "index": 1000,
+      "target_nm": 1545.0,
+      "base_codes": [
+        58982,
+        46854,
+        2458,
+        2749,
+        2700
+      ],
+      "adjusted_codes": [
+        58982,
+        46854,
+        2458,
+        2749,
+        2700
+      ],
+      "base_soa_ma": 107.24029541015625,
+      "adjusted_soa_ma": 107.24029541015625,
+      "feedback_channel": "PDR",
+      "feedback_reference_code": 1173,
+      "final_feedback_code": 1162,
+      "final_feedback_error_code": -11,
+      "pdt_code": 36,
+      "pdr_code": 1162,
+      "monitor_frames": 2,
+      "reading": {
+        "wavelength_nm": 1545.00117,
+        "wavelength_error_pm": 1.1700000000018917,
+        "power_mw": 1.5569968000350152,
+        "power_error_percent": 1.7644967343147133,
+        "peak_count": 16,
+        "smsr_db": 29.526869299999998
+      },
+      "history": [
+        {
+          "iteration": 0,
+          "stage": "base",
+          "soa_ma": 107.24029541015625,
+          "pdt_code": 35,
+          "pdr_code": 1152,
+          "selected_code": 1152,
+          "error_code": -21,
+          "monitor_frames": 1
+        },
+        {
+          "iteration": 0,
+          "stage": "probe",
+          "soa_ma": 107.48977661132812,
+          "pdt_code": 35,
+          "pdr_code": 1153,
+          "selected_code": 1153,
+          "slope_code_per_ma": 4.008318042813456,
+          "monitor_frames": 1
+        },
+        {
+          "iteration": 0,
+          "stage": "abort",
+          "reason": "feedback slope is not safely negative"
+        }
+      ]
+    },
+    {
+      "index": 1500,
+      "target_nm": 1555.0,
+      "base_codes": [
+        58982,
+        48560,
+        20055,
+        6034,
+        8563
+      ],
+      "adjusted_codes": [
+        58982,
+        47988,
+        20055,
+        6034,
+        8563
+      ],
+      "base_soa_ma": 111.14501953125,
+      "adjusted_soa_ma": 109.8358154296875,
+      "feedback_channel": "PDT",
+      "feedback_reference_code": 761,
+      "final_feedback_code": 760,
+      "final_feedback_error_code": -1,
+      "pdt_code": 760,
+      "pdr_code": 431,
+      "monitor_frames": 4,
+      "reading": {
+        "wavelength_nm": 1555.00002,
+        "wavelength_error_pm": 0.019999999949504854,
+        "power_mw": 1.5388065314585884,
+        "power_error_percent": 0.57559029141101,
+        "peak_count": 8,
+        "smsr_db": 30.22685481
+      },
+      "history": [
+        {
+          "iteration": 0,
+          "stage": "base",
+          "soa_ma": 111.14501953125,
+          "pdt_code": 748,
+          "pdr_code": 416,
+          "selected_code": 748,
+          "error_code": -13,
+          "monitor_frames": 1
+        },
+        {
+          "iteration": 0,
+          "stage": "probe",
+          "soa_ma": 111.39450073242188,
+          "pdt_code": 744,
+          "pdr_code": 412,
+          "selected_code": 744,
+          "slope_code_per_ma": -16.033272171253824,
+          "monitor_frames": 1
+        },
+        {
+          "iteration": 1,
+          "stage": "base",
+          "soa_ma": 110.33477783203125,
+          "pdt_code": 755,
+          "pdr_code": 426,
+          "selected_code": 755,
+          "error_code": -6,
+          "monitor_frames": 2
+        },
+        {
+          "iteration": 1,
+          "stage": "probe",
+          "soa_ma": 110.58425903320312,
+          "pdt_code": 752,
+          "pdr_code": 423,
+          "selected_code": 752,
+          "slope_code_per_ma": -12.024954128440367,
+          "monitor_frames": 2
+        },
+        {
+          "iteration": 2,
+          "stage": "base",
+          "soa_ma": 109.8358154296875,
+          "pdt_code": 759,
+          "pdr_code": 432,
+          "selected_code": 759,
+          "error_code": -2,
+          "monitor_frames": 2
+        }
+      ]
+    },
+    {
+      "index": 2000,
+      "target_nm": 1565.0,
+      "base_codes": [
+        58982,
+        45370,
+        5734,
+        12336,
+        1191
+      ],
+      "adjusted_codes": [
+        58982,
+        45588,
+        5734,
+        12336,
+        1191
+      ],
+      "base_soa_ma": 103.84368896484375,
+      "adjusted_soa_ma": 104.3426513671875,
+      "feedback_channel": "PDR",
+      "feedback_reference_code": 1812,
+      "final_feedback_code": 1819,
+      "final_feedback_error_code": 7,
+      "pdt_code": 42,
+      "pdr_code": 1819,
+      "monitor_frames": 3,
+      "reading": {
+        "wavelength_nm": 1564.99925,
+        "wavelength_error_pm": -0.7499999999254214,
+        "power_mw": 1.5082084372571898,
+        "power_error_percent": -1.4242851465888995,
+        "peak_count": 12,
+        "smsr_db": 28.40630296
+      },
+      "history": [
+        {
+          "iteration": 0,
+          "stage": "base",
+          "soa_ma": 103.84368896484375,
+          "pdt_code": 42,
+          "pdr_code": 1820,
+          "selected_code": 1820,
+          "error_code": 8,
+          "monitor_frames": 2
+        },
+        {
+          "iteration": 0,
+          "stage": "probe",
+          "soa_ma": 104.09317016601562,
+          "pdt_code": 42,
+          "pdr_code": 1816,
+          "selected_code": 1816,
+          "slope_code_per_ma": -16.033272171253824,
+          "monitor_frames": 1
+        },
+        {
+          "iteration": 1,
+          "stage": "base",
+          "soa_ma": 104.3426513671875,
+          "pdt_code": 42,
+          "pdr_code": 1816,
+          "selected_code": 1816,
+          "error_code": 4,
+          "monitor_frames": 1
+        },
+        {
+          "iteration": 1,
+          "stage": "probe",
+          "soa_ma": 104.59213256835938,
+          "pdt_code": 42,
+          "pdr_code": 1816,
+          "selected_code": 1816,
+          "slope_code_per_ma": 0.0,
+          "monitor_frames": 2
+        },
+        {
+          "iteration": 1,
+          "stage": "abort",
+          "reason": "feedback slope is not safely negative"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "tested": 5,
+    "power_min_mw": 1.5082084372571898,
+    "power_max_mw": 1.5569968000350152,
+    "power_abs_error_median_percent": 0.57559029141101,
+    "power_abs_error_max_percent": 1.7644967343147133,
+    "wavelength_abs_error_median_pm": 0.7499999999254214,
+    "wavelength_abs_error_max_pm": 1.1700000000018917,
+    "power_within_0p5_percent": 2,
+    "wavelength_within_2pm": 5,
+    "single_mode_pass": 5,
+    "elapsed_s": 13.436999999976251
+  }
+}

@@ -1,0 +1,1519 @@
+{
+  "created": "2026-08-14T00:50:46",
+  "purpose": "fresh_135mA_single_mode_stress_candidates",
+  "old_69_wavelengths_used": false,
+  "point_count": 63,
+  "segments": [
+    {
+      "segment": 0,
+      "center_nm": 1527.941,
+      "start_index": 0,
+      "stop_index": 7
+    },
+    {
+      "segment": 1,
+      "center_nm": 1532.238,
+      "start_index": 7,
+      "stop_index": 14
+    },
+    {
+      "segment": 2,
+      "center_nm": 1536.326,
+      "start_index": 14,
+      "stop_index": 21
+    },
+    {
+      "segment": 3,
+      "center_nm": 1540.22,
+      "start_index": 21,
+      "stop_index": 28
+    },
+    {
+      "segment": 4,
+      "center_nm": 1544.456,
+      "start_index": 28,
+      "stop_index": 35
+    },
+    {
+      "segment": 5,
+      "center_nm": 1547.902,
+      "start_index": 35,
+      "stop_index": 42
+    },
+    {
+      "segment": 6,
+      "center_nm": 1551.702,
+      "start_index": 42,
+      "stop_index": 49
+    },
+    {
+      "segment": 7,
+      "center_nm": 1555.827,
+      "start_index": 49,
+      "stop_index": 56
+    },
+    {
+      "segment": 8,
+      "center_nm": 1559.884,
+      "start_index": 56,
+      "stop_index": 63
+    }
+  ],
+  "rows": [
+    {
+      "index": 0,
+      "segment": 0,
+      "fbg_center_nm": 1527.941,
+      "selection_wavelength_nm": 1527.67705,
+      "selection_power_mw": 1.6192818051057858,
+      "selection_smsr_db": 30.71314896,
+      "codes": [
+        58982,
+        58982,
+        32768,
+        4096,
+        1229
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        10.0,
+        5.0,
+        1.500244140625
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 1,
+      "segment": 0,
+      "fbg_center_nm": 1527.941,
+      "selection_wavelength_nm": 1527.70149,
+      "selection_power_mw": 1.603057506188328,
+      "selection_smsr_db": 29.77399102,
+      "codes": [
+        58982,
+        58982,
+        30868,
+        4096,
+        1229
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        9.420166015625,
+        5.0,
+        1.500244140625
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 2,
+      "segment": 0,
+      "fbg_center_nm": 1527.941,
+      "selection_wavelength_nm": 1527.78529,
+      "selection_power_mw": 1.549811849200275,
+      "selection_smsr_db": 29.52663117,
+      "codes": [
+        58982,
+        58982,
+        24150,
+        4096,
+        1229
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        7.3699951171875,
+        5.0,
+        1.500244140625
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 3,
+      "segment": 0,
+      "fbg_center_nm": 1527.941,
+      "selection_wavelength_nm": 1527.94304,
+      "selection_power_mw": 1.4768350840203688,
+      "selection_smsr_db": 30.34421721,
+      "codes": [
+        58982,
+        58982,
+        9632,
+        4096,
+        20070
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        2.939453125,
+        5.0,
+        24.49951171875
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 4,
+      "segment": 0,
+      "fbg_center_nm": 1527.941,
+      "selection_wavelength_nm": 1528.0938999999998,
+      "selection_power_mw": 1.4030845841129005,
+      "selection_smsr_db": 29.91275983,
+      "codes": [
+        58982,
+        58982,
+        293,
+        4096,
+        20070
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        0.08941650390625,
+        5.0,
+        24.49951171875
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 5,
+      "segment": 0,
+      "fbg_center_nm": 1527.941,
+      "selection_wavelength_nm": 1528.26548,
+      "selection_power_mw": 1.5356126179245562,
+      "selection_smsr_db": 29.76236382,
+      "codes": [
+        58982,
+        58982,
+        15171,
+        3277,
+        16794
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        4.62982177734375,
+        4.000244140625,
+        20.50048828125
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 6,
+      "segment": 0,
+      "fbg_center_nm": 1527.941,
+      "selection_wavelength_nm": 1528.43569,
+      "selection_power_mw": 1.437379752765161,
+      "selection_smsr_db": 27.72087103,
+      "codes": [
+        58982,
+        58982,
+        8782,
+        3277,
+        16794
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        2.6800537109375,
+        4.000244140625,
+        20.50048828125
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 7,
+      "segment": 1,
+      "fbg_center_nm": 1532.238,
+      "selection_wavelength_nm": 1531.73931,
+      "selection_power_mw": 1.6115751163105394,
+      "selection_smsr_db": 25.89970263,
+      "codes": [
+        58982,
+        58982,
+        26050,
+        8602,
+        4096
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        7.9498291015625,
+        10.50048828125,
+        5.0
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 8,
+      "segment": 1,
+      "fbg_center_nm": 1532.238,
+      "selection_wavelength_nm": 1531.89896,
+      "selection_power_mw": 1.6014285508500956,
+      "selection_smsr_db": 32.28231467,
+      "codes": [
+        58982,
+        58982,
+        262,
+        8192,
+        4096
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        0.0799560546875,
+        10.0,
+        5.0
+      ],
+      "source": "135mA_base_map"
+    },
+    {
+      "index": 9,
+      "segment": 1,
+      "fbg_center_nm": 1532.238,
+      "selection_wavelength_nm": 1532.0173300000001,
+      "selection_power_mw": 1.6116075377987478,
+      "selection_smsr_db": 29.2781977,
+      "codes": [
+        58982,
+        58982,
+        30474,
+        8602,
+        4096
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        9.2999267578125,
+        10.50048828125,
+        5.0
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 10,
+      "segment": 1,
+      "fbg_center_nm": 1532.238,
+      "selection_wavelength_nm": 1532.2365399999999,
+      "selection_power_mw": 1.5482508246450493,
+      "selection_smsr_db": 30.464213,
+      "codes": [
+        58982,
+        58982,
+        23193,
+        7782,
+        3277
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        7.07794189453125,
+        9.49951171875,
+        4.000244140625
+      ],
+      "source": "135mA_base_map"
+    },
+    {
+      "index": 11,
+      "segment": 1,
+      "fbg_center_nm": 1532.238,
+      "selection_wavelength_nm": 1532.34354,
+      "selection_power_mw": 1.6716562830775192,
+      "selection_smsr_db": 30.66847065,
+      "codes": [
+        58982,
+        58982,
+        19661,
+        6963,
+        3277
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.00006103515625,
+        8.499755859375,
+        4.000244140625
+      ],
+      "source": "135mA_base_map"
+    },
+    {
+      "index": 12,
+      "segment": 1,
+      "fbg_center_nm": 1532.238,
+      "selection_wavelength_nm": 1532.5573299999999,
+      "selection_power_mw": 1.6741155563331866,
+      "selection_smsr_db": 31.27947772,
+      "codes": [
+        58982,
+        58982,
+        3299,
+        6144,
+        2458
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        1.00677490234375,
+        7.5,
+        3.00048828125
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 13,
+      "segment": 1,
+      "fbg_center_nm": 1532.238,
+      "selection_wavelength_nm": 1532.75505,
+      "selection_power_mw": 1.6133325683565756,
+      "selection_smsr_db": 31.80481351,
+      "codes": [
+        58982,
+        58982,
+        7067,
+        6144,
+        2458
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        2.15667724609375,
+        7.5,
+        3.00048828125
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 14,
+      "segment": 2,
+      "fbg_center_nm": 1536.326,
+      "selection_wavelength_nm": 1536.36482,
+      "selection_power_mw": 1.5543906420428655,
+      "selection_smsr_db": 29.67728343,
+      "codes": [
+        58982,
+        58982,
+        19923,
+        12698,
+        7782
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.08001708984375,
+        15.50048828125,
+        9.49951171875
+      ],
+      "source": "135mA_base_map"
+    },
+    {
+      "index": 15,
+      "segment": 2,
+      "fbg_center_nm": 1536.326,
+      "selection_wavelength_nm": 1536.4065600000001,
+      "selection_power_mw": 1.608445722191836,
+      "selection_smsr_db": 31.0716234,
+      "codes": [
+        58982,
+        58982,
+        4915,
+        13107,
+        7782
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        1.49993896484375,
+        15.999755859375,
+        9.49951171875
+      ],
+      "source": "135mA_base_map"
+    },
+    {
+      "index": 16,
+      "segment": 2,
+      "fbg_center_nm": 1536.326,
+      "selection_wavelength_nm": 1536.42156,
+      "selection_power_mw": 1.6616930942245407,
+      "selection_smsr_db": 32.379955949999996,
+      "codes": [
+        58982,
+        58982,
+        323,
+        13107,
+        8192
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        0.09857177734375,
+        15.999755859375,
+        10.0
+      ],
+      "source": "135mA_base_map"
+    },
+    {
+      "index": 17,
+      "segment": 2,
+      "fbg_center_nm": 1536.326,
+      "selection_wavelength_nm": 1536.43368,
+      "selection_power_mw": 1.6211397174358422,
+      "selection_smsr_db": 27.006048559999996,
+      "codes": [
+        58982,
+        58982,
+        16974,
+        12698,
+        7782
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        5.1800537109375,
+        15.50048828125,
+        9.49951171875
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 18,
+      "segment": 2,
+      "fbg_center_nm": 1536.326,
+      "selection_wavelength_nm": 1536.48908,
+      "selection_power_mw": 1.654456149884827,
+      "selection_smsr_db": 30.86765051,
+      "codes": [
+        58982,
+        58982,
+        14680,
+        12698,
+        7782
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        4.47998046875,
+        15.50048828125,
+        9.49951171875
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 19,
+      "segment": 2,
+      "fbg_center_nm": 1536.326,
+      "selection_wavelength_nm": 1536.6342,
+      "selection_power_mw": 1.5216102355141778,
+      "selection_smsr_db": 31.43360121,
+      "codes": [
+        58982,
+        58982,
+        27787,
+        12698,
+        7782
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        8.47991943359375,
+        15.50048828125,
+        9.49951171875
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 20,
+      "segment": 2,
+      "fbg_center_nm": 1536.326,
+      "selection_wavelength_nm": 1536.83116,
+      "selection_power_mw": 1.6519640462660676,
+      "selection_smsr_db": 31.033608909999998,
+      "codes": [
+        58982,
+        58982,
+        19799,
+        11059,
+        7373
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.04217529296875,
+        13.499755859375,
+        9.000244140625
+      ],
+      "source": "135mA_base_map"
+    },
+    {
+      "index": 21,
+      "segment": 3,
+      "fbg_center_nm": 1540.22,
+      "selection_wavelength_nm": 1539.83522,
+      "selection_power_mw": 1.5511371235829965,
+      "selection_smsr_db": 31.18349422,
+      "codes": [
+        58982,
+        58982,
+        24317,
+        2048,
+        22528
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        7.42095947265625,
+        2.5,
+        27.5
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 22,
+      "segment": 3,
+      "fbg_center_nm": 1540.22,
+      "selection_wavelength_nm": 1539.8847,
+      "selection_power_mw": 1.5115781620983137,
+      "selection_smsr_db": 31.12432019,
+      "codes": [
+        58982,
+        58982,
+        21696,
+        2048,
+        22528
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.62109375,
+        2.5,
+        27.5
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 23,
+      "segment": 3,
+      "fbg_center_nm": 1540.22,
+      "selection_wavelength_nm": 1540.05332,
+      "selection_power_mw": 1.8207771268025512,
+      "selection_smsr_db": 29.20129119,
+      "codes": [
+        58982,
+        58982,
+        21340,
+        2048,
+        1228
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.512451171875,
+        2.5,
+        1.4990234375
+      ],
+      "source": "135mA_base_map"
+    },
+    {
+      "index": 24,
+      "segment": 3,
+      "fbg_center_nm": 1540.22,
+      "selection_wavelength_nm": 1540.2458,
+      "selection_power_mw": 1.5488031919187322,
+      "selection_smsr_db": 28.017855649999998,
+      "codes": [
+        58982,
+        58982,
+        10026,
+        1638,
+        19251
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        3.0596923828125,
+        1.99951171875,
+        23.499755859375
+      ],
+      "source": "135mA_base_map"
+    },
+    {
+      "index": 25,
+      "segment": 3,
+      "fbg_center_nm": 1540.22,
+      "selection_wavelength_nm": 1540.35245,
+      "selection_power_mw": 1.6386822178780949,
+      "selection_smsr_db": 28.25443811,
+      "codes": [
+        58982,
+        58982,
+        7077,
+        1638,
+        19251
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        2.15972900390625,
+        1.99951171875,
+        23.499755859375
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 26,
+      "segment": 3,
+      "fbg_center_nm": 1540.22,
+      "selection_wavelength_nm": 1540.53948,
+      "selection_power_mw": 1.655239669153934,
+      "selection_smsr_db": 28.13598956,
+      "codes": [
+        58982,
+        58982,
+        18022,
+        24576,
+        819
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        5.4998779296875,
+        30.0,
+        0.999755859375
+      ],
+      "source": "135mA_base_map"
+    },
+    {
+      "index": 27,
+      "segment": 3,
+      "fbg_center_nm": 1540.22,
+      "selection_wavelength_nm": 1540.70856,
+      "selection_power_mw": 1.5069503406174811,
+      "selection_smsr_db": 33.45944051,
+      "codes": [
+        58982,
+        58982,
+        24576,
+        22118,
+        17203
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        7.5,
+        26.99951171875,
+        20.999755859375
+      ],
+      "source": "135mA_base_map"
+    },
+    {
+      "index": 28,
+      "segment": 4,
+      "fbg_center_nm": 1544.456,
+      "selection_wavelength_nm": 1544.06242,
+      "selection_power_mw": 1.6331809480590918,
+      "selection_smsr_db": 27.09402905,
+      "codes": [
+        58982,
+        58982,
+        28213,
+        4506,
+        4096
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        8.60992431640625,
+        5.50048828125,
+        5.0
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 29,
+      "segment": 4,
+      "fbg_center_nm": 1544.456,
+      "selection_wavelength_nm": 1544.13172,
+      "selection_power_mw": 1.7052630194702858,
+      "selection_smsr_db": 33.33144714,
+      "codes": [
+        58982,
+        58982,
+        23789,
+        4506,
+        4096
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        7.25982666015625,
+        5.50048828125,
+        5.0
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 30,
+      "segment": 4,
+      "fbg_center_nm": 1544.456,
+      "selection_wavelength_nm": 1544.29106,
+      "selection_power_mw": 1.8161371281533198,
+      "selection_smsr_db": 31.24931007,
+      "codes": [
+        58982,
+        58982,
+        3628,
+        4506,
+        4096
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        1.107177734375,
+        5.50048828125,
+        5.0
+      ],
+      "source": "135mA_base_map"
+    },
+    {
+      "index": 31,
+      "segment": 4,
+      "fbg_center_nm": 1544.456,
+      "selection_wavelength_nm": 1544.45099,
+      "selection_power_mw": 1.6869562631315498,
+      "selection_smsr_db": 30.076759829999997,
+      "codes": [
+        58982,
+        58982,
+        31631,
+        4506,
+        3277
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        9.65301513671875,
+        5.50048828125,
+        4.000244140625
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 32,
+      "segment": 4,
+      "fbg_center_nm": 1544.456,
+      "selection_wavelength_nm": 1544.60437,
+      "selection_power_mw": 1.7994152467109468,
+      "selection_smsr_db": 29.89830776,
+      "codes": [
+        58982,
+        58982,
+        8782,
+        3686,
+        2867
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        2.6800537109375,
+        4.49951171875,
+        3.499755859375
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 33,
+      "segment": 4,
+      "fbg_center_nm": 1544.456,
+      "selection_wavelength_nm": 1544.77008,
+      "selection_power_mw": 1.8330494582683583,
+      "selection_smsr_db": 28.78608833,
+      "codes": [
+        58982,
+        58982,
+        0,
+        3686,
+        2867
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        0.0,
+        4.49951171875,
+        3.499755859375
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 34,
+      "segment": 4,
+      "fbg_center_nm": 1544.456,
+      "selection_wavelength_nm": 1544.8597,
+      "selection_power_mw": 1.7838580189703233,
+      "selection_smsr_db": 28.68362225,
+      "codes": [
+        58982,
+        58982,
+        11403,
+        3686,
+        2867
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        3.47991943359375,
+        4.49951171875,
+        3.499755859375
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 35,
+      "segment": 5,
+      "fbg_center_nm": 1547.902,
+      "selection_wavelength_nm": 1547.39838,
+      "selection_power_mw": 1.7523454852785847,
+      "selection_smsr_db": 29.66419014,
+      "codes": [
+        58982,
+        58982,
+        18447,
+        14336,
+        0
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        5.62957763671875,
+        17.5,
+        0.0
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 36,
+      "segment": 5,
+      "fbg_center_nm": 1547.902,
+      "selection_wavelength_nm": 1547.55359,
+      "selection_power_mw": 1.8674352613569358,
+      "selection_smsr_db": 30.28868835,
+      "codes": [
+        58982,
+        58982,
+        12058,
+        14336,
+        0
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        3.6798095703125,
+        17.5,
+        0.0
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 37,
+      "segment": 5,
+      "fbg_center_nm": 1547.902,
+      "selection_wavelength_nm": 1547.72951,
+      "selection_power_mw": 1.5961602274036606,
+      "selection_smsr_db": 27.65701805,
+      "codes": [
+        58982,
+        58982,
+        16318,
+        11878,
+        12288
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        4.9798583984375,
+        14.49951171875,
+        15.0
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 38,
+      "segment": 5,
+      "fbg_center_nm": 1547.902,
+      "selection_wavelength_nm": 1547.8963999999999,
+      "selection_power_mw": 1.6447808503696362,
+      "selection_smsr_db": 30.34521871,
+      "codes": [
+        58982,
+        58982,
+        11403,
+        11878,
+        12288
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        3.47991943359375,
+        14.49951171875,
+        15.0
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 39,
+      "segment": 5,
+      "fbg_center_nm": 1547.902,
+      "selection_wavelength_nm": 1548.05464,
+      "selection_power_mw": 1.6487384189549994,
+      "selection_smsr_db": 31.90784388,
+      "codes": [
+        58982,
+        58982,
+        5505,
+        11878,
+        12288
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        1.67999267578125,
+        14.49951171875,
+        15.0
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 40,
+      "segment": 5,
+      "fbg_center_nm": 1547.902,
+      "selection_wavelength_nm": 1548.1767,
+      "selection_power_mw": 1.707657008968486,
+      "selection_smsr_db": 31.54400865,
+      "codes": [
+        58982,
+        58982,
+        18022,
+        11059,
+        10240
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        5.4998779296875,
+        13.499755859375,
+        12.5
+      ],
+      "source": "135mA_base_map"
+    },
+    {
+      "index": 41,
+      "segment": 5,
+      "fbg_center_nm": 1547.902,
+      "selection_wavelength_nm": 1548.24082,
+      "selection_power_mw": 1.6690532124599704,
+      "selection_smsr_db": 31.18041423,
+      "codes": [
+        58982,
+        58982,
+        3801,
+        11059,
+        9830
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        1.15997314453125,
+        13.499755859375,
+        11.99951171875
+      ],
+      "source": "135mA_base_map"
+    },
+    {
+      "index": 42,
+      "segment": 6,
+      "fbg_center_nm": 1551.702,
+      "selection_wavelength_nm": 1551.53892,
+      "selection_power_mw": 1.8419833236313925,
+      "selection_smsr_db": 33.48100644,
+      "codes": [
+        58982,
+        58982,
+        23233,
+        1228,
+        2048
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        7.09014892578125,
+        1.4990234375,
+        2.5
+      ],
+      "source": "135mA_base_map"
+    },
+    {
+      "index": 43,
+      "segment": 6,
+      "fbg_center_nm": 1551.702,
+      "selection_wavelength_nm": 1551.5476999999998,
+      "selection_power_mw": 1.8866054991380738,
+      "selection_smsr_db": 32.62487866,
+      "codes": [
+        58982,
+        58982,
+        6554,
+        1229,
+        2048
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        2.0001220703125,
+        1.500244140625,
+        2.5
+      ],
+      "source": "135mA_base_map"
+    },
+    {
+      "index": 44,
+      "segment": 6,
+      "fbg_center_nm": 1551.702,
+      "selection_wavelength_nm": 1551.5680100000002,
+      "selection_power_mw": 1.823746103430649,
+      "selection_smsr_db": 30.57300087,
+      "codes": [
+        58982,
+        58982,
+        21758,
+        1228,
+        2048
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.6400146484375,
+        1.4990234375,
+        2.5
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 45,
+      "segment": 6,
+      "fbg_center_nm": 1551.702,
+      "selection_wavelength_nm": 1551.6974300000002,
+      "selection_power_mw": 1.8878278774338138,
+      "selection_smsr_db": 29.244891449999997,
+      "codes": [
+        58982,
+        58982,
+        15369,
+        1228,
+        2048
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        4.69024658203125,
+        1.4990234375,
+        2.5
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 46,
+      "segment": 6,
+      "fbg_center_nm": 1551.702,
+      "selection_wavelength_nm": 1551.85781,
+      "selection_power_mw": 1.8476576181005075,
+      "selection_smsr_db": 28.20131627,
+      "codes": [
+        58982,
+        58982,
+        24708,
+        1228,
+        2048
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        7.540283203125,
+        1.4990234375,
+        2.5
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 47,
+      "segment": 6,
+      "fbg_center_nm": 1551.702,
+      "selection_wavelength_nm": 1551.9169200000001,
+      "selection_power_mw": 1.750307771124908,
+      "selection_smsr_db": 28.94617301,
+      "codes": [
+        58982,
+        58982,
+        12105,
+        24576,
+        2048
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        3.69415283203125,
+        30.0,
+        2.5
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 48,
+      "segment": 6,
+      "fbg_center_nm": 1551.702,
+      "selection_wavelength_nm": 1551.92634,
+      "selection_power_mw": 1.7627802821608818,
+      "selection_smsr_db": 29.82185164,
+      "codes": [
+        58982,
+        58982,
+        11546,
+        24576,
+        2048
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        3.5235595703125,
+        30.0,
+        2.5
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 49,
+      "segment": 7,
+      "fbg_center_nm": 1555.827,
+      "selection_wavelength_nm": 1555.40327,
+      "selection_power_mw": 1.813874364671465,
+      "selection_smsr_db": 32.99403403,
+      "codes": [
+        58982,
+        58982,
+        9677,
+        4506,
+        7373
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        2.95318603515625,
+        5.50048828125,
+        9.000244140625
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 50,
+      "segment": 7,
+      "fbg_center_nm": 1555.827,
+      "selection_wavelength_nm": 1555.502,
+      "selection_power_mw": 1.7567696178349368,
+      "selection_smsr_db": 32.38574642,
+      "codes": [
+        58982,
+        58982,
+        7056,
+        4506,
+        7373
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        2.1533203125,
+        5.50048828125,
+        9.000244140625
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 51,
+      "segment": 7,
+      "fbg_center_nm": 1555.827,
+      "selection_wavelength_nm": 1555.6637899999998,
+      "selection_power_mw": 1.8730502295598737,
+      "selection_smsr_db": 30.29182384,
+      "codes": [
+        58982,
+        58982,
+        3288,
+        4506,
+        7373
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        1.00341796875,
+        5.50048828125,
+        9.000244140625
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 52,
+      "segment": 7,
+      "fbg_center_nm": 1555.827,
+      "selection_wavelength_nm": 1555.8383800000001,
+      "selection_power_mw": 1.75251691743495,
+      "selection_smsr_db": 30.56410009,
+      "codes": [
+        58982,
+        58982,
+        11567,
+        4096,
+        5734
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        3.52996826171875,
+        5.0,
+        6.99951171875
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 53,
+      "segment": 7,
+      "fbg_center_nm": 1555.827,
+      "selection_wavelength_nm": 1555.95369,
+      "selection_power_mw": 1.8306940583217433,
+      "selection_smsr_db": 30.53533042,
+      "codes": [
+        58982,
+        58982,
+        7143,
+        4096,
+        5734
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        2.17987060546875,
+        5.0,
+        6.99951171875
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 54,
+      "segment": 7,
+      "fbg_center_nm": 1555.827,
+      "selection_wavelength_nm": 1556.13274,
+      "selection_power_mw": 1.7858517512488978,
+      "selection_smsr_db": 29.603862040000003,
+      "codes": [
+        58982,
+        58982,
+        6488,
+        2867,
+        5325
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        1.97998046875,
+        3.499755859375,
+        6.500244140625
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 55,
+      "segment": 7,
+      "fbg_center_nm": 1555.827,
+      "selection_wavelength_nm": 1556.32214,
+      "selection_power_mw": 1.8998363855547198,
+      "selection_smsr_db": 30.08506161,
+      "codes": [
+        58982,
+        58982,
+        13206,
+        2867,
+        5325
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        4.0301513671875,
+        3.499755859375,
+        6.500244140625
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 56,
+      "segment": 8,
+      "fbg_center_nm": 1559.884,
+      "selection_wavelength_nm": 1559.7281,
+      "selection_power_mw": 1.8803088191173953,
+      "selection_smsr_db": 28.47275883,
+      "codes": [
+        58982,
+        58982,
+        8178,
+        9420,
+        409
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        2.4957275390625,
+        11.4990234375,
+        0.499267578125
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 57,
+      "segment": 8,
+      "fbg_center_nm": 1559.884,
+      "selection_wavelength_nm": 1559.7825500000001,
+      "selection_power_mw": 1.8208653725603325,
+      "selection_smsr_db": 25.957132769999998,
+      "codes": [
+        58982,
+        58982,
+        23906,
+        9420,
+        409
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        7.2955322265625,
+        11.4990234375,
+        0.499267578125
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 58,
+      "segment": 8,
+      "fbg_center_nm": 1559.884,
+      "selection_wavelength_nm": 1559.8243499999999,
+      "selection_power_mw": 1.8174784161267057,
+      "selection_smsr_db": 27.82024642,
+      "codes": [
+        58982,
+        58982,
+        21285,
+        9420,
+        409
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        6.49566650390625,
+        11.4990234375,
+        0.499267578125
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 59,
+      "segment": 8,
+      "fbg_center_nm": 1559.884,
+      "selection_wavelength_nm": 1559.88364,
+      "selection_power_mw": 1.903478351971554,
+      "selection_smsr_db": 26.60980592,
+      "codes": [
+        58982,
+        58982,
+        17517,
+        9420,
+        409
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        5.34576416015625,
+        11.4990234375,
+        0.499267578125
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 60,
+      "segment": 8,
+      "fbg_center_nm": 1559.884,
+      "selection_wavelength_nm": 1560.01009,
+      "selection_power_mw": 1.746302529195299,
+      "selection_smsr_db": 30.80907633,
+      "codes": [
+        58982,
+        58982,
+        524,
+        9420,
+        16793
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        0.159912109375,
+        11.4990234375,
+        20.499267578125
+      ],
+      "source": "135mA_base_map"
+    },
+    {
+      "index": 61,
+      "segment": 8,
+      "fbg_center_nm": 1559.884,
+      "selection_wavelength_nm": 1560.2040299999999,
+      "selection_power_mw": 1.9677623464641327,
+      "selection_smsr_db": 32.09780236,
+      "codes": [
+        58982,
+        58982,
+        8782,
+        8192,
+        0
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        2.6800537109375,
+        10.0,
+        0.0
+      ],
+      "source": "local_phase_scan"
+    },
+    {
+      "index": 62,
+      "segment": 8,
+      "fbg_center_nm": 1559.884,
+      "selection_wavelength_nm": 1560.34446,
+      "selection_power_mw": 2.027852913174921,
+      "selection_smsr_db": 32.07310631,
+      "codes": [
+        58982,
+        58982,
+        3539,
+        8192,
+        0
+      ],
+      "currents_ma": [
+        134.99908447265625,
+        134.99908447265625,
+        1.08001708984375,
+        10.0,
+        0.0
+      ],
+      "source": "135mA_base_map"
+    }
+  ],
+  "summary": {
+    "power_min_mw": 1.4030845841129005,
+    "power_median_mw": 1.6741155563331866,
+    "power_max_mw": 2.027852913174921,
+    "minimum_smsr_db": 25.89970263
+  }
+}

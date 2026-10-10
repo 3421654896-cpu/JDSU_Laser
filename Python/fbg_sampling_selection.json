@@ -1,0 +1,2475 @@
+{
+  "source_workbook": "JDSU_V1.2_总表_带公式_全值_filtered.xlsx",
+  "candidate_count_after_safety_and_repeat_filters": 1724,
+  "selection_rules": {
+    "repeat_error_max_pm": 20.0,
+    "target_power_mw_after_recalibration": 0.5,
+    "segment_1_extra_point": true,
+    "monotonic_single_peak_fit": true
+  },
+  "segments": [
+    {
+      "segment": 0,
+      "current_center_nm": 1527.9402481480358,
+      "point_count": 11,
+      "points": [
+        {
+          "desired_nm": 1527.4202481480359,
+          "selection_error_pm": -5.248148035889244,
+          "source_excel_row": 373,
+          "wavelength_nm": 1527.415,
+          "repeat_wavelength_nm": 1527.415,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.108603,
+          "secondary_power_mw": 0.003041,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.0,
+            6.0,
+            27.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            0,
+            4915,
+            22118
+          ]
+        },
+        {
+          "desired_nm": 1527.5402481480357,
+          "selection_error_pm": -6.2481480356382235,
+          "source_excel_row": 379,
+          "wavelength_nm": 1527.534,
+          "repeat_wavelength_nm": 1527.534,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 3.813027,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            1.0,
+            5.0,
+            25.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            3277,
+            4096,
+            20480
+          ]
+        },
+        {
+          "desired_nm": 1527.630248148036,
+          "selection_error_pm": -4.248148035912891,
+          "source_excel_row": 383,
+          "wavelength_nm": 1527.626,
+          "repeat_wavelength_nm": 1527.625,
+          "repeat_error_pm": 0.9999999999763531,
+          "historical_power_mw": 4.036712,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            8.5,
+            5.0,
+            21.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            27853,
+            4096,
+            17613
+          ]
+        },
+        {
+          "desired_nm": 1527.7102481480358,
+          "selection_error_pm": -4.248148035912891,
+          "source_excel_row": 387,
+          "wavelength_nm": 1527.706,
+          "repeat_wavelength_nm": 1527.706,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.159982,
+          "secondary_power_mw": 0.004445,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.5,
+            5.0,
+            24.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            1638,
+            4096,
+            20070
+          ]
+        },
+        {
+          "desired_nm": 1527.8002481480357,
+          "selection_error_pm": 9.7518519642108,
+          "source_excel_row": 392,
+          "wavelength_nm": 1527.81,
+          "repeat_wavelength_nm": 1527.81,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.41239,
+          "secondary_power_mw": 0.006304,
+          "currents_ma": [
+            60.0,
+            60.0,
+            7.5,
+            5.0,
+            1.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            24576,
+            4096,
+            1229
+          ]
+        },
+        {
+          "desired_nm": 1527.9402481480358,
+          "selection_error_pm": -4.248148035912891,
+          "source_excel_row": 399,
+          "wavelength_nm": 1527.936,
+          "repeat_wavelength_nm": 1527.936,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.032303,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            5.0,
+            4.0,
+            20.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            16384,
+            3277,
+            16794
+          ]
+        },
+        {
+          "desired_nm": 1528.080248148036,
+          "selection_error_pm": -1.2481480359838315,
+          "source_excel_row": 406,
+          "wavelength_nm": 1528.079,
+          "repeat_wavelength_nm": 1528.079,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.512727,
+          "secondary_power_mw": 0.004885,
+          "currents_ma": [
+            60.0,
+            60.0,
+            4.5,
+            4.5,
+            1.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            14746,
+            3686,
+            819
+          ]
+        },
+        {
+          "desired_nm": 1528.1702481480359,
+          "selection_error_pm": -13.248148035927443,
+          "source_excel_row": 410,
+          "wavelength_nm": 1528.157,
+          "repeat_wavelength_nm": 1528.157,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 3.92362,
+          "secondary_power_mw": 0.005351,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.5,
+            4.5,
+            19.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            1638,
+            3686,
+            15565
+          ]
+        },
+        {
+          "desired_nm": 1528.2502481480358,
+          "selection_error_pm": -7.24814803584195,
+          "source_excel_row": 414,
+          "wavelength_nm": 1528.243,
+          "repeat_wavelength_nm": 1528.243,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.302649,
+          "secondary_power_mw": 0.007248,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.5,
+            4.0,
+            17.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            1638,
+            3277,
+            14336
+          ]
+        },
+        {
+          "desired_nm": 1528.340248148036,
+          "selection_error_pm": 5.751851964078014,
+          "source_excel_row": 419,
+          "wavelength_nm": 1528.346,
+          "repeat_wavelength_nm": 1528.346,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.558697,
+          "secondary_power_mw": 0.007007,
+          "currents_ma": [
+            60.0,
+            60.0,
+            8.0,
+            3.5,
+            1.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            26214,
+            2867,
+            819
+          ]
+        },
+        {
+          "desired_nm": 1528.4602481480358,
+          "selection_error_pm": 3.751851964125308,
+          "source_excel_row": 425,
+          "wavelength_nm": 1528.464,
+          "repeat_wavelength_nm": 1528.464,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.079941,
+          "secondary_power_mw": 0.003886,
+          "currents_ma": [
+            60.0,
+            60.0,
+            4.5,
+            3.0,
+            18.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            14746,
+            2458,
+            15155
+          ]
+        }
+      ]
+    },
+    {
+      "segment": 1,
+      "current_center_nm": 1532.163564762174,
+      "point_count": 12,
+      "points": [
+        {
+          "desired_nm": 1531.643564762174,
+          "selection_error_pm": -11.564762173975396,
+          "source_excel_row": 584,
+          "wavelength_nm": 1531.632,
+          "repeat_wavelength_nm": 1531.632,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.60809,
+          "secondary_power_mw": 0.002669,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.0,
+            10.0,
+            5.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            0,
+            8192,
+            4096
+          ]
+        },
+        {
+          "desired_nm": 1531.743564762174,
+          "selection_error_pm": -3.564762173937197,
+          "source_excel_row": 589,
+          "wavelength_nm": 1531.74,
+          "repeat_wavelength_nm": 1531.74,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.746565,
+          "secondary_power_mw": 0.003135,
+          "currents_ma": [
+            60.0,
+            60.0,
+            8.0,
+            10.5,
+            5.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            26214,
+            8602,
+            4096
+          ]
+        },
+        {
+          "desired_nm": 1531.833564762174,
+          "selection_error_pm": -3.5647621741645708,
+          "source_excel_row": 593,
+          "wavelength_nm": 1531.83,
+          "repeat_wavelength_nm": 1531.83,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.485166,
+          "secondary_power_mw": 0.002909,
+          "currents_ma": [
+            60.0,
+            60.0,
+            7.5,
+            10.0,
+            4.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            24576,
+            8192,
+            3686
+          ]
+        },
+        {
+          "desired_nm": 1531.913564762174,
+          "selection_error_pm": -7.564762174069983,
+          "source_excel_row": 597,
+          "wavelength_nm": 1531.906,
+          "repeat_wavelength_nm": 1531.906,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.436868,
+          "secondary_power_mw": 0.001945,
+          "currents_ma": [
+            60.0,
+            60.0,
+            7.0,
+            9.5,
+            4.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            22938,
+            7782,
+            3277
+          ]
+        },
+        {
+          "desired_nm": 1531.993564762174,
+          "selection_error_pm": 6.435237826053708,
+          "source_excel_row": 602,
+          "wavelength_nm": 1532.0,
+          "repeat_wavelength_nm": 1532.0,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.562622,
+          "secondary_power_mw": 0.00271,
+          "currents_ma": [
+            60.0,
+            60.0,
+            6.0,
+            8.5,
+            4.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            19661,
+            6963,
+            3277
+          ]
+        },
+        {
+          "desired_nm": 1532.083564762174,
+          "selection_error_pm": -6.56476217409363,
+          "source_excel_row": 606,
+          "wavelength_nm": 1532.077,
+          "repeat_wavelength_nm": 1532.077,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.077637,
+          "secondary_power_mw": 0.004215,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.0,
+            9.5,
+            4.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            0,
+            7782,
+            3277
+          ]
+        },
+        {
+          "desired_nm": 1532.243564762174,
+          "selection_error_pm": 2.4352378261482954,
+          "source_excel_row": 614,
+          "wavelength_nm": 1532.246,
+          "repeat_wavelength_nm": 1532.247,
+          "repeat_error_pm": 0.9999999999763531,
+          "historical_power_mw": 4.761988,
+          "secondary_power_mw": 0.003982,
+          "currents_ma": [
+            60.0,
+            60.0,
+            1.0,
+            7.5,
+            3.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            3277,
+            6144,
+            2867
+          ]
+        },
+        {
+          "desired_nm": 1532.333564762174,
+          "selection_error_pm": 3.435237825897275,
+          "source_excel_row": 619,
+          "wavelength_nm": 1532.337,
+          "repeat_wavelength_nm": 1532.337,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.691065,
+          "secondary_power_mw": 0.003966,
+          "currents_ma": [
+            60.0,
+            60.0,
+            7.0,
+            8.5,
+            3.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            22938,
+            6963,
+            2867
+          ]
+        },
+        {
+          "desired_nm": 1532.413564762174,
+          "selection_error_pm": -0.5647621740081377,
+          "source_excel_row": 623,
+          "wavelength_nm": 1532.413,
+          "repeat_wavelength_nm": 1532.414,
+          "repeat_error_pm": 0.9999999999763531,
+          "historical_power_mw": 4.958917,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            2.5,
+            7.5,
+            3.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            8192,
+            6144,
+            2458
+          ]
+        },
+        {
+          "desired_nm": 1532.493564762174,
+          "selection_error_pm": 3.4352378261246486,
+          "source_excel_row": 627,
+          "wavelength_nm": 1532.497,
+          "repeat_wavelength_nm": 1532.497,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.60604,
+          "secondary_power_mw": 0.002991,
+          "currents_ma": [
+            60.0,
+            60.0,
+            6.5,
+            7.0,
+            3.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            21299,
+            5734,
+            2458
+          ]
+        },
+        {
+          "desired_nm": 1532.583564762174,
+          "selection_error_pm": 2.4352378259209218,
+          "source_excel_row": 631,
+          "wavelength_nm": 1532.586,
+          "repeat_wavelength_nm": 1532.587,
+          "repeat_error_pm": 0.9999999999763531,
+          "historical_power_mw": 4.820493,
+          "secondary_power_mw": 0.005279,
+          "currents_ma": [
+            60.0,
+            60.0,
+            5.0,
+            7.0,
+            3.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            16384,
+            5734,
+            2458
+          ]
+        },
+        {
+          "desired_nm": 1532.683564762174,
+          "selection_error_pm": -7.564762174069983,
+          "source_excel_row": 636,
+          "wavelength_nm": 1532.676,
+          "repeat_wavelength_nm": 1532.677,
+          "repeat_error_pm": 0.9999999999763531,
+          "historical_power_mw": 5.25187,
+          "secondary_power_mw": 0.004707,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.0,
+            6.5,
+            3.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            0,
+            5325,
+            2458
+          ]
+        }
+      ]
+    },
+    {
+      "segment": 2,
+      "current_center_nm": 1536.364920103181,
+      "point_count": 11,
+      "points": [
+        {
+          "desired_nm": 1535.844920103181,
+          "selection_error_pm": 6.079896819073838,
+          "source_excel_row": 794,
+          "wavelength_nm": 1535.851,
+          "repeat_wavelength_nm": 1535.85,
+          "repeat_error_pm": 1.0000000002037268,
+          "historical_power_mw": 4.678195,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            7.5,
+            0.0,
+            10.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            24576,
+            0,
+            8602
+          ]
+        },
+        {
+          "desired_nm": 1535.964920103181,
+          "selection_error_pm": -12.92010318093162,
+          "source_excel_row": 800,
+          "wavelength_nm": 1535.952,
+          "repeat_wavelength_nm": 1535.952,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.664296,
+          "secondary_power_mw": 0.003442,
+          "currents_ma": [
+            60.0,
+            60.0,
+            6.0,
+            18.0,
+            9.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            19661,
+            14746,
+            7782
+          ]
+        },
+        {
+          "desired_nm": 1536.054920103181,
+          "selection_error_pm": -4.920103181120794,
+          "source_excel_row": 804,
+          "wavelength_nm": 1536.05,
+          "repeat_wavelength_nm": 1536.05,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.483505,
+          "secondary_power_mw": 0.004042,
+          "currents_ma": [
+            60.0,
+            60.0,
+            5.0,
+            17.0,
+            9.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            16384,
+            13926,
+            7373
+          ]
+        },
+        {
+          "desired_nm": 1536.134920103181,
+          "selection_error_pm": 2.0798968189410516,
+          "source_excel_row": 809,
+          "wavelength_nm": 1536.137,
+          "repeat_wavelength_nm": 1536.138,
+          "repeat_error_pm": 0.9999999999763531,
+          "historical_power_mw": 4.793831,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.0,
+            16.0,
+            10.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            0,
+            13107,
+            8192
+          ]
+        },
+        {
+          "desired_nm": 1536.224920103181,
+          "selection_error_pm": -9.92010318100256,
+          "source_excel_row": 813,
+          "wavelength_nm": 1536.215,
+          "repeat_wavelength_nm": 1536.214,
+          "repeat_error_pm": 0.9999999999763531,
+          "historical_power_mw": 4.70778,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            10.0,
+            15.5,
+            8.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            32768,
+            12698,
+            6963
+          ]
+        },
+        {
+          "desired_nm": 1536.364920103181,
+          "selection_error_pm": -8.920103181026207,
+          "source_excel_row": 820,
+          "wavelength_nm": 1536.356,
+          "repeat_wavelength_nm": 1536.356,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.545021,
+          "secondary_power_mw": 0.006629,
+          "currents_ma": [
+            60.0,
+            60.0,
+            7.5,
+            15.5,
+            8.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            24576,
+            12698,
+            6554
+          ]
+        },
+        {
+          "desired_nm": 1536.5049201031811,
+          "selection_error_pm": -12.920103181158993,
+          "source_excel_row": 827,
+          "wavelength_nm": 1536.492,
+          "repeat_wavelength_nm": 1536.492,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.86643,
+          "secondary_power_mw": 0.003346,
+          "currents_ma": [
+            60.0,
+            60.0,
+            6.0,
+            14.5,
+            7.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            19661,
+            11878,
+            6144
+          ]
+        },
+        {
+          "desired_nm": 1536.594920103181,
+          "selection_error_pm": 9.079896819002897,
+          "source_excel_row": 832,
+          "wavelength_nm": 1536.604,
+          "repeat_wavelength_nm": 1536.604,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.568732,
+          "secondary_power_mw": 0.002701,
+          "currents_ma": [
+            60.0,
+            60.0,
+            5.0,
+            13.0,
+            8.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            16384,
+            10650,
+            6554
+          ]
+        },
+        {
+          "desired_nm": 1536.674920103181,
+          "selection_error_pm": -6.9201031810735,
+          "source_excel_row": 835,
+          "wavelength_nm": 1536.668,
+          "repeat_wavelength_nm": 1536.669,
+          "repeat_error_pm": 1.0000000002037268,
+          "historical_power_mw": 4.569893,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            4.5,
+            12.5,
+            7.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            14746,
+            10240,
+            6144
+          ]
+        },
+        {
+          "desired_nm": 1536.764920103181,
+          "selection_error_pm": 1.0798968189646985,
+          "source_excel_row": 840,
+          "wavelength_nm": 1536.766,
+          "repeat_wavelength_nm": 1536.765,
+          "repeat_error_pm": 0.9999999999763531,
+          "historical_power_mw": 4.810846,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            10.0,
+            12.5,
+            7.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            32768,
+            10240,
+            6144
+          ]
+        },
+        {
+          "desired_nm": 1536.884920103181,
+          "selection_error_pm": -4.92010318089342,
+          "source_excel_row": 846,
+          "wavelength_nm": 1536.88,
+          "repeat_wavelength_nm": 1536.88,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.851036,
+          "secondary_power_mw": 0.003158,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.5,
+            13.0,
+            7.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            1638,
+            10650,
+            6144
+          ]
+        }
+      ]
+    },
+    {
+      "segment": 3,
+      "current_center_nm": 1540.196793795897,
+      "point_count": 11,
+      "points": [
+        {
+          "desired_nm": 1539.676793795897,
+          "selection_error_pm": 6.206204102909396,
+          "source_excel_row": 986,
+          "wavelength_nm": 1539.683,
+          "repeat_wavelength_nm": 1539.684,
+          "repeat_error_pm": 0.9999999999763531,
+          "historical_power_mw": 4.370028,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            4.5,
+            2.5,
+            27.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            14746,
+            2048,
+            22528
+          ]
+        },
+        {
+          "desired_nm": 1539.796793795897,
+          "selection_error_pm": 9.20620410306583,
+          "source_excel_row": 992,
+          "wavelength_nm": 1539.806,
+          "repeat_wavelength_nm": 1539.806,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.872077,
+          "secondary_power_mw": 0.004875,
+          "currents_ma": [
+            60.0,
+            60.0,
+            1.0,
+            2.5,
+            22.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            3277,
+            2048,
+            18432
+          ]
+        },
+        {
+          "desired_nm": 1539.8867937958971,
+          "selection_error_pm": -0.7937958971524495,
+          "source_excel_row": 996,
+          "wavelength_nm": 1539.886,
+          "repeat_wavelength_nm": 1539.886,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.310888,
+          "secondary_power_mw": 0.001891,
+          "currents_ma": [
+            60.0,
+            60.0,
+            7.5,
+            2.5,
+            26.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            24576,
+            2048,
+            21709
+          ]
+        },
+        {
+          "desired_nm": 1539.966793795897,
+          "selection_error_pm": -11.793795897119708,
+          "source_excel_row": 1000,
+          "wavelength_nm": 1539.955,
+          "repeat_wavelength_nm": 1539.955,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.383346,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            3.0,
+            2.0,
+            23.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            9830,
+            1638,
+            19251
+          ]
+        },
+        {
+          "desired_nm": 1540.056793795897,
+          "selection_error_pm": -4.793795897057862,
+          "source_excel_row": 1005,
+          "wavelength_nm": 1540.052,
+          "repeat_wavelength_nm": 1540.052,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.399119,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            1.5,
+            30.0,
+            21.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            4915,
+            24576,
+            17613
+          ]
+        },
+        {
+          "desired_nm": 1540.196793795897,
+          "selection_error_pm": 7.206204102885749,
+          "source_excel_row": 1012,
+          "wavelength_nm": 1540.204,
+          "repeat_wavelength_nm": 1540.204,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.826337,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            5.5,
+            30.0,
+            1.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            18022,
+            24576,
+            819
+          ]
+        },
+        {
+          "desired_nm": 1540.3367937958972,
+          "selection_error_pm": 8.206204102862102,
+          "source_excel_row": 1019,
+          "wavelength_nm": 1540.345,
+          "repeat_wavelength_nm": 1540.345,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.240905,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            7.5,
+            27.0,
+            21.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            24576,
+            22118,
+            17203
+          ]
+        },
+        {
+          "desired_nm": 1540.426793795897,
+          "selection_error_pm": 8.206204102862102,
+          "source_excel_row": 1024,
+          "wavelength_nm": 1540.435,
+          "repeat_wavelength_nm": 1540.435,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.184224,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            6.0,
+            27.5,
+            20.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            19661,
+            22528,
+            16794
+          ]
+        },
+        {
+          "desired_nm": 1540.506793795897,
+          "selection_error_pm": 10.206204103042182,
+          "source_excel_row": 1028,
+          "wavelength_nm": 1540.517,
+          "repeat_wavelength_nm": 1540.517,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.053193,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            5.5,
+            26.5,
+            19.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            18022,
+            21709,
+            15565
+          ]
+        },
+        {
+          "desired_nm": 1540.5967937958972,
+          "selection_error_pm": 1.2062041028002568,
+          "source_excel_row": 1032,
+          "wavelength_nm": 1540.598,
+          "repeat_wavelength_nm": 1540.598,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.599214,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            7.0,
+            1.0,
+            19.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            22938,
+            819,
+            15565
+          ]
+        },
+        {
+          "desired_nm": 1540.716793795897,
+          "selection_error_pm": -0.7937958971524495,
+          "source_excel_row": 1038,
+          "wavelength_nm": 1540.716,
+          "repeat_wavelength_nm": 1540.715,
+          "repeat_error_pm": 0.9999999999763531,
+          "historical_power_mw": 4.228956,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            10.0,
+            25.0,
+            17.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            32768,
+            20480,
+            14336
+          ]
+        }
+      ]
+    },
+    {
+      "segment": 4,
+      "current_center_nm": 1544.4256247870683,
+      "point_count": 11,
+      "points": [
+        {
+          "desired_nm": 1543.9056247870683,
+          "selection_error_pm": -0.6247870683182555,
+          "source_excel_row": 1197,
+          "wavelength_nm": 1543.905,
+          "repeat_wavelength_nm": 1543.905,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.339312,
+          "secondary_power_mw": 0.003784,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.0,
+            6.5,
+            5.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            0,
+            5325,
+            4096
+          ]
+        },
+        {
+          "desired_nm": 1544.0256247870682,
+          "selection_error_pm": -10.624787068081787,
+          "source_excel_row": 1203,
+          "wavelength_nm": 1544.015,
+          "repeat_wavelength_nm": 1544.015,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.227844,
+          "secondary_power_mw": 0.00372,
+          "currents_ma": [
+            60.0,
+            60.0,
+            1.0,
+            5.5,
+            5.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            3277,
+            4506,
+            4096
+          ]
+        },
+        {
+          "desired_nm": 1544.1156247870683,
+          "selection_error_pm": -1.6247870682946086,
+          "source_excel_row": 1208,
+          "wavelength_nm": 1544.114,
+          "repeat_wavelength_nm": 1544.114,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.940541,
+          "secondary_power_mw": 0.003624,
+          "currents_ma": [
+            60.0,
+            60.0,
+            8.0,
+            5.5,
+            5.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            26214,
+            4506,
+            4096
+          ]
+        },
+        {
+          "desired_nm": 1544.1956247870683,
+          "selection_error_pm": -2.6247870682709618,
+          "source_excel_row": 1212,
+          "wavelength_nm": 1544.193,
+          "repeat_wavelength_nm": 1544.193,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.099508,
+          "secondary_power_mw": 0.003631,
+          "currents_ma": [
+            60.0,
+            60.0,
+            8.0,
+            5.5,
+            4.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            26214,
+            4506,
+            3277
+          ]
+        },
+        {
+          "desired_nm": 1544.2856247870682,
+          "selection_error_pm": 3.3752129318145307,
+          "source_excel_row": 1216,
+          "wavelength_nm": 1544.289,
+          "repeat_wavelength_nm": 1544.289,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.341889,
+          "secondary_power_mw": 0.00494,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.5,
+            4.5,
+            4.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            1638,
+            3686,
+            3277
+          ]
+        },
+        {
+          "desired_nm": 1544.4256247870683,
+          "selection_error_pm": -8.624787068356454,
+          "source_excel_row": 1223,
+          "wavelength_nm": 1544.417,
+          "repeat_wavelength_nm": 1544.417,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.945842,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            5.5,
+            4.5,
+            3.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            18022,
+            3686,
+            2867
+          ]
+        },
+        {
+          "desired_nm": 1544.5656247870684,
+          "selection_error_pm": -7.624787068380101,
+          "source_excel_row": 1230,
+          "wavelength_nm": 1544.558,
+          "repeat_wavelength_nm": 1544.558,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.505301,
+          "secondary_power_mw": 0.005379,
+          "currents_ma": [
+            60.0,
+            60.0,
+            1.0,
+            4.5,
+            3.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            3277,
+            3686,
+            2867
+          ]
+        },
+        {
+          "desired_nm": 1544.6556247870683,
+          "selection_error_pm": 2.375212931610804,
+          "source_excel_row": 1235,
+          "wavelength_nm": 1544.658,
+          "repeat_wavelength_nm": 1544.657,
+          "repeat_error_pm": 0.9999999999763531,
+          "historical_power_mw": 4.820232,
+          "secondary_power_mw": 0.065561,
+          "currents_ma": [
+            60.0,
+            60.0,
+            8.5,
+            4.5,
+            3.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            27853,
+            3686,
+            2458
+          ]
+        },
+        {
+          "desired_nm": 1544.7356247870682,
+          "selection_error_pm": -7.624787068152727,
+          "source_excel_row": 1238,
+          "wavelength_nm": 1544.728,
+          "repeat_wavelength_nm": 1544.728,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.991774,
+          "secondary_power_mw": 0.005454,
+          "currents_ma": [
+            60.0,
+            60.0,
+            7.5,
+            4.0,
+            3.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            24576,
+            3277,
+            2867
+          ]
+        },
+        {
+          "desired_nm": 1544.8256247870684,
+          "selection_error_pm": 1.3752129316344508,
+          "source_excel_row": 1243,
+          "wavelength_nm": 1544.827,
+          "repeat_wavelength_nm": 1544.827,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.555537,
+          "secondary_power_mw": 0.005024,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.5,
+            3.5,
+            3.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            1638,
+            2867,
+            2458
+          ]
+        },
+        {
+          "desired_nm": 1544.9456247870683,
+          "selection_error_pm": 0.37521293165809766,
+          "source_excel_row": 1249,
+          "wavelength_nm": 1544.946,
+          "repeat_wavelength_nm": 1544.947,
+          "repeat_error_pm": 0.9999999999763531,
+          "historical_power_mw": 5.210783,
+          "secondary_power_mw": 0.005459,
+          "currents_ma": [
+            60.0,
+            60.0,
+            1.5,
+            3.5,
+            3.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            4915,
+            2867,
+            2458
+          ]
+        }
+      ]
+    },
+    {
+      "segment": 5,
+      "current_center_nm": 1547.865822496201,
+      "point_count": 11,
+      "points": [
+        {
+          "desired_nm": 1547.345822496201,
+          "selection_error_pm": -2.8224962009062438,
+          "source_excel_row": 1368,
+          "wavelength_nm": 1547.343,
+          "repeat_wavelength_nm": 1547.343,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.42421,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            5.0,
+            16.5,
+            14.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            16384,
+            13517,
+            11878
+          ]
+        },
+        {
+          "desired_nm": 1547.4658224962009,
+          "selection_error_pm": -7.8224962007880094,
+          "source_excel_row": 1374,
+          "wavelength_nm": 1547.458,
+          "repeat_wavelength_nm": 1547.458,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.462658,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            4.0,
+            15.5,
+            14.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            13107,
+            12698,
+            11469
+          ]
+        },
+        {
+          "desired_nm": 1547.555822496201,
+          "selection_error_pm": -3.8224962011099706,
+          "source_excel_row": 1379,
+          "wavelength_nm": 1547.552,
+          "repeat_wavelength_nm": 1547.552,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.890702,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.0,
+            15.5,
+            0.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            0,
+            12698,
+            0
+          ]
+        },
+        {
+          "desired_nm": 1547.635822496201,
+          "selection_error_pm": 6.177503799108308,
+          "source_excel_row": 1383,
+          "wavelength_nm": 1547.642,
+          "repeat_wavelength_nm": 1547.643,
+          "repeat_error_pm": 0.9999999999763531,
+          "historical_power_mw": 4.493618,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            2.5,
+            14.5,
+            15.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            8192,
+            11878,
+            12288
+          ]
+        },
+        {
+          "desired_nm": 1547.7258224962009,
+          "selection_error_pm": 8.177503799061014,
+          "source_excel_row": 1388,
+          "wavelength_nm": 1547.734,
+          "repeat_wavelength_nm": 1547.734,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.536286,
+          "secondary_power_mw": 0.003412,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.5,
+            14.0,
+            13.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            1638,
+            11469,
+            11059
+          ]
+        },
+        {
+          "desired_nm": 1547.865822496201,
+          "selection_error_pm": -11.822496200920796,
+          "source_excel_row": 1394,
+          "wavelength_nm": 1547.854,
+          "repeat_wavelength_nm": 1547.854,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.752671,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            5.5,
+            13.5,
+            12.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            18022,
+            11059,
+            10240
+          ]
+        },
+        {
+          "desired_nm": 1548.005822496201,
+          "selection_error_pm": -9.82249620096809,
+          "source_excel_row": 1401,
+          "wavelength_nm": 1547.996,
+          "repeat_wavelength_nm": 1547.996,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.571648,
+          "secondary_power_mw": 0.002617,
+          "currents_ma": [
+            60.0,
+            60.0,
+            1.0,
+            13.5,
+            12.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            3277,
+            11059,
+            9830
+          ]
+        },
+        {
+          "desired_nm": 1548.095822496201,
+          "selection_error_pm": -1.8224962009298906,
+          "source_excel_row": 1406,
+          "wavelength_nm": 1548.094,
+          "repeat_wavelength_nm": 1548.094,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.666966,
+          "secondary_power_mw": 0.003105,
+          "currents_ma": [
+            60.0,
+            60.0,
+            7.5,
+            13.0,
+            13.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            24576,
+            10650,
+            10650
+          ]
+        },
+        {
+          "desired_nm": 1548.175822496201,
+          "selection_error_pm": 7.177503799084661,
+          "source_excel_row": 1410,
+          "wavelength_nm": 1548.183,
+          "repeat_wavelength_nm": 1548.183,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.879624,
+          "secondary_power_mw": 0.003739,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.5,
+            13.0,
+            11.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            1638,
+            10650,
+            9011
+          ]
+        },
+        {
+          "desired_nm": 1548.265822496201,
+          "selection_error_pm": 2.177503798975522,
+          "source_excel_row": 1414,
+          "wavelength_nm": 1548.268,
+          "repeat_wavelength_nm": 1548.268,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.495919,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            7.5,
+            11.0,
+            10.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            24576,
+            9011,
+            8192
+          ]
+        },
+        {
+          "desired_nm": 1548.385822496201,
+          "selection_error_pm": 3.177503798951875,
+          "source_excel_row": 1420,
+          "wavelength_nm": 1548.389,
+          "repeat_wavelength_nm": 1548.389,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.020177,
+          "secondary_power_mw": 0.003405,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.0,
+            11.5,
+            11.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            0,
+            9421,
+            9421
+          ]
+        }
+      ]
+    },
+    {
+      "segment": 6,
+      "current_center_nm": 1551.7909002019244,
+      "point_count": 11,
+      "points": [
+        {
+          "desired_nm": 1551.2709002019244,
+          "selection_error_pm": 2.0997980755055323,
+          "source_excel_row": 1564,
+          "wavelength_nm": 1551.273,
+          "repeat_wavelength_nm": 1551.274,
+          "repeat_error_pm": 0.9999999999763531,
+          "historical_power_mw": 5.387149,
+          "secondary_power_mw": 0.008241,
+          "currents_ma": [
+            60.0,
+            60.0,
+            5.0,
+            2.0,
+            2.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            16384,
+            1638,
+            2048
+          ]
+        },
+        {
+          "desired_nm": 1551.3909002019243,
+          "selection_error_pm": -12.900201924367138,
+          "source_excel_row": 1569,
+          "wavelength_nm": 1551.378,
+          "repeat_wavelength_nm": 1551.379,
+          "repeat_error_pm": 0.9999999999763531,
+          "historical_power_mw": 5.597187,
+          "secondary_power_mw": 0.007582,
+          "currents_ma": [
+            60.0,
+            60.0,
+            1.0,
+            2.0,
+            2.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            3277,
+            1638,
+            2048
+          ]
+        },
+        {
+          "desired_nm": 1551.4809002019244,
+          "selection_error_pm": -7.900201924485373,
+          "source_excel_row": 1574,
+          "wavelength_nm": 1551.473,
+          "repeat_wavelength_nm": 1551.473,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.948708,
+          "secondary_power_mw": 0.004638,
+          "currents_ma": [
+            60.0,
+            60.0,
+            6.0,
+            30.0,
+            2.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            19661,
+            24576,
+            2048
+          ]
+        },
+        {
+          "desired_nm": 1551.5609002019244,
+          "selection_error_pm": 1.0997980755291792,
+          "source_excel_row": 1578,
+          "wavelength_nm": 1551.562,
+          "repeat_wavelength_nm": 1551.562,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.776365,
+          "secondary_power_mw": 0.006204,
+          "currents_ma": [
+            60.0,
+            60.0,
+            4.5,
+            28.0,
+            2.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            14746,
+            22938,
+            2048
+          ]
+        },
+        {
+          "desired_nm": 1551.6509002019243,
+          "selection_error_pm": 13.099798075700164,
+          "source_excel_row": 1583,
+          "wavelength_nm": 1551.664,
+          "repeat_wavelength_nm": 1551.665,
+          "repeat_error_pm": 0.9999999999763531,
+          "historical_power_mw": 3.903799,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            2.5,
+            29.0,
+            30.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            8192,
+            23757,
+            24576
+          ]
+        },
+        {
+          "desired_nm": 1551.7909002019244,
+          "selection_error_pm": -9.900201924438079,
+          "source_excel_row": 1589,
+          "wavelength_nm": 1551.781,
+          "repeat_wavelength_nm": 1551.781,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.021031,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            6.0,
+            27.5,
+            28.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            19661,
+            22528,
+            23347
+          ]
+        },
+        {
+          "desired_nm": 1551.9309002019245,
+          "selection_error_pm": 13.09979807547279,
+          "source_excel_row": 1597,
+          "wavelength_nm": 1551.944,
+          "repeat_wavelength_nm": 1551.944,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.128229,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.0,
+            25.5,
+            29.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            0,
+            20890,
+            23757
+          ]
+        },
+        {
+          "desired_nm": 1552.0209002019244,
+          "selection_error_pm": 2.0997980755055323,
+          "source_excel_row": 1601,
+          "wavelength_nm": 1552.023,
+          "repeat_wavelength_nm": 1552.024,
+          "repeat_error_pm": 0.9999999999763531,
+          "historical_power_mw": 4.74348,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            2.0,
+            0.5,
+            28.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            6554,
+            410,
+            22938
+          ]
+        },
+        {
+          "desired_nm": 1552.1009002019243,
+          "selection_error_pm": -9.900201924438079,
+          "source_excel_row": 1605,
+          "wavelength_nm": 1552.091,
+          "repeat_wavelength_nm": 1552.091,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.740691,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            5.5,
+            0.0,
+            26.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            18022,
+            0,
+            21709
+          ]
+        },
+        {
+          "desired_nm": 1552.1909002019245,
+          "selection_error_pm": 5.099798075434592,
+          "source_excel_row": 1610,
+          "wavelength_nm": 1552.196,
+          "repeat_wavelength_nm": 1552.196,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 3.748394,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            7.5,
+            23.0,
+            27.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            24576,
+            18842,
+            22528
+          ]
+        },
+        {
+          "desired_nm": 1552.3109002019244,
+          "selection_error_pm": -8.900201924461726,
+          "source_excel_row": 1615,
+          "wavelength_nm": 1552.302,
+          "repeat_wavelength_nm": 1552.302,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.559203,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            7.5,
+            0.5,
+            28.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            24576,
+            410,
+            23347
+          ]
+        }
+      ]
+    },
+    {
+      "segment": 7,
+      "current_center_nm": 1555.8009995032608,
+      "point_count": 11,
+      "points": [
+        {
+          "desired_nm": 1555.2809995032608,
+          "selection_error_pm": -2.9995032607530447,
+          "source_excel_row": 1764,
+          "wavelength_nm": 1555.278,
+          "repeat_wavelength_nm": 1555.278,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.123578,
+          "secondary_power_mw": 0.003646,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.0,
+            6.0,
+            9.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            0,
+            4915,
+            7373
+          ]
+        },
+        {
+          "desired_nm": 1555.4009995032607,
+          "selection_error_pm": -9.999503260587517,
+          "source_excel_row": 1770,
+          "wavelength_nm": 1555.391,
+          "repeat_wavelength_nm": 1555.392,
+          "repeat_error_pm": 0.9999999999763531,
+          "historical_power_mw": 5.399302,
+          "secondary_power_mw": 0.003918,
+          "currents_ma": [
+            60.0,
+            60.0,
+            1.0,
+            5.5,
+            8.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            3277,
+            4506,
+            6963
+          ]
+        },
+        {
+          "desired_nm": 1555.4909995032608,
+          "selection_error_pm": -9.99950326081489,
+          "source_excel_row": 1774,
+          "wavelength_nm": 1555.481,
+          "repeat_wavelength_nm": 1555.481,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.362442,
+          "secondary_power_mw": 0.00477,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.5,
+            5.5,
+            9.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            1638,
+            4506,
+            7373
+          ]
+        },
+        {
+          "desired_nm": 1555.5709995032607,
+          "selection_error_pm": 4.000496739308801,
+          "source_excel_row": 1779,
+          "wavelength_nm": 1555.575,
+          "repeat_wavelength_nm": 1555.576,
+          "repeat_error_pm": 0.9999999999763531,
+          "historical_power_mw": 4.932131,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            3.0,
+            5.0,
+            7.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            9830,
+            4096,
+            5734
+          ]
+        },
+        {
+          "desired_nm": 1555.6609995032607,
+          "selection_error_pm": 8.000496739441587,
+          "source_excel_row": 1783,
+          "wavelength_nm": 1555.669,
+          "repeat_wavelength_nm": 1555.669,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.186126,
+          "secondary_power_mw": 0.004409,
+          "currents_ma": [
+            60.0,
+            60.0,
+            1.5,
+            5.5,
+            7.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            4915,
+            4506,
+            6144
+          ]
+        },
+        {
+          "desired_nm": 1555.8009995032608,
+          "selection_error_pm": 9.000496739190567,
+          "source_excel_row": 1790,
+          "wavelength_nm": 1555.81,
+          "repeat_wavelength_nm": 1555.81,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.280475,
+          "secondary_power_mw": 0.00399,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.0,
+            4.0,
+            7.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            0,
+            3277,
+            6144
+          ]
+        },
+        {
+          "desired_nm": 1555.9409995032609,
+          "selection_error_pm": -5.999503260909478,
+          "source_excel_row": 1797,
+          "wavelength_nm": 1555.935,
+          "repeat_wavelength_nm": 1555.935,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.270086,
+          "secondary_power_mw": 0.008157,
+          "currents_ma": [
+            60.0,
+            60.0,
+            1.0,
+            4.5,
+            6.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            3277,
+            3686,
+            4915
+          ]
+        },
+        {
+          "desired_nm": 1556.0309995032608,
+          "selection_error_pm": -17.99950326085309,
+          "source_excel_row": 1801,
+          "wavelength_nm": 1556.013,
+          "repeat_wavelength_nm": 1556.013,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.296905,
+          "secondary_power_mw": 0.005477,
+          "currents_ma": [
+            60.0,
+            60.0,
+            3.5,
+            3.5,
+            6.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            11469,
+            2867,
+            5325
+          ]
+        },
+        {
+          "desired_nm": 1556.1109995032607,
+          "selection_error_pm": 6.000496739261507,
+          "source_excel_row": 1806,
+          "wavelength_nm": 1556.117,
+          "repeat_wavelength_nm": 1556.117,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.937052,
+          "secondary_power_mw": 0.003965,
+          "currents_ma": [
+            60.0,
+            60.0,
+            7.5,
+            3.5,
+            6.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            24576,
+            2867,
+            5325
+          ]
+        },
+        {
+          "desired_nm": 1556.2009995032608,
+          "selection_error_pm": 1.0004967391523678,
+          "source_excel_row": 1810,
+          "wavelength_nm": 1556.202,
+          "repeat_wavelength_nm": 1556.202,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.100809,
+          "secondary_power_mw": 0.004894,
+          "currents_ma": [
+            60.0,
+            60.0,
+            5.5,
+            3.5,
+            6.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            18022,
+            2867,
+            5325
+          ]
+        },
+        {
+          "desired_nm": 1556.3209995032607,
+          "selection_error_pm": -9.99950326081489,
+          "source_excel_row": 1816,
+          "wavelength_nm": 1556.311,
+          "repeat_wavelength_nm": 1556.312,
+          "repeat_error_pm": 0.9999999999763531,
+          "historical_power_mw": 5.746811,
+          "secondary_power_mw": 0.006951,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.0,
+            3.5,
+            6.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            0,
+            2867,
+            4915
+          ]
+        }
+      ]
+    },
+    {
+      "segment": 8,
+      "current_center_nm": 1559.8781456838135,
+      "point_count": 11,
+      "points": [
+        {
+          "desired_nm": 1559.3581456838135,
+          "selection_error_pm": 3.854316186561846,
+          "source_excel_row": 1968,
+          "wavelength_nm": 1559.362,
+          "repeat_wavelength_nm": 1559.362,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.50902,
+          "secondary_power_mw": 0.012458,
+          "currents_ma": [
+            60.0,
+            60.0,
+            5.5,
+            13.5,
+            1.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            18022,
+            11059,
+            819
+          ]
+        },
+        {
+          "desired_nm": 1559.4781456838134,
+          "selection_error_pm": 0.8543161866327864,
+          "source_excel_row": 1974,
+          "wavelength_nm": 1559.479,
+          "repeat_wavelength_nm": 1559.479,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.152775,
+          "secondary_power_mw": 0.002706,
+          "currents_ma": [
+            60.0,
+            60.0,
+            2.5,
+            13.0,
+            21.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            8192,
+            10650,
+            17613
+          ]
+        },
+        {
+          "desired_nm": 1559.5681456838136,
+          "selection_error_pm": 6.854316186490905,
+          "source_excel_row": 1979,
+          "wavelength_nm": 1559.575,
+          "repeat_wavelength_nm": 1559.575,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.333194,
+          "secondary_power_mw": 0.003167,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.5,
+            13.0,
+            19.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            1638,
+            10650,
+            15565
+          ]
+        },
+        {
+          "desired_nm": 1559.6481456838135,
+          "selection_error_pm": -5.145683813452706,
+          "source_excel_row": 1982,
+          "wavelength_nm": 1559.643,
+          "repeat_wavelength_nm": 1559.643,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.281801,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            7.5,
+            11.5,
+            17.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            24576,
+            9421,
+            14336
+          ]
+        },
+        {
+          "desired_nm": 1559.7381456838134,
+          "selection_error_pm": 0.8543161866327864,
+          "source_excel_row": 1987,
+          "wavelength_nm": 1559.739,
+          "repeat_wavelength_nm": 1559.739,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.228936,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            6.0,
+            11.0,
+            17.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            19661,
+            9011,
+            14336
+          ]
+        },
+        {
+          "desired_nm": 1559.8781456838135,
+          "selection_error_pm": -4.145683813476353,
+          "source_excel_row": 1994,
+          "wavelength_nm": 1559.874,
+          "repeat_wavelength_nm": 1559.874,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.203953,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            8.0,
+            10.5,
+            0.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            26214,
+            8602,
+            0
+          ]
+        },
+        {
+          "desired_nm": 1560.0181456838136,
+          "selection_error_pm": -7.145683813632786,
+          "source_excel_row": 2001,
+          "wavelength_nm": 1560.011,
+          "repeat_wavelength_nm": 1560.011,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.495325,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            5.5,
+            9.5,
+            0.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            18022,
+            7782,
+            0
+          ]
+        },
+        {
+          "desired_nm": 1560.1081456838135,
+          "selection_error_pm": -5.145683813452706,
+          "source_excel_row": 2005,
+          "wavelength_nm": 1560.103,
+          "repeat_wavelength_nm": 1560.103,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 5.527819,
+          "secondary_power_mw": 0.001765,
+          "currents_ma": [
+            60.0,
+            60.0,
+            1.0,
+            10.0,
+            0.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            3277,
+            8192,
+            0
+          ]
+        },
+        {
+          "desired_nm": 1560.1881456838134,
+          "selection_error_pm": -0.14568381334356673,
+          "source_excel_row": 2009,
+          "wavelength_nm": 1560.188,
+          "repeat_wavelength_nm": 1560.188,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.355556,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            8.0,
+            9.0,
+            14.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            26214,
+            7373,
+            11469
+          ]
+        },
+        {
+          "desired_nm": 1560.2781456838136,
+          "selection_error_pm": -7.145683813632786,
+          "source_excel_row": 2014,
+          "wavelength_nm": 1560.271,
+          "repeat_wavelength_nm": 1560.271,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.51035,
+          "secondary_power_mw": 0.0,
+          "currents_ma": [
+            60.0,
+            60.0,
+            6.5,
+            8.5,
+            14.5
+          ],
+          "codes": [
+            26214,
+            26214,
+            21299,
+            6963,
+            11878
+          ]
+        },
+        {
+          "desired_nm": 1560.3981456838135,
+          "selection_error_pm": -1.1456838135472935,
+          "source_excel_row": 2020,
+          "wavelength_nm": 1560.397,
+          "repeat_wavelength_nm": 1560.397,
+          "repeat_error_pm": 0.0,
+          "historical_power_mw": 4.626875,
+          "secondary_power_mw": 0.002099,
+          "currents_ma": [
+            60.0,
+            60.0,
+            0.0,
+            8.0,
+            15.0
+          ],
+          "codes": [
+            26214,
+            26214,
+            0,
+            6554,
+            12288
+          ]
+        }
+      ]
+    }
+  ]
+}

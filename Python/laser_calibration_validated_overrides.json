@@ -1,0 +1,73 @@
+{
+  "description": "AQ6150B repeated directed scans for four mode-boundary points",
+  "results": {
+    "7": {
+      "target_nm": 1528.105,
+      "calibrated_codes": [26214, 32081, 3359, 2867, 15974],
+      "validation": "two_repeats_mean",
+      "final": {
+        "wavelength_nm": 1528.10447,
+        "wavelength_error_pm": -0.53,
+        "power_mw": 0.505267,
+        "power_dbm": -2.96778,
+        "peak_count": 12,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      }
+    },
+    "29": {
+      "target_nm": 1536.571,
+      "calibrated_codes": [26214, 29884, 0, 12328, 6963],
+      "validation": "two_repeats_mean",
+      "final": {
+        "wavelength_nm": 1536.57010,
+        "wavelength_error_pm": -0.90,
+        "power_mw": 0.499718,
+        "power_dbm": -3.01275,
+        "peak_count": 12,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      }
+    },
+    "55": {
+      "target_nm": 1544.955,
+      "calibrated_codes": [26214, 27132, 0, 3071, 2457],
+      "validation": "two_repeats_mean",
+      "final": {
+        "wavelength_nm": 1544.95226,
+        "wavelength_error_pm": -2.74,
+        "power_mw": 0.498180,
+        "power_dbm": -3.02614,
+        "peak_count": 10,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      }
+    },
+    "80": {
+      "target_nm": 1555.507,
+      "calibrated_codes": [26214, 30755, 32768, 4178, 5734],
+      "validation": "two_repeats_mean",
+      "final": {
+        "wavelength_nm": 1555.50982,
+        "wavelength_error_pm": 2.82,
+        "power_mw": 0.501104,
+        "power_dbm": -3.00073,
+        "peak_count": 15,
+        "pdt_code": null,
+        "pdr_code": null,
+        "pdt_ma": null,
+        "pdr_ma": null,
+        "pdr_pdt_ratio": null
+      }
+    }
+  }
+}

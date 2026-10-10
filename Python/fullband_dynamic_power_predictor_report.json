@@ -1,0 +1,61 @@
+{
+  "source": "fullband_dynamic_power_training_0p2nm.json",
+  "total_samples": 603,
+  "clean_samples": 598,
+  "rejected_samples": 5,
+  "training_samples": 480,
+  "held_out_samples": 118,
+  "held_out_target_count": 40,
+  "split": "every fifth 0.20 nm target held out with all SOA variants",
+  "feature_names": [
+    "target_nm",
+    "gain_ma",
+    "soa_ma",
+    "phase_ma",
+    "wave_a_ma",
+    "wave_b_ma",
+    "previous_target_nm",
+    "previous_gain_ma",
+    "previous_soa_ma",
+    "previous_phase_ma",
+    "previous_wave_a_ma",
+    "previous_wave_b_ma",
+    "delta_gain_ma",
+    "delta_soa_ma",
+    "delta_phase_ma",
+    "delta_wave_a_ma",
+    "delta_wave_b_ma",
+    "early_pdt_code",
+    "early_pdr_code",
+    "early_pdt_signal",
+    "early_pdr_signal",
+    "early_signal_ratio"
+  ],
+  "candidate_metrics": {
+    "extra_trees": {
+      "mae_mw": 0.01714667695101913,
+      "median_abs_error_mw": 0.014445029951002386,
+      "p95_abs_error_mw": 0.040478571206155924,
+      "max_abs_error_mw": 0.057051160785520416,
+      "within_0p5_percent_count": 36,
+      "sample_count": 118
+    },
+    "random_forest": {
+      "mae_mw": 0.017030274708557187,
+      "median_abs_error_mw": 0.015075942835538592,
+      "p95_abs_error_mw": 0.04028990038004044,
+      "max_abs_error_mw": 0.05428397045722955,
+      "within_0p5_percent_count": 38,
+      "sample_count": 118
+    },
+    "hist_gradient_boosting": {
+      "mae_mw": 0.017492587859826856,
+      "median_abs_error_mw": 0.012862781967612924,
+      "p95_abs_error_mw": 0.04671654496840377,
+      "max_abs_error_mw": 0.05855829704170623,
+      "within_0p5_percent_count": 36,
+      "sample_count": 118
+    }
+  },
+  "selected_power_model": "random_forest"
+}
